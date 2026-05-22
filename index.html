@@ -111,6 +111,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            flex-grow: 1;
         }
 
         .sidebar-menu a {
@@ -137,6 +138,57 @@
             background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 100%);
             font-weight: 600;
             box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
+        }
+
+        /* SIDEBAR FOOTER (ADMIN STATUS INDICATOR) */
+        .sidebar-footer {
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: auto;
+        }
+
+        .admin-status-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--sidebar-text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            display: inline-block;
+        }
+        .status-dot.active {
+            background-color: var(--success);
+        }
+
+        .btn-admin-action {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-admin-action:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--sidebar-active);
         }
 
         /* MAIN CONTENT AREA */
@@ -508,9 +560,136 @@
             to { opacity: 0; transform: scale(0.95); }
         }
 
+        /* ADMIN PASSWORD LOGIN MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-header-icon {
+            background: linear-gradient(135deg, #ef4444, #f43f5e);
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 24px;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+        }
+
+        .modal-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .password-toggle-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-modal-cancel {
+            flex: 1;
+            background-color: var(--bg-app);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .btn-modal-cancel:hover {
+            background-color: var(--border);
+        }
+
+        .btn-modal-submit {
+            flex: 1;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.25);
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .btn-modal-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(59, 130, 246, 0.35);
+        }
+
         /* PRINT STYLING & MEDIA QUERY */
         @media print {
-            aside, .sidebar-menu, .header-action-group, .action-btn, .btn-submit, .badge-pending, .badge-done {
+            aside, .sidebar-menu, .header-action-group, .action-btn, .btn-submit, .badge-pending, .badge-done, .modal-overlay, #toast-container, .sidebar-footer {
                 display: none !important;
             }
             body {
@@ -572,10 +751,42 @@
             <li><a id="nav-satuan" onclick="showPage('satuan')"><i class="fa-solid fa-school"></i>Satpen SKB/PKBM</a></li>
             <li><a id="nav-instrumen" onclick="showPage('instrumen')"><i class="fa-solid fa-pen-to-square"></i> Instrumen Isian</a></li>
         </ul>
+
+        <!-- STATUS SESI ADMIN DI SIDEBAR -->
+        <div class="sidebar-footer">
+            <div class="admin-status-text" id="admin-status-lbl">
+                <span class="status-dot" id="admin-status-dot"></span>
+                <span>Mode Pengunjung (Read-Only)</span>
+            </div>
+            <button class="btn-admin-action" id="btn-admin-lock" onclick="toggleAdminLogin()">
+                <i class="fa-solid fa-lock"></i> Login Admin
+            </button>
+        </div>
     </aside>
 
     <!-- TOAST CONTAINER FOR NOTIFICATIONS -->
     <div id="toast-container"></div>
+
+    <!-- ADMIN PASSWORD OVERLAY MODAL -->
+    <div class="modal-overlay" id="admin-modal">
+        <div class="modal-card">
+            <div class="modal-header-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h2 class="modal-title">Otorisasi Admin</h2>
+            <p class="modal-subtitle">Pengisian instrumen dan pengeditan identitas sekolah hanya dapat dilakukan oleh Admin Dinas Pendidikan.</p>
+            
+            <div class="password-input-wrapper">
+                <input type="password" id="admin-password-input" class="input-text-modern" placeholder="Masukkan Password Admin..." onkeydown="handlePasswordKeydown(event)">
+                <span class="password-toggle-icon" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye" id="eye-icon"></i></span>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-modal-cancel" onclick="closeAdminModal()">Batal</button>
+                <button class="btn-modal-submit" onclick="submitAdminPassword()">Verifikasi</button>
+            </div>
+        </div>
+    </div>
 
     <!-- MAIN VIEW CONTAINER -->
     <main>
@@ -881,6 +1092,11 @@
 
         let dataSatuan = [];
         let selectedIdx = -1;
+        let isAdmin = false;
+        let pendingAction = null; // Menyimpan aksi (ke halaman instrumen atau evaluasi sekolah tertentu)
+
+        // Password Admin Dinas
+        const ADMIN_PASSWORD_HASH = "sumedang2026"; 
 
         // Custom Toast Notification System
         function showToast(message, type = 'success') {
@@ -912,6 +1128,13 @@
         }
 
         function initData() {
+            // Cek Sesi Admin
+            const adminSession = sessionStorage.getItem('pkks_is_admin');
+            if (adminSession === 'true') {
+                isAdmin = true;
+                updateAdminSidebarUI();
+            }
+
             const localData = localStorage.getItem('pkks_32_master_data');
             if (localData) {
                 const parsedData = JSON.parse(localData);
@@ -951,7 +1174,15 @@
             localStorage.setItem('pkks_32_master_data', JSON.stringify(dataSatuan));
         }
 
+        // CONTROL NAV & PROTEKSI ADMIN
         function showPage(pageId) {
+            // Proteksi Halaman Instrumen langsung dari navbar
+            if (pageId === 'instrumen' && !isAdmin) {
+                pendingAction = { type: 'navigate', target: 'instrumen' };
+                openAdminModal();
+                return;
+            }
+
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
             
@@ -989,7 +1220,14 @@
             });
         }
 
+        // Aksi ketika klik 'Evaluasi' di daftar Satuan
         function pilihSekolahEvaluasi(idx) {
+            if (!isAdmin) {
+                // Simpan sekolah yang ditargetkan untuk dievaluasi pasca-login
+                pendingAction = { type: 'evaluate', index: idx };
+                openAdminModal();
+                return;
+            }
             selectedIdx = idx;
             showPage('instrumen');
         }
@@ -1014,14 +1252,14 @@
             const sekolah = dataSatuan[selectedIdx];
             banner.innerHTML = `
                 <div class="info-block" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px;">
-                    <div><i class="fa-solid fa-school" style="color: var(--sidebar-active)"></i> <span>Satuan Aktif Fokus Evaluasi: <strong>${sekolah.nama}</strong></span></div>
+                    <div><i class="fa-solid fa-school" style="color: var(--sidebar-active)"></i> <span>Satpen Aktif Fokus Evaluasi: <strong>${sekolah.nama}</strong></span></div>
                     <div style="font-size: 13px; color: var(--sidebar-text); margin-left: 24px;">
                         <span>NPSN: <strong>${sekolah.npsn}</strong></span> | <span>Kepala Sekolah: <strong>${sekolah.kepala}</strong></span>
                     </div>
                 </div>
             `;
 
-            // Load Identitas ke Input Field (Termasuk input nama sekolah)
+            // Load Identitas ke Input Field
             document.getElementById('input-nama').value = sekolah.nama;
             document.getElementById('input-npsn').value = sekolah.npsn;
             document.getElementById('input-kepala').value = sekolah.kepala;
@@ -1041,9 +1279,13 @@
         }
 
         function saveScores() {
+            if (!isAdmin) {
+                showToast("Anda harus login sebagai Admin untuk menyimpan data!", "error");
+                return;
+            }
             if (selectedIdx === -1) return;
 
-            // Simpan perubahan Identitas dari Input Form (Termasuk nama sekolah yang dapat diubah secara dinamis)
+            // Simpan perubahan Identitas dari Input Form
             dataSatuan[selectedIdx].nama = document.getElementById('input-nama').value.trim() || dataSatuan[selectedIdx].nama;
             dataSatuan[selectedIdx].npsn = document.getElementById('input-npsn').value.trim() || dataSatuan[selectedIdx].npsn;
             dataSatuan[selectedIdx].kepala = document.getElementById('input-kepala').value.trim() || dataSatuan[selectedIdx].kepala;
@@ -1309,8 +1551,8 @@
                 <div style="margin-top: 40px; display: flex; justify-content: space-between; font-size: 11px; page-break-inside: avoid;">
                     <div style="width: 45%; text-align: center;">
                         <p style="margin-bottom: 50px;">Menyetujui & Mengetahui,<br><strong style="text-transform: uppercase;">Pengawas Pembina / Penilai</strong></p>
-                        <p style="text-decoration: underline; font-weight: bold;">ADE SUGIANA, S.S</p>
-                        <p style="color: #64748b; font-size: 10px; margin-top: 4px;">NIP. 19800726 200902 1 002</p>
+                        <p style="text-decoration: underline; font-weight: bold;">ADE SUGIANA,S.S</p>
+                        <p style="color: #64748b; font-size: 10px; margin-top: 4px;">NIP.19800726 200902 1 002</p>
                     </div>
                     <div style="width: 45%; text-align: center;">
                         <p style="margin-bottom: 50px;">Ditetapkan di Sumedang,<br><strong style="text-transform: uppercase;">Kepala PKBM Terkait</strong></p>
@@ -1332,6 +1574,105 @@
             // Menjalankan perintah ekspor download
             html2pdf().set(options).from(pdfContainer).save();
             showToast("Laporan PDF berhasil di-render dan diunduh!", "success");
+        }
+
+        // FUNGSI OTORISASI ADMIN MODAL & PASWORD
+        function openAdminModal() {
+            const modal = document.getElementById('admin-modal');
+            const pwdInput = document.getElementById('admin-password-input');
+            pwdInput.value = '';
+            modal.classList.add('active');
+            setTimeout(() => pwdInput.focus(), 150);
+        }
+
+        function closeAdminModal() {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.remove('active');
+            pendingAction = null;
+        }
+
+        function togglePasswordVisibility() {
+            const pwdInput = document.getElementById('admin-password-input');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                eyeIcon.className = 'fa-solid fa-eye-slash';
+            } else {
+                pwdInput.type = 'password';
+                eyeIcon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        function handlePasswordKeydown(event) {
+            if (event.key === 'Enter') {
+                submitAdminPassword();
+            }
+        }
+
+        function submitAdminPassword() {
+            const pwdInput = document.getElementById('admin-password-input');
+            if (pwdInput.value === ADMIN_PASSWORD_HASH) {
+                isAdmin = true;
+                sessionStorage.setItem('pkks_is_admin', 'true');
+                
+                showToast("Verifikasi Berhasil! Sesi Admin Aktif.", "success");
+                updateAdminSidebarUI();
+                closeAdminModal();
+
+                // Eksekusi aksi yang tertunda
+                if (pendingAction) {
+                    if (pendingAction.type === 'navigate' && pendingAction.target === 'instrumen') {
+                        showPage('instrumen');
+                    } else if (pendingAction.type === 'evaluate') {
+                        selectedIdx = pendingAction.index;
+                        showPage('instrumen');
+                    }
+                    pendingAction = null;
+                }
+            } else {
+                showToast("Password Admin Salah!", "error");
+                pwdInput.focus();
+                pwdInput.select();
+            }
+        }
+
+        function updateAdminSidebarUI() {
+            const statusLbl = document.getElementById('admin-status-lbl');
+            const statusDot = document.getElementById('admin-status-dot');
+            const lockBtn = document.getElementById('btn-admin-lock');
+
+            if (isAdmin) {
+                statusDot.classList.add('active');
+                statusLbl.innerHTML = `<span class="status-dot active"></span><span>Sesi Admin Aktif</span>`;
+                lockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i> Logout Admin`;
+                lockBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                lockBtn.style.borderColor = 'transparent';
+            } else {
+                statusDot.classList.remove('active');
+                statusLbl.innerHTML = `<span class="status-dot"></span><span>Mode Pengunjung (Read-Only)</span>`;
+                lockBtn.innerHTML = `<i class="fa-solid fa-lock"></i> Login Admin`;
+                lockBtn.style.background = 'rgba(255, 255, 255, 0.08)';
+                lockBtn.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+            }
+        }
+
+        function toggleAdminLogin() {
+            if (isAdmin) {
+                // Logout Admin
+                isAdmin = false;
+                sessionStorage.removeItem('pkks_is_admin');
+                updateAdminSidebarUI();
+                showToast("Sesi Admin Ditutup. Mode Pengunjung Aktif.", "info");
+                // Alihkan ke Beranda jika sedang berada di halaman instrumen
+                const currentActiveSection = document.querySelector('.page-section.active');
+                if (currentActiveSection && currentActiveSection.id === 'page-instrumen') {
+                    showPage('beranda');
+                }
+            } else {
+                // Login Admin
+                pendingAction = null;
+                openAdminModal();
+            }
         }
 
         window.onload = function() { initData(); };
