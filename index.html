@@ -7,7 +7,7 @@
     <!-- Google Fonts Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Tailwind CSS for elegant components -->
@@ -94,6 +94,12 @@
             <button onclick="dismissToast()" class="text-slate-400 hover:text-slate-600 transition-colors">
                 <i class="fa-solid fa-xmark"></i>
             </button>
+        </div>
+
+        <!-- INDICATOR KONEKSI DATABASE -->
+        <div id="dbStatusBadge" class="mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border">
+            <i class="fa-solid fa-circle animate-pulse"></i>
+            <span id="dbStatusText">Mengecek koneksi database...</span>
         </div>
 
         <!-- ==================== AREA SATUAN PENDIDIKAN ==================== -->
@@ -375,13 +381,26 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, query, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Deteksi ID Aplikasi dari Canvas, jika kosong gunakan default publik
+        // =========================================================================
+        // PENTING: SILAKAN GANTI ISI KREDENSIAL DI BAWAH INI DENGAN DATA PROYEK FIREBASE ASLI ANDA
+        // UNTUK MEMASTIKAN DATA TERUNGGAH LANGSUNG KE FIREBASE CONSOLE SECARA ONLINE
+        // =========================================================================
+        const myActualFirebaseConfig = {
+            apiKey: "SALIN_API_KEY_ANDA_DI_SINI",
+            authDomain: "PROYEK_ANDA.firebaseapp.com",
+            projectId: "PROYEK_ANDA",
+            storageBucket: "PROYEK_ANDA.appspot.com",
+            messagingSenderId: "SENDER_ID_ANDA",
+            appId: "APP_ID_ANDA"
+        };
+        // =========================================================================
+
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'pkks-pnf-sumedang-2026';
         let firebaseConfig = null;
         let isFirebaseActive = false;
         let db, auth;
 
-        // Mencoba parsing Firebase Config dari Canvas Environment
+        // Mendeteksi apakah dijalankan di Canvas Sandbox atau Mandiri di GitHub
         try {
             if (typeof __firebase_config !== 'undefined' && __firebase_config) {
                 firebaseConfig = JSON.parse(__firebase_config);
@@ -390,28 +409,35 @@
             console.warn("Menggunakan mode mandiri/GitHub.");
         }
 
-        // Jika tidak ada konfigurasi dari Canvas (seperti ketika ditaruh di GitHub), kita buat fallback dummy
-        // atau Anda bisa langsung mengganti nilai objek di bawah ini dengan kredensial Firebase asli Anda.
-        if (!firebaseConfig || !firebaseConfig.projectId) {
-            firebaseConfig = {
-                apiKey: "AIzaSyAsFakeKeyForGitHubPagesUseLocalFallback",
-                authDomain: "pkks-pnf-sumedang.firebaseapp.com",
-                projectId: "pkks-pnf-sumedang",
-                storageBucket: "pkks-pnf-sumedang.appspot.com",
-                messagingSenderId: "1234567890",
-                appId: "1:1234567890:web:abcdefgh123456"
-            };
+        // Jika tidak ada konfigurasi otomatis dari Canvas, beralih ke konfigurasi manual user
+        if (!firebaseConfig || !firebaseConfig.projectId || firebaseConfig.projectId.includes("dummy")) {
+            firebaseConfig = myActualFirebaseConfig;
         }
 
         // Inisialisasi Firebase aman
+        const statusBadge = document.getElementById('dbStatusBadge');
+        const statusText = document.getElementById('dbStatusText');
+
         try {
-            const app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-            isFirebaseActive = true;
+            if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "SALIN_API_KEY_ANDA_DI_SINI") {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                isFirebaseActive = true;
+                
+                statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-emerald-50 border-emerald-100 text-emerald-800";
+                statusText.textContent = "Database Online Terkoneksi (Firebase)";
+            } else {
+                // Kredensial belum diubah
+                isFirebaseActive = false;
+                statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-amber-50 border-amber-100 text-amber-800";
+                statusText.textContent = "Mode Sandbox Lokal (Silakan isi firebaseConfig asli Anda di dalam kode)";
+            }
         } catch (error) {
             console.warn("Firebase gagal diinisialisasi secara online, mengaktifkan mode sandbox lokal:", error);
             isFirebaseActive = false;
+            statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-amber-50 border-amber-100 text-amber-800";
+            statusText.textContent = "Mode Sandbox Lokal Aktif (Koneksi Database Offline)";
         }
 
         // List 8 Standar Nasional Pendidikan
@@ -474,10 +500,12 @@
                 // Gunakan Anonymous sign in di GitHub / Sandbox secara aman
                 await signInAnonymously(auth);
             } catch (error) {
-                console.warn("Gagal terhubung database online. Beralih ke penyimpanan browser lokal.");
+                console.warn("Gagal login anonim. Menggunakan penyimpanan browser lokal.");
                 isFirebaseActive = false;
                 uploadedFilesData = getLocalStorageData();
                 triggerUIRefresh();
+                statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-red-50 border-red-100 text-red-800";
+                statusText.textContent = "Koneksi Firebase Ditolak (Pastikan Anonymous Auth Aktif di Console)";
             }
         };
 
@@ -508,10 +536,12 @@
                 });
                 triggerUIRefresh();
             }, (error) => {
-                console.warn("Firestore terblokir CORS / aturan keamanan. Mengaktifkan sistem penyimpanan hibrida lokal.");
+                console.warn("Firestore terblokir aturan keamanan. Mengaktifkan sistem penyimpanan hibrida lokal.");
                 isFirebaseActive = false;
                 uploadedFilesData = getLocalStorageData();
                 triggerUIRefresh();
+                statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-red-50 border-red-100 text-red-800";
+                statusText.textContent = "Akses Cloud Firestore Ditolak (Periksa Firestore Rules)";
             });
         };
 
