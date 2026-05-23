@@ -471,7 +471,24 @@
         }
         .btn-pdf:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(239, 68, 68, 0.3); }
 
-        /* FORM INSTRUMENT SLIDERS */
+        .btn-add-school {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+        }
+        .btn-add-school:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3); }
+
+        /* FORM INSTRUMENT SLIDERS & UPLOADS */
         .form-card {
             background-color: #f8fafc;
             border: 1px solid var(--border);
@@ -512,6 +529,60 @@
         .input-text-modern:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        /* CUSTOM FILE UPLOAD THEME */
+        .file-upload-wrapper {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn-upload-file {
+            background-color: #f1f5f9;
+            border: 1px dashed #cbd5e1;
+            color: #475569;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-upload-file:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .file-input-hidden {
+            display: none;
+        }
+
+        .file-status-badge {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--success);
+            background-color: var(--success-light);
+            padding: 6px 12px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            max-width: 320px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         /* SVG CHART STYLING */
@@ -560,7 +631,7 @@
             to { opacity: 0; transform: scale(0.95); }
         }
 
-        /* ADMIN PASSWORD LOGIN MODAL */
+        /* MODAL COMMON LAYOUT */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -600,7 +671,7 @@
         }
 
         .modal-header-icon {
-            background: linear-gradient(135deg, #ef4444, #f43f5e);
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
             width: 56px;
             height: 56px;
             border-radius: 14px;
@@ -610,7 +681,7 @@
             color: #ffffff;
             font-size: 24px;
             margin: 0 auto 20px auto;
-            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
         }
 
         .modal-title {
@@ -644,6 +715,19 @@
             cursor: pointer;
             font-size: 16px;
             padding: 4px;
+        }
+
+        .modal-form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .modal-form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
         }
 
         .modal-actions {
@@ -770,7 +854,7 @@
     <!-- ADMIN PASSWORD OVERLAY MODAL -->
     <div class="modal-overlay" id="admin-modal">
         <div class="modal-card">
-            <div class="modal-header-icon">
+            <div class="modal-header-icon" style="background: linear-gradient(135deg, #ef4444, #f43f5e); box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);">
                 <i class="fa-solid fa-shield-halved"></i>
             </div>
             <h2 class="modal-title">Otorisasi Admin</h2>
@@ -784,6 +868,39 @@
             <div class="modal-actions">
                 <button class="btn-modal-cancel" onclick="closeAdminModal()">Batal</button>
                 <button class="btn-modal-submit" onclick="submitAdminPassword()">Verifikasi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD NEW SCHOOL MODAL -->
+    <div class="modal-overlay" id="add-school-modal">
+        <div class="modal-card">
+            <div class="modal-header-icon">
+                <i class="fa-solid fa-school"></i>
+            </div>
+            <h2 class="modal-title">Tambah Satpen Baru</h2>
+            <p class="modal-subtitle">Silakan isi formulir identitas di bawah untuk menambahkan Satuan Pendidikan Non-Formal (SKB/PKBM) baru.</p>
+            
+            <div class="modal-form-group">
+                <label>Nama Satuan PKBM/SKB</label>
+                <input type="text" id="add-school-name" class="input-text-modern" placeholder="Contoh: PKBM Mandiri Jaya...">
+            </div>
+            <div class="modal-form-group">
+                <label>Nomor Pokok Sekolah Nasional (NPSN)</label>
+                <input type="text" id="add-school-npsn" class="input-text-modern" style="font-family: monospace;" placeholder="Contoh: P9912345...">
+            </div>
+            <div class="modal-form-group">
+                <label>Nama Kepala Sekolah</label>
+                <input type="text" id="add-school-kepala" class="input-text-modern" placeholder="Nama Kepala Sekolah beserta gelar...">
+            </div>
+            <div class="modal-form-group">
+                <label>Alamat Sekolah</label>
+                <input type="text" id="add-school-alamat" class="input-text-modern" placeholder="Alamat lengkap operasional...">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-modal-cancel" onclick="closeAddSchoolModal()">Batal</button>
+                <button class="btn-modal-submit" onclick="submitNewSchool()">Simpan</button>
             </div>
         </div>
     </div>
@@ -809,7 +926,7 @@
             <div class="metrics-row">
                 <div class="metric-card m-blue">
                     <div>
-                        <div class="metric-num">32</div>
+                        <div class="metric-num" id="dash-total-units">32</div>
                         <div class="metric-title">Total Lembaga</div>
                     </div>
                     <div class="metric-badge-icon b-blue"><i class="fa-solid fa-landmark"></i></div>
@@ -897,6 +1014,7 @@
                     <p>Daftar Satuan Pendidikan (SKB/PKBM) di wilayah binaan Dinas Pendidikan Kabupaten Sumedang.</p>
                 </div>
                 <div class="header-action-group">
+                    <button class="btn-add-school" onclick="checkAndOpenAddSchoolModal()"><i class="fa-solid fa-plus"></i> Tambah Sekolah Baru</button>
                     <button class="btn-pdf" onclick="downloadPDF()"><i class="fa-solid fa-file-pdf"></i> Unduh PDF Rekap</button>
                     <button class="btn-download" onclick="downloadCSV()"><i class="fa-solid fa-file-csv"></i> Unduh Format CSV</button>
                 </div>
@@ -912,7 +1030,7 @@
                                 <th>Nama Satuan PKBM</th>
                                 <th>Kepala Sekolah</th>
                                 <th>Alamat Sekolah</th>
-                                <th>Status Instrumen</th>
+                                <th>Status Borang</th>
                                 <th>Skor Akhir</th>
                                 <th>Aksi Kerja</th>
                             </tr>
@@ -934,7 +1052,7 @@
 
             <div class="page-header" style="margin-bottom: 20px;">
                 <div class="header-title-area">
-                    <h1>Instrumen Penilaian Kinerja Kepala Sekolah (PKKS) PNF SKB/PKBM</h1>
+                    <h1>Borang Penilaian Kinerja Kepala Sekolah (PKKS) PNF SKB/PKBM</h1>
                     <p>Sesuaikan isian data identitas serta indikator kinerja berdasarkan dokumen bukti fisik riil di lapangan.</p>
                 </div>
             </div>
@@ -967,42 +1085,92 @@
             <div class="content-grid half-grid">
                 <!-- Kolom Kiri Form -->
                 <div>
+                    <!-- I. BIDANG MANAJERIAL -->
                     <div class="card">
                         <div class="card-title" style="color:var(--primary)"><i class="fa-solid fa-folder-tree"></i> I. Bidang Manajerial</div>
+                        
                         <div class="form-card">
                             <label>1. Penyusunan RKJM & RKT Lembaga</label>
-                            <div class="form-desc">Ketersediaan program kerja jangka panjang dan tahunan yang melibatkan pamong belajar.</div>
+                            <div class="form-desc">Ketersediaan program kerja jangka panjang (RKJM) dan tahunan (RKT) yang melibatkan tutor dan pamong belajar.</div>
                             <div class="slider-flex">
                                 <input type="range" id="score-m1" min="0" max="100" value="0" oninput="syncScoreText('m1')">
                                 <span class="val-indicator" id="txt-m1">0</span>
                             </div>
+                            <div class="file-upload-wrapper">
+                                <label class="btn-upload-file">
+                                    <i class="fa-solid fa-paperclip"></i> Unggah Bukti RKJM/RKT
+                                    <input type="file" id="file-m1" class="file-input-hidden" onchange="handleEvidenceUpload('m1')">
+                                </label>
+                                <span class="file-status-badge" id="badge-m1" style="display: none;">Belum ada dokumen</span>
+                            </div>
                         </div>
+                        
                         <div class="form-card">
-                            <label>2. Tata Kelola Sarana & Warga Belajar</label>
-                            <div class="form-desc">Optimalisasi ruang komputer asesmen kesetaraan dan ketersediaan administrasi modul.</div>
+                            <label>2. Tata Kelola Sarana, Prasarana & Media</label>
+                            <div class="form-desc">Optimalisasi ruang tutorial, ketersediaan perangkat teknologi informasi (komputer), modul cetak/digital, dan inventarisasi sarana.</div>
                             <div class="slider-flex">
                                 <input type="range" id="score-m2" min="0" max="100" value="0" oninput="syncScoreText('m2')">
                                 <span class="val-indicator" id="txt-m2">0</span>
                             </div>
+                            <div class="file-upload-wrapper">
+                                <label class="btn-upload-file">
+                                    <i class="fa-solid fa-paperclip"></i> Unggah Bukti Inventarisasi
+                                    <input type="file" id="file-m2" class="file-input-hidden" onchange="handleEvidenceUpload('m2')">
+                                </label>
+                                <span class="file-status-badge" id="badge-m2" style="display: none;">Belum ada dokumen</span>
+                            </div>
+                        </div>
+
+                        <div class="form-card">
+                            <label>3. Administrasi Warga Belajar & Tutor</label>
+                            <div class="form-desc">Kerapian data Buku Induk Warga Belajar, pengelolaan presensi kehadiran tutor, jurnal pengajaran, dan dokumen Dapodik PNF.</div>
+                            <div class="slider-flex">
+                                <input type="range" id="score-m3" min="0" max="100" value="0" oninput="syncScoreText('m3')">
+                                <span class="val-indicator" id="txt-m3">0</span>
+                            </div>
+                            <div class="file-upload-wrapper">
+                                <label class="btn-upload-file">
+                                    <i class="fa-solid fa-paperclip"></i> Unggah Bukti Administrasi
+                                    <input type="file" id="file-m3" class="file-input-hidden" onchange="handleEvidenceUpload('m3')">
+                                </label>
+                                <span class="file-status-badge" id="badge-m3" style="display: none;">Belum ada dokumen</span>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- II. BIDANG KEWIRAUSAHAAN -->
                     <div class="card">
                         <div class="card-title" style="color:var(--success)"><i class="fa-solid fa-seedling"></i> II. Bidang Kewirausahaan</div>
+                        
                         <div class="form-card">
-                            <label>3. Aliansi Strategis & MoU DUDI</label>
-                            <div class="form-desc">Jejaring kemitraan magang kerja dan penyaluran lulusan kursus / warga belajar paket.</div>
+                            <label>4. Aliansi Strategis & MoU DUDI</label>
+                            <div class="form-desc">Jejaring kemitraan magang kerja, sertifikasi kompetensi, dan penyaluran lulusan kursus / warga belajar paket dengan Dunia Usaha Dunia Industri.</div>
                             <div class="slider-flex">
                                 <input type="range" id="score-k1" min="0" max="100" value="0" oninput="syncScoreText('k1')">
                                 <span class="val-indicator" id="txt-k1">0</span>
                             </div>
+                            <div class="file-upload-wrapper">
+                                <label class="btn-upload-file">
+                                    <i class="fa-solid fa-paperclip"></i> Unggah MoU / Kerjasama
+                                    <input type="file" id="file-k1" class="file-input-hidden" onchange="handleEvidenceUpload('k1')">
+                                </label>
+                                <span class="file-status-badge" id="badge-k1" style="display: none;">Belum ada dokumen</span>
+                            </div>
                         </div>
+
                         <div class="form-card">
-                            <label>4. Inovasi Inkubasi Usaha Mandiri</label>
-                            <div class="form-desc">Pengembangan unit edupreneurship internal sebagai penopang finansial operasional PKBM.</div>
+                            <label>5. Inovasi Inkubasi Usaha Mandiri (*Edupreneurship*)</label>
+                            <div class="form-desc">Pengembangan unit bisnis mandiri lembaga (tata busana, katering, jasa sablon, dll) sebagai penopang pembiayaan operasional internal PKBM.</div>
                             <div class="slider-flex">
                                 <input type="range" id="score-k2" min="0" max="100" value="0" oninput="syncScoreText('k2')">
                                 <span class="val-indicator" id="txt-k2">0</span>
+                            </div>
+                            <div class="file-upload-wrapper">
+                                <label class="btn-upload-file">
+                                    <i class="fa-solid fa-paperclip"></i> Unggah Bukti Inkubasi Usaha
+                                    <input type="file" id="file-k2" class="file-input-hidden" onchange="handleEvidenceUpload('k2')">
+                                </label>
+                                <span class="file-status-badge" id="badge-k2" style="display: none;">Belum ada dokumen</span>
                             </div>
                         </div>
                     </div>
@@ -1010,26 +1178,76 @@
 
                 <!-- Kolom Kanan Form -->
                 <div>
+                    <!-- III. BIDANG SUPERVISI -->
                     <div class="card">
                         <div class="card-title" style="color:var(--warning)"><i class="fa-solid fa-users-viewfinder"></i> III. Bidang Supervisi</div>
+                        
                         <div class="form-card">
-                            <label>5. Supervisi Klinis Dokumen & Pembelajaran</label>
-                            <div class="form-desc">Pelaksanaan pemantauan perangkat ajar mandiri tutor serta observasi metode tutorial.</div>
+                            <label>6. Supervisi Akademik & Pembelajaran</label>
+                            <div class="form-desc">Ketersediaan program, instrumen, dan jadwal pemantauan perangkat pembelajaran mandiri tutor serta observasi metode tutorial tatap muka.</div>
                             <div class="slider-flex">
                                 <input type="range" id="score-s1" min="0" max="100" value="0" oninput="syncScoreText('s1')">
                                 <span class="val-indicator" id="txt-s1">0</span>
                             </div>
+                            <div class="file-upload-wrapper">
+                                <label class="btn-upload-file">
+                                    <i class="fa-solid fa-paperclip"></i> Unggah Rencana Supervisi
+                                    <input type="file" id="file-s1" class="file-input-hidden" onchange="handleEvidenceUpload('s1')">
+                                </label>
+                                <span class="file-status-badge" id="badge-s1" style="display: none;">Belum ada dokumen</span>
+                            </div>
+                        </div>
+
+                        <div class="form-card">
+                            <label>7. Evaluasi Mutu Pembelajaran & Tindak Lanjut</label>
+                            <div class="form-desc">Pelaksanaan tindak lanjut hasil supervisi, pembinaan tutor, perbaikan modul/Rencana Pelaksanaan Pembelajaran (RPP) non-formal.</div>
+                            <div class="slider-flex">
+                                <input type="range" id="score-s2" min="0" max="100" value="0" oninput="syncScoreText('s2')">
+                                <span class="val-indicator" id="txt-s2">0</span>
+                            </div>
+                            <div class="file-upload-wrapper">
+                                <label class="btn-upload-file">
+                                    <i class="fa-solid fa-paperclip"></i> Unggah Bukti Tindak Lanjut
+                                    <input type="file" id="file-s2" class="file-input-hidden" onchange="handleEvidenceUpload('s2')">
+                                </label>
+                                <span class="file-status-badge" id="badge-s2" style="display: none;">Belum ada dokumen</span>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- IV. SOSIAL & PROFESIONAL PNF -->
                     <div class="card">
                         <div class="card-title" style="color:#8b5cf6"><i class="fa-solid fa-hand-holding-heart"></i> IV. Sosial & Profesional PNF</div>
+                        
                         <div class="form-card">
-                            <label>6. Penuntasan Anak Putus Sekolah (ATS)</label>
-                            <div class="form-desc">Aksi nyata penarikan dan pendampingan anak marjinal kembali ke ekosistem pendidikan.</div>
+                            <label>8. Penuntasan Anak Tidak Sekolah (ATS)</label>
+                            <div class="form-desc">Inisiatif dan program nyata penarikan anak putus sekolah ke dalam sistem kesetaraan, penyediaan beasiswa, dan kerjasama pendataan wilayah.</div>
                             <div class="slider-flex">
                                 <input type="range" id="score-p1" min="0" max="100" value="0" oninput="syncScoreText('p1')">
                                 <span class="val-indicator" id="txt-p1">0</span>
+                            </div>
+                            <div class="file-upload-wrapper">
+                                <label class="btn-upload-file">
+                                    <i class="fa-solid fa-paperclip"></i> Unggah Data & Program ATS
+                                    <input type="file" id="file-p1" class="file-input-hidden" onchange="handleEvidenceUpload('p1')">
+                                </label>
+                                <span class="file-status-badge" id="badge-p1" style="display: none;">Belum ada dokumen</span>
+                            </div>
+                        </div>
+
+                        <div class="form-card">
+                            <label>9. Kepeloporan Sosial & Pengabdian Masyarakat</label>
+                            <div class="form-desc">Keterlibatan aktif lembaga dalam memecahkan problematika sosial, kemitraan pemberdayaan komunitas rentan, dan kegiatan bakti sosial.</div>
+                            <div class="slider-flex">
+                                <input type="range" id="score-p2" min="0" max="100" value="0" oninput="syncScoreText('p2')">
+                                <span class="val-indicator" id="txt-p2">0</span>
+                            </div>
+                            <div class="file-upload-wrapper">
+                                <label class="btn-upload-file">
+                                    <i class="fa-solid fa-paperclip"></i> Unggah Dokumentasi Pengabdian
+                                    <input type="file" id="file-p2" class="file-input-hidden" onchange="handleEvidenceUpload('p2')">
+                                </label>
+                                <span class="file-status-badge" id="badge-p2" style="display: none;">Belum ada dokumen</span>
                             </div>
                         </div>
                     </div>
@@ -1044,7 +1262,12 @@
     </main>
 
     <!-- CORE SCRIPT ENGINE DATA MANAGEMENT -->
-    <script>
+    <script type="module">
+        // Import Firebase modules for real-time cloud data storage
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+        import { getFirestore, doc, setDoc, getDoc, collection, getDocs, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+
         const namaPKBMMaster = [
             "PKBM MEKAR BUANA", "PKBM PASCA MARGA", "PKBM MULYASARI SEJATI", "PKBM AL-AMANAH", 
             "PKBM MENTARI MADANI", "PKBM MENTARI KREATIF MANDIRI", "PKBM CENDIKIA PURNAMA", "PKBM TARBIYATUL UMMAH",
@@ -1078,7 +1301,6 @@
             "Dusun Dustan RT.03 RW.04, Desa Cisitu", "Dusun Elos Rt. 05/Rw. 03, Desa Cikareo selatan", "Dusun Bojongjati Rt.003 Rw.02, Desa Tarikolot", "Dsn. Cikuda 05/05 Desa Sukatani"
         ];
 
-        // Daftar NPSN Master yang Tidak Berurutan (Non-Sekuensial)
         const npsnMaster = [
             "P2963449", "P9934726", "P9952581", "P9999789",
             "P9984783", "P2970750", "P2971163", "P2963445",
@@ -1093,12 +1315,19 @@
         let dataSatuan = [];
         let selectedIdx = -1;
         let isAdmin = false;
-        let pendingAction = null; // Menyimpan aksi (ke halaman instrumen atau evaluasi sekolah tertentu)
+        let pendingAction = null;
+        let tempFiles = {};
+
+        // Firebase-specific references
+        let db = null;
+        let auth = null;
+        let isFirebaseActive = false;
+        let appId = 'default-app-id';
 
         // Password Admin Dinas
         const ADMIN_PASSWORD_HASH = "sumedang2026"; 
 
-        // Custom Toast Notification System
+        // Toast alert UI
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -1118,7 +1347,6 @@
 
             container.appendChild(toast);
 
-            // Trigger fadeout before deleting
             setTimeout(() => {
                 toast.style.animation = 'fadeOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards';
                 toast.addEventListener('animationend', () => {
@@ -1127,27 +1355,70 @@
             }, 3000);
         }
 
-        function initData() {
-            // Cek Sesi Admin
+        // Initialize Firebase Google Apps Database persistence
+        async function setupCloudDatabase() {
+            // Check session status first
             const adminSession = sessionStorage.getItem('pkks_is_admin');
             if (adminSession === 'true') {
                 isAdmin = true;
                 updateAdminSidebarUI();
             }
 
+            // Detect environment injected config variables
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                try {
+                    appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                    const firebaseConfig = JSON.parse(__firebase_config);
+                    
+                    const app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+                    isFirebaseActive = true;
+
+                    // Auth Rule 3 validation
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            showToast("Berhasil sinkronisasi dengan Google Cloud Database!", "success");
+                            syncFromFirestore();
+                        }
+                    });
+                } catch (err) {
+                    console.error("Cloud database setup failed, using Local Storage:", err);
+                    setupLocalStorageFallback();
+                }
+            } else {
+                setupLocalStorageFallback();
+            }
+        }
+
+        // Setup Local Storage Fallback if Firebase not injected
+        function setupLocalStorageFallback() {
             const localData = localStorage.getItem('pkks_32_master_data');
             if (localData) {
                 const parsedData = JSON.parse(localData);
                 dataSatuan = parsedData.map((item, idx) => {
                     return {
                         ...item,
-                        npsn: item.npsn || npsnMaster[idx],
-                        nama: item.nama || namaPKBMMaster[idx],
-                        kepala: item.kepala || kepalaSekolahMaster[idx],
-                        alamat: item.alamat || alamatSekolahMaster[idx]
+                        m3: item.m3 || 0,
+                        s2: item.s2 || 0,
+                        p2: item.p2 || 0,
+                        m1_file: item.m1_file || null,
+                        m2_file: item.m2_file || null,
+                        m3_file: item.m3_file || null,
+                        k1_file: item.k1_file || null,
+                        k2_file: item.k2_file || null,
+                        s1_file: item.s1_file || null,
+                        s2_file: item.s2_file || null,
+                        p1_file: item.p1_file || null,
+                        p2_file: item.p2_file || null
                     };
                 });
-                saveToLocalStorage();
             } else {
                 for(let i = 0; i < 32; i++) {
                     dataSatuan.push({
@@ -1157,26 +1428,100 @@
                         kepala: kepalaSekolahMaster[i],
                         alamat: alamatSekolahMaster[i],
                         status: false,
-                        m1: 0, m2: 0,
+                        m1: 0, m2: 0, m3: 0,
                         k1: 0, k2: 0,
-                        s1: 0,
-                        p1: 0,
-                        rataRata: 0
+                        s1: 0, s2: 0,
+                        p1: 0, p2: 0,
+                        rataRata: 0,
+                        m1_file: null, m2_file: null, m3_file: null,
+                        k1_file: null, k2_file: null,
+                        s1_file: null, s2_file: null,
+                        p1_file: null, p2_file: null
                     });
                 }
-                saveToLocalStorage();
+                saveToDatabase();
             }
-            selectedIdx = 0; // Default target sekolah
+            selectedIdx = 0;
             updateDashboardMetrics();
         }
 
-        function saveToLocalStorage() {
-            localStorage.setItem('pkks_32_master_data', JSON.stringify(dataSatuan));
+        // Read all documents from Firestore path securely (Rule 1 & Rule 2)
+        async function syncFromFirestore() {
+            if (!db || !auth.currentUser) return;
+            try {
+                // Rule 1 strict public data path
+                const querySnapshot = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'pkks_sumedang_2026'));
+                let cloudData = [];
+                querySnapshot.forEach((doc) => {
+                    cloudData.push(doc.data());
+                });
+
+                if (cloudData.length > 0) {
+                    // Sort by original id index
+                    cloudData.sort((a, b) => a.id - b.id);
+                    dataSatuan = cloudData;
+                } else {
+                    // Populate initial 32 units if cloud is blank
+                    for(let i = 0; i < 32; i++) {
+                        dataSatuan.push({
+                            id: i + 1,
+                            npsn: npsnMaster[i],
+                            nama: namaPKBMMaster[i],
+                            kepala: kepalaSekolahMaster[i],
+                            alamat: alamatSekolahMaster[i],
+                            status: false,
+                            m1: 0, m2: 0, m3: 0,
+                            k1: 0, k2: 0,
+                            s1: 0, s2: 0,
+                            p1: 0, p2: 0,
+                            rataRata: 0,
+                            m1_file: null, m2_file: null, m3_file: null,
+                            k1_file: null, k2_file: null,
+                            s1_file: null, s2_file: null,
+                            p1_file: null, p2_file: null
+                        });
+                    }
+                    await saveAllToCloud();
+                }
+                selectedIdx = 0;
+                updateDashboardMetrics();
+                if (document.getElementById('page-satuan').classList.contains('active')) {
+                    renderTableSatuan();
+                }
+            } catch (err) {
+                console.error("Firestore sync fail:", err);
+                setupLocalStorageFallback();
+            }
         }
 
-        // CONTROL NAV & PROTEKSI ADMIN
+        // Save all data locally or to Firestore
+        async function saveToDatabase() {
+            if (isFirebaseActive && db && auth.currentUser) {
+                await saveSingleToCloud(selectedIdx);
+            } else {
+                saveToLocalStorage();
+            }
+        }
+
+        async function saveSingleToCloud(idx) {
+            if (idx === -1 || !dataSatuan[idx]) return;
+            try {
+                const school = dataSatuan[idx];
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'pkks_sumedang_2026', 'school_' + school.id);
+                await setDoc(docRef, school);
+            } catch (err) {
+                console.error("Failed to save doc to cloud:", err);
+            }
+        }
+
+        async function saveAllToCloud() {
+            for (let i = 0; i < dataSatuan.length; i++) {
+                await saveSingleToCloud(i);
+            }
+        }
+
+        // Routing Page Navigation Control
         function showPage(pageId) {
-            // Proteksi Halaman Instrumen langsung dari navbar
             if (pageId === 'instrumen' && !isAdmin) {
                 pendingAction = { type: 'navigate', target: 'instrumen' };
                 openAdminModal();
@@ -1220,10 +1565,8 @@
             });
         }
 
-        // Aksi ketika klik 'Evaluasi' di daftar Satuan
         function pilihSekolahEvaluasi(idx) {
             if (!isAdmin) {
-                // Simpan sekolah yang ditargetkan untuk dievaluasi pasca-login
                 pendingAction = { type: 'evaluate', index: idx };
                 openAdminModal();
                 return;
@@ -1237,11 +1580,72 @@
             document.getElementById('txt-' + id).innerText = val;
         }
 
+        // HANDLER FILE UPLOAD DOKUMENTASI (Read File as Base64 dataURL for Google App Storage)
+        function handleEvidenceUpload(id) {
+            const fileInput = document.getElementById('file-' + id);
+            const badge = document.getElementById('badge-' + id);
+            
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                
+                // Firestore limit is 1MB per document, keep file under 800KB safely
+                if (file.size > 800 * 1024) {
+                    showToast("Ukuran berkas melebihi batas database cloud (Max 800 KB)!", "error");
+                    fileInput.value = "";
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Data = e.target.result;
+                    const fileSizeKB = (file.size / 1024).toFixed(1);
+                    
+                    const fileInfo = {
+                        name: file.name,
+                        size: fileSizeKB + " KB"
+                    };
+                    
+                    // Temporary store the Base64 along metadata in memory
+                    tempFiles[id + '_file'] = fileInfo;
+                    tempFiles[id + '_file_data'] = base64Data;
+                    
+                    // Update UI badge with direct download capability
+                    badge.style.display = 'inline-flex';
+                    badge.className = 'file-status-badge';
+                    badge.innerHTML = `
+                        <i class="fa-solid fa-circle-check"></i> ${file.name} (${fileSizeKB} KB)
+                        <button type="button" onclick="downloadEvidence('${id}')" style="margin-left:8px; background:none; border:none; color:var(--primary); cursor:pointer;" title="Unduh Berkas"><i class="fa-solid fa-download"></i></button>
+                    `;
+                    showToast(`Bukti fisik untuk indikator ${id.toUpperCase()} berhasil diunggah!`, 'info');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // DOWNLOAD DIRECT EVIDENCE (Restores original document from Google cloud Base64)
+        function downloadEvidence(indicatorId) {
+            // Get files from temporary or main memory safely
+            const fileData = tempFiles[indicatorId + '_file_data'] || (dataSatuan[selectedIdx] && dataSatuan[selectedIdx][indicatorId + '_file_data']);
+            const fileMeta = tempFiles[indicatorId + '_file'] || (dataSatuan[selectedIdx] && dataSatuan[selectedIdx][indicatorId + '_file']);
+            
+            if (fileData && fileMeta) {
+                const link = document.createElement('a');
+                link.href = fileData;
+                link.download = fileMeta.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast("Berkas berhasil diunduh!", "success");
+            } else {
+                showToast("Berkas bukti fisik tidak ditemukan!", "error");
+            }
+        }
+
         function loadInstrumenForm() {
             const banner = document.getElementById('current-school-banner');
             const identitasCard = document.getElementById('form-identitas-card');
 
-            if (selectedIdx === -1) {
+            if (selectedIdx === -1 || !dataSatuan[selectedIdx]) {
                 banner.innerHTML = `<div class="info-block"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i> <span>Harap pilih satuan PKBM di tab data untuk memulai penilaian.</span></div>`;
                 if(identitasCard) identitasCard.style.display = 'none';
                 return;
@@ -1259,26 +1663,83 @@
                 </div>
             `;
 
+            // Reset temp file container from school's persistent database values
+            tempFiles = {
+                m1_file: sekolah.m1_file || null,
+                m1_file_data: sekolah.m1_file_data || null,
+                m2_file: sekolah.m2_file || null,
+                m2_file_data: sekolah.m2_file_data || null,
+                m3_file: sekolah.m3_file || null,
+                m3_file_data: sekolah.m3_file_data || null,
+                k1_file: sekolah.k1_file || null,
+                k1_file_data: sekolah.k1_file_data || null,
+                k2_file: sekolah.k2_file || null,
+                k2_file_data: sekolah.k2_file_data || null,
+                s1_file: sekolah.s1_file || null,
+                s1_file_data: sekolah.s1_file_data || null,
+                s2_file: sekolah.s2_file || null,
+                s2_file_data: sekolah.s2_file_data || null,
+                p1_file: sekolah.p1_file || null,
+                p1_file_data: sekolah.p1_file_data || null,
+                p2_file: sekolah.p2_file || null,
+                p2_file_data: sekolah.p2_file_data || null
+            };
+
             // Load Identitas ke Input Field
             document.getElementById('input-nama').value = sekolah.nama;
             document.getElementById('input-npsn').value = sekolah.npsn;
             document.getElementById('input-kepala').value = sekolah.kepala;
             document.getElementById('input-alamat').value = sekolah.alamat;
 
-            // Load Nilai Skor Kinerja ke Slider
-            document.getElementById('score-m1').value = sekolah.m1;
-            document.getElementById('score-m2').value = sekolah.m2;
-            document.getElementById('score-k1').value = sekolah.k1;
-            document.getElementById('score-k2').value = sekolah.k2;
-            document.getElementById('score-s1').value = sekolah.s1;
-            document.getElementById('score-p1').value = sekolah.p1;
+            // Load Nilai Skor Kinerja ke Slider (Expanded 9 Indicators)
+            document.getElementById('score-m1').value = sekolah.m1 || 0;
+            document.getElementById('score-m2').value = sekolah.m2 || 0;
+            document.getElementById('score-m3').value = sekolah.m3 || 0;
+            
+            document.getElementById('score-k1').value = sekolah.k1 || 0;
+            document.getElementById('score-k2').value = sekolah.k2 || 0;
+            
+            document.getElementById('score-s1').value = sekolah.s1 || 0;
+            document.getElementById('score-s2').value = sekolah.s2 || 0;
+            
+            document.getElementById('score-p1').value = sekolah.p1 || 0;
+            document.getElementById('score-p2').value = sekolah.p2 || 0;
 
-            syncScoreText('m1'); syncScoreText('m2');
+            syncScoreText('m1'); syncScoreText('m2'); syncScoreText('m3');
             syncScoreText('k1'); syncScoreText('k2');
-            syncScoreText('s1'); syncScoreText('p1');
+            syncScoreText('s1'); syncScoreText('s2');
+            syncScoreText('p1'); syncScoreText('p2');
+
+            // Render upload badges from existing values
+            renderBadgeFromState('m1', sekolah.m1_file);
+            renderBadgeFromState('m2', sekolah.m2_file);
+            renderBadgeFromState('m3', sekolah.m3_file);
+            renderBadgeFromState('k1', sekolah.k1_file);
+            renderBadgeFromState('k2', sekolah.k2_file);
+            renderBadgeFromState('s1', sekolah.s1_file);
+            renderBadgeFromState('s2', sekolah.s2_file);
+            renderBadgeFromState('p1', sekolah.p1_file);
+            renderBadgeFromState('p2', sekolah.p2_file);
         }
 
-        function saveScores() {
+        function renderBadgeFromState(id, fileState) {
+            const badge = document.getElementById('badge-' + id);
+            const fileInput = document.getElementById('file-' + id);
+            fileInput.value = ""; // Clear file selector state
+            
+            if (fileState && fileState.name) {
+                badge.style.display = 'inline-flex';
+                badge.className = 'file-status-badge';
+                badge.innerHTML = `
+                    <i class="fa-solid fa-circle-check"></i> ${fileState.name} (${fileState.size})
+                    <button type="button" onclick="downloadEvidence('${id}')" style="margin-left:8px; background:none; border:none; color:var(--primary); cursor:pointer; line-height:1;" title="Unduh Berkas"><i class="fa-solid fa-download"></i></button>
+                `;
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        async function saveScores() {
             if (!isAdmin) {
                 showToast("Anda harus login sebagai Admin untuk menyimpan data!", "error");
                 return;
@@ -1291,49 +1752,102 @@
             dataSatuan[selectedIdx].kepala = document.getElementById('input-kepala').value.trim() || dataSatuan[selectedIdx].kepala;
             dataSatuan[selectedIdx].alamat = document.getElementById('input-alamat').value.trim() || dataSatuan[selectedIdx].alamat;
 
-            // Ambil Skor Kinerja
+            // Ambil Skor Kinerja dari 9 Indikator
             const m1 = parseInt(document.getElementById('score-m1').value);
             const m2 = parseInt(document.getElementById('score-m2').value);
+            const m3 = parseInt(document.getElementById('score-m3').value);
+            
             const k1 = parseInt(document.getElementById('score-k1').value);
             const k2 = parseInt(document.getElementById('score-k2').value);
+            
             const s1 = parseInt(document.getElementById('score-s1').value);
+            const s2 = parseInt(document.getElementById('score-s2').value);
+            
             const p1 = parseInt(document.getElementById('score-p1').value);
+            const p2 = parseInt(document.getElementById('score-p2').value);
 
+            // Perhitungan rata-rata per komponen secara adil
+            const avgM = (m1 + m2 + m3) / 3;
+            const avgK = (k1 + k2) / 2;
+            const avgS = (s1 + s2) / 2;
+            const avgP = (p1 + p2) / 2;
+
+            // Update array state
             dataSatuan[selectedIdx].m1 = m1;
             dataSatuan[selectedIdx].m2 = m2;
+            dataSatuan[selectedIdx].m3 = m3;
             dataSatuan[selectedIdx].k1 = k1;
             dataSatuan[selectedIdx].k2 = k2;
             dataSatuan[selectedIdx].s1 = s1;
+            dataSatuan[selectedIdx].s2 = s2;
             dataSatuan[selectedIdx].p1 = p1;
-            dataSatuan[selectedIdx].rataRata = ((m1+m2)/2 + (k1+k2)/2 + s1 + p1) / 4;
+            dataSatuan[selectedIdx].p2 = p2;
+
+            // Apply uploaded files along Base64 strings to target school
+            dataSatuan[selectedIdx].m1_file = tempFiles.m1_file || null;
+            dataSatuan[selectedIdx].m1_file_data = tempFiles.m1_file_data || null;
+            
+            dataSatuan[selectedIdx].m2_file = tempFiles.m2_file || null;
+            dataSatuan[selectedIdx].m2_file_data = tempFiles.m2_file_data || null;
+            
+            dataSatuan[selectedIdx].m3_file = tempFiles.m3_file || null;
+            dataSatuan[selectedIdx].m3_file_data = tempFiles.m3_file_data || null;
+            
+            dataSatuan[selectedIdx].k1_file = tempFiles.k1_file || null;
+            dataSatuan[selectedIdx].k1_file_data = tempFiles.k1_file_data || null;
+            
+            dataSatuan[selectedIdx].k2_file = tempFiles.k2_file || null;
+            dataSatuan[selectedIdx].k2_file_data = tempFiles.k2_file_data || null;
+            
+            dataSatuan[selectedIdx].s1_file = tempFiles.s1_file || null;
+            dataSatuan[selectedIdx].s1_file_data = tempFiles.s1_file_data || null;
+            
+            dataSatuan[selectedIdx].s2_file = tempFiles.s2_file || null;
+            dataSatuan[selectedIdx].s2_file_data = tempFiles.s2_file_data || null;
+            
+            dataSatuan[selectedIdx].p1_file = tempFiles.p1_file || null;
+            dataSatuan[selectedIdx].p1_file_data = tempFiles.p1_file_data || null;
+            
+            dataSatuan[selectedIdx].p2_file = tempFiles.p2_file || null;
+            dataSatuan[selectedIdx].p2_file_data = tempFiles.p2_file_data || null;
+
+            dataSatuan[selectedIdx].rataRata = (avgM + avgK + avgS + avgP) / 4;
             dataSatuan[selectedIdx].status = true;
 
-            saveToLocalStorage();
-            showToast(`Nilai & Identitas untuk ${dataSatuan[selectedIdx].nama} berhasil disimpan!`, 'success');
+            await saveToDatabase();
+            showToast(`Nilai, Identitas, & Berkas Bukti Fisik untuk ${dataSatuan[selectedIdx].nama} berhasil disimpan!`, 'success');
             showPage('beranda');
         }
 
         function updateDashboardMetrics() {
             let totalSelesai = 0;
             let sumRataRata = 0;
+            const totalLembaga = dataSatuan.length;
 
             dataSatuan.forEach(item => {
                 if (item.status) totalSelesai++;
                 sumRataRata += item.rataRata;
             });
 
-            document.getElementById('dash-progress').innerText = `${totalSelesai} / 32`;
-            document.getElementById('dash-avg').innerText = (sumRataRata / 32).toFixed(1);
+            document.getElementById('dash-total-units').innerText = totalLembaga;
+            document.getElementById('dash-progress').innerText = `${totalSelesai} / ${totalLembaga}`;
+            document.getElementById('dash-avg').innerText = (sumRataRata / totalLembaga).toFixed(1);
 
             const grafikTitle = document.getElementById('chart-main-title');
-            if (selectedIdx !== -1) {
+            if (selectedIdx !== -1 && dataSatuan[selectedIdx]) {
                 const sk = dataSatuan[selectedIdx];
                 grafikTitle.innerHTML = `<i class="fa-solid fa-chart-bar" style="color:var(--primary)"></i> Grafik Kompetensi Kinerja: <strong>${sk.nama}</strong>`;
                 
-                updateSvgBar('g-manajerial', 't-manajerial', (sk.m1 + sk.m2) / 2);
-                updateSvgBar('g-kewirausahaan', 't-kewirausahaan', (sk.k1 + sk.k2) / 2);
-                updateSvgBar('g-supervisi', 't-supervisi', sk.s1);
-                updateSvgBar('g-sosial', 't-sosial', sk.p1);
+                // Hitung rata-rata dimensi untuk visualisasi grafik
+                const avgManajerial = ((sk.m1 || 0) + (sk.m2 || 0) + (sk.m3 || 0)) / 3;
+                const avgKewirausahaan = ((sk.k1 || 0) + (sk.k2 || 0)) / 2;
+                const avgSupervisi = ((sk.s1 || 0) + (sk.s2 || 0)) / 2;
+                const avgSosial = ((sk.p1 || 0) + (sk.p2 || 0)) / 2;
+
+                updateSvgBar('g-manajerial', 't-manajerial', avgManajerial);
+                updateSvgBar('g-kewirausahaan', 't-kewirausahaan', avgKewirausahaan);
+                updateSvgBar('g-supervisi', 't-supervisi', avgSupervisi);
+                updateSvgBar('g-sosial', 't-sosial', avgSosial);
             }
             renderTop3List();
         }
@@ -1385,6 +1899,12 @@
             
             dataSatuan.forEach(item => {
                 const statusStr = item.status ? "Selesai" : "Kosong";
+                
+                const avgM = ((item.m1 + item.m2 + item.m3) / 3).toFixed(1);
+                const avgK = ((item.k1 + item.k2) / 2).toFixed(1);
+                const avgS = ((item.s1 + item.s2) / 2).toFixed(1);
+                const avgP = ((item.p1 + item.p2) / 2).toFixed(1);
+
                 const row = [
                     item.id,
                     `"${item.npsn}"`,
@@ -1393,10 +1913,10 @@
                     `"${item.alamat}"`,
                     statusStr,
                     item.rataRata.toFixed(1),
-                    ((item.m1 + item.m2) / 2).toFixed(1),
-                    ((item.k1 + item.k2) / 2).toFixed(1),
-                    item.s1,
-                    item.p1
+                    avgM,
+                    avgK,
+                    avgS,
+                    avgP
                 ].join(",");
                 csvContent += row + "\r\n";
             });
@@ -1449,10 +1969,13 @@
             // Logika Ekspor PDF 1: Jika di halaman Dashboard (Fokus Analisis Sekolah Terpilih)
             if (activeId === 'page-beranda') {
                 const sk = dataSatuan[selectedIdx] || { nama: 'Belum Terpilih', npsn: '-', kepala: '-', alamat: '-', rataRata: 0 };
-                const mVal = ((sk.m1 + sk.m2)/2).toFixed(1);
-                const kVal = ((sk.k1 + sk.k2)/2).toFixed(1);
-                const sVal = sk.s1.toFixed(1);
-                const pVal = sk.p1.toFixed(1);
+                
+                const avgManajerial = ((sk.m1 || 0) + (sk.m2 || 0) + (sk.m3 || 0)) / 3;
+                const avgKewirausahaan = ((sk.k1 || 0) + (sk.k2 || 0)) / 2;
+                const avgSupervisi = ((sk.s1 || 0) + (sk.s2 || 0)) / 2;
+                const avgSosial = ((sk.p1 || 0) + (sk.p2 || 0)) / 2;
+
+                const getFileName = (fileObj) => fileObj && fileObj.name ? fileObj.name : "Tidak ada berkas bukti";
 
                 let bodyHtml = `
                     <div style="margin-bottom: 25px;">
@@ -1476,29 +1999,79 @@
                         <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 25px;">
                             <thead>
                                 <tr style="background-color: #f1f5f9; text-align: left;">
-                                    <th style="padding: 12px; border: 1px solid #cbd5e1; font-weight: 700; color: #334155; width: 70%;">Dimensi & Indikator Penilaian Utama</th>
-                                    <th style="padding: 12px; border: 1px solid #cbd5e1; font-weight: 700; color: #334155; text-align: center; width: 30%;">Capaian Nilai (Skala 100)</th>
+                                    <th style="padding: 12px; border: 1px solid #cbd5e1; font-weight: 700; color: #334155; width: 40%;">Dimensi & Indikator Penilaian Utama</th>
+                                    <th style="padding: 12px; border: 1px solid #cbd5e1; font-weight: 700; color: #334155; width: 45%;">Dokumentasi Bukti Fisik Terunggah</th>
+                                    <th style="padding: 12px; border: 1px solid #cbd5e1; font-weight: 700; color: #334155; text-align: center; width: 15%;">Skor</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; font-weight: 500;">Dimensi 1: Kompetensi Manajerial (Perencanaan & Tata Kelola)</td>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; color: #1e3a8a;">${mVal}</td>
+                                <tr style="background-color: #f8fafc; font-weight: 600;">
+                                    <td colspan="2" style="padding: 10px; border: 1px solid #cbd5e1; color:#1e3a8a;">DIMENSI 1: KOMPETENSI MANAJERIAL</td>
+                                    <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color:#1e3a8a;">${avgManajerial.toFixed(1)}</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; font-weight: 500;">Dimensi 2: Kompetensi Kewirausahaan (Aliansi & Edupreneurship)</td>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; color: #10b981;">${kVal}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 1.1: Penyusunan RKJM & RKT</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.m1_file)}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.m1}</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; font-weight: 500;">Dimensi 3: Kompetensi Supervisi (Supervisi Akademik Tutor)</td>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; color: #f59e0b;">${sVal}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 1.2: Tata Kelola Sarana & Media</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.m2_file)}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.m2}</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; font-weight: 500;">Dimensi 4: Bidang Sosial & Profesional PNF (Penanganan ATS / Drop-Out)</td>
-                                    <td style="padding: 11px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; color: #8b5cf6;">${pVal}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 1.3: Administrasi WB & Tutor</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.m3_file)}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.m3}</td>
                                 </tr>
-                                <tr style="background-color: #f8fafc; font-weight: 700; font-size: 13px;">
-                                    <td style="padding: 14px; border: 1px solid #cbd5e1; color: #0f172a;">SKOR AKUMULASI AKHIR (KOMPOSIT)</td>
+
+                                <tr style="background-color: #f8fafc; font-weight: 600;">
+                                    <td colspan="2" style="padding: 10px; border: 1px solid #cbd5e1; color:#10b981;">DIMENSI 2: KOMPETENSI KEWIRAUSAHAAN</td>
+                                    <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color:#10b981;">${avgKewirausahaan.toFixed(1)}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 2.1: Kerjasama & MoU DUDI</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.k1_file)}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.k1}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 2.2: Unit Inkubasi & Edupreneurship</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.k2_file)}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.k2}</td>
+                                </tr>
+
+                                <tr style="background-color: #f8fafc; font-weight: 600;">
+                                    <td colspan="2" style="padding: 10px; border: 1px solid #cbd5e1; color:#f59e0b;">DIMENSI 3: KOMPETENSI SUPERVISI</td>
+                                    <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color:#f59e0b;">${avgSupervisi.toFixed(1)}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 3.1: Supervisi Akademik Tutor</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.s1_file)}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.s1}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 3.2: Tindak Lanjut & Pembinaan</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.s2_file)}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.s2}</td>
+                                </tr>
+
+                                <tr style="background-color: #f8fafc; font-weight: 600;">
+                                    <td colspan="2" style="padding: 10px; border: 1px solid #cbd5e1; color:#8b5cf6;">DIMENSI 4: SOSIAL & PROFESIONAL PNF</td>
+                                    <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color:#8b5cf6;">${avgSosial.toFixed(1)}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 4.1: Penanganan Siswa Putus Sekolah (ATS)</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.p1_file)}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.p1}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 4.2: Kepeloporan & Bakti Sosial</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.p2_file)}</td>
+                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.p2}</td>
+                                </tr>
+
+                                <tr style="background-color: #f1f5f9; font-weight: 700; font-size: 13px;">
+                                    <td colspan="2" style="padding: 14px; border: 1px solid #cbd5e1; color: #0f172a;">SKOR AKUMULASI AKHIR (KOMPOSIT)</td>
                                     <td style="padding: 14px; border: 1px solid #cbd5e1; text-align: center; color: #2563eb; font-size: 15px;">${sk.rataRata.toFixed(1)}</td>
                                 </tr>
                             </tbody>
@@ -1556,7 +2129,7 @@
                     </div>
                     <div style="width: 45%; text-align: center;">
                         <p style="margin-bottom: 50px;">Ditetapkan di Sumedang,<br><strong style="text-transform: uppercase;">Kepala PKBM Terkait</strong></p>
-                        <p style="text-decoration: underline; font-weight: bold;">( ${selectedIdx !== -1 && activeId === 'page-beranda' ? dataSatuan[selectedIdx].kepala : '........................................................'} )</p>
+                        <p style="text-decoration: underline; font-weight: bold;">( ${selectedIdx !== -1 && activeId === 'page-beranda' && dataSatuan[selectedIdx] ? dataSatuan[selectedIdx].kepala : '........................................................'} )</p>
                     </div>
                 </div>
             `;
@@ -1591,6 +2164,7 @@
             pendingAction = null;
         }
 
+        // Lihat/Sembunyikan Password
         function togglePasswordVisibility() {
             const pwdInput = document.getElementById('admin-password-input');
             const eyeIcon = document.getElementById('eye-icon');
@@ -1626,6 +2200,8 @@
                     } else if (pendingAction.type === 'evaluate') {
                         selectedIdx = pendingAction.index;
                         showPage('instrumen');
+                    } else if (pendingAction.type === 'addSchool') {
+                        openAddSchoolModal();
                     }
                     pendingAction = null;
                 }
@@ -1675,7 +2251,120 @@
             }
         }
 
-        window.onload = function() { initData(); };
+        // KONTROL PENAMBAHAN SEKOLAH BARU
+        function checkAndOpenAddSchoolModal() {
+            if (!isAdmin) {
+                pendingAction = { type: 'addSchool' };
+                openAdminModal();
+                return;
+            }
+            openAddSchoolModal();
+        }
+
+        function openAddSchoolModal() {
+            const modal = document.getElementById('add-school-modal');
+            modal.classList.add('active');
+            
+            // Bersihkan form
+            document.getElementById('add-school-name').value = '';
+            document.getElementById('add-school-npsn').value = '';
+            document.getElementById('add-school-kepala').value = '';
+            document.getElementById('add-school-alamat').value = '';
+            
+            setTimeout(() => document.getElementById('add-school-name').focus(), 150);
+        }
+
+        function closeAddSchoolModal() {
+            const modal = document.getElementById('add-school-modal');
+            modal.classList.remove('active');
+        }
+
+        function submitNewSchool() {
+            const nameInput = document.getElementById('add-school-name');
+            const npsnInput = document.getElementById('add-school-npsn');
+            const kepalaInput = document.getElementById('add-school-kepala');
+            const alamatInput = document.getElementById('add-school-alamat');
+
+            const nama = nameInput.value.trim();
+            const npsn = npsnInput.value.trim();
+            const kepala = kepalaInput.value.trim() || "-";
+            const alamat = alamatInput.value.trim() || "-";
+
+            if (!nama) {
+                showToast("Nama Satuan Sekolah tidak boleh kosong!", "error");
+                nameInput.focus();
+                return;
+            }
+            if (!npsn) {
+                showToast("NPSN Sekolah tidak boleh kosong!", "error");
+                npsnInput.focus();
+                return;
+            }
+
+            // Validasi apakah NPSN sudah terdaftar
+            const isNpsnExists = dataSatuan.some(school => school.npsn.toLowerCase() === npsn.toLowerCase());
+            if (isNpsnExists) {
+                showToast("NPSN sudah terdaftar pada sistem!", "error");
+                npsnInput.focus();
+                return;
+            }
+
+            // Tambahkan data baru
+            const newId = dataSatuan.length + 1;
+            const newSchoolObj = {
+                id: newId,
+                npsn: npsn,
+                nama: nama,
+                kepala: kepala,
+                alamat: alamat,
+                status: false,
+                m1: 0, m2: 0, m3: 0,
+                k1: 0, k2: 0,
+                s1: 0, s2: 0,
+                p1: 0, p2: 0,
+                rataRata: 0,
+                m1_file: null, m1_file_data: null,
+                m2_file: null, m2_file_data: null,
+                m3_file: null, m3_file_data: null,
+                k1_file: null, k1_file_data: null,
+                k2_file: null, k2_file_data: null,
+                s1_file: null, s1_file_data: null,
+                s2_file: null, s2_file_data: null,
+                p1_file: null, p1_file_data: null,
+                p2_file: null, p2_file_data: null
+            };
+
+            dataSatuan.push(newSchoolObj);
+            saveToLocalStorage();
+            updateDashboardMetrics();
+            renderTableSatuan();
+            closeAddSchoolModal();
+            showToast(`Sukses menambahkan ${nama} ke dalam sistem!`, "success");
+        }
+
+        // Attach functions to the global window object so inline event handlers work in ES module
+        window.showPage = showPage;
+        window.pilihSekolahEvaluasi = pilihSekolahEvaluasi;
+        window.syncScoreText = syncScoreText;
+        window.handleEvidenceUpload = handleEvidenceUpload;
+        window.downloadEvidence = downloadEvidence;
+        window.saveScores = saveScores;
+        window.downloadCSV = downloadCSV;
+        window.downloadPDF = downloadPDF;
+        window.openAdminModal = openAdminModal;
+        window.closeAdminModal = closeAdminModal;
+        window.togglePasswordVisibility = togglePasswordVisibility;
+        window.handlePasswordKeydown = handlePasswordKeydown;
+        window.submitAdminPassword = submitAdminPassword;
+        window.toggleAdminLogin = toggleAdminLogin;
+        window.checkAndOpenAddSchoolModal = checkAndOpenAddSchoolModal;
+        window.closeAddSchoolModal = closeAddSchoolModal;
+        window.submitNewSchool = submitNewSchool;
+
+        // Run client setup
+        window.onload = function() {
+            setupCloudDatabase();
+        };
     </script>
 </body>
 </html>
