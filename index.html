@@ -382,7 +382,7 @@
         import { getFirestore, doc, setDoc, getDoc, collection, query, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // =========================================================================
-        // PROYEK FIREBASE ASLI YANG DIAMBIL DARI GAMBAR SCREENSHOT ANDA
+        // PROYEK FIREBASE ASLI YANG DIAMBIL DARI GAMBAR SCREENSHOT ANDA (AKTIF)
         // =========================================================================
         const myActualFirebaseConfig = {
             apiKey: "AIzaSyArp_Qp_fG7X3K3X6P8pD7n2t9D9v1E",
@@ -497,9 +497,11 @@
 
             try {
                 // Gunakan Anonymous sign in di GitHub / Sandbox secara aman
-                await signInAnonymously(auth);
+                const credential = await signInAnonymously(auth);
+                currentUser = credential.user;
+                setupRealtimeListener();
             } catch (error) {
-                console.warn("Gagal login anonim. Menggunakan penyimpanan browser lokal.");
+                console.warn("Gagal login anonim. Menggunakan penyimpanan browser lokal.", error);
                 isFirebaseActive = false;
                 uploadedFilesData = getLocalStorageData();
                 triggerUIRefresh();
@@ -507,18 +509,6 @@
                 statusText.textContent = "Koneksi Firebase Ditolak (Pastikan Anonymous Auth Aktif di Console)";
             }
         };
-
-        // Deteksi Perubahan Autentikasi Online
-        if (isFirebaseActive) {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    currentUser = user;
-                    setupRealtimeListener();
-                } else {
-                    currentUser = null;
-                }
-            });
-        }
 
         // Listener Real-time Database Firestore (Offline Fallback Handled)
         const setupRealtimeListener = () => {
@@ -544,7 +534,7 @@
                 uploadedFilesData = getLocalStorageData();
                 triggerUIRefresh();
                 statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-red-50 border-red-100 text-red-800";
-                statusText.textContent = "Akses Cloud Firestore Ditolak (Pastikan Firestore Rules diset ALLOW READ, WRITE)";
+                statusText.textContent = "Akses Cloud Firestore Ditolak (Silakan periksa tab 'Rules' di Firebase)";
             });
         };
 
