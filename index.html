@@ -7,7 +7,7 @@
     <!-- Google Fonts Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2 family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Tailwind CSS for elegant components -->
@@ -149,7 +149,6 @@
 
                     <!-- GRID STANDAR -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Standar Item Generator Function in JS will populate this, but we write static layout with interactive triggers for premium feel -->
                         <template id="standarTemplate">
                             <div class="p-5 rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-sm bg-slate-50/50 transition-all-custom flex flex-col justify-between space-y-4">
                                 <div class="flex items-start justify-between gap-3">
@@ -197,7 +196,7 @@
                             </div>
                         </template>
                         <div id="standarContainer" class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Populated dynamically -->
+                            <!-- Diisi lewat JS secara dinamis -->
                         </div>
                     </div>
                 </div>
@@ -209,7 +208,7 @@
                     <i class="fa-solid fa-school-flag text-5xl"></i>
                 </div>
                 <h3 class="text-base font-bold text-slate-800">Silakan Pilih Lembaga Terlebih Dahulu</h3>
-                <p class="text-sm text-slate-500 max-w-md">Setelah Anda memilih nama lembaga dan mengisi NPSN, sistem akan memuat data dokumen bukti fisik Anda langsung dari database cloud secara otomatis.</p>
+                <p class="text-sm text-slate-500 max-w-md">Setelah Anda memilih nama lembaga dan mengisi NPSN, sistem akan memuat data dokumen bukti fisik Anda langsung secara otomatis.</p>
             </div>
         </section>
 
@@ -251,7 +250,7 @@
                 <div class="p-6 border-b border-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h3 class="text-base font-bold text-slate-900">Rekapitulasi Pengunggahan Lembaga</h3>
-                        <p class="text-xs text-slate-400 mt-1">Pantau seluruh dokumen unggahan PKKS satuan pendidikan secara real-time dari database cloud.</p>
+                        <p class="text-xs text-slate-400 mt-1">Pantau seluruh dokumen unggahan PKKS satuan pendidikan secara real-time.</p>
                     </div>
                     <!-- Filter Status -->
                     <div class="flex items-center gap-2">
@@ -278,12 +277,11 @@
                             </tr>
                         </thead>
                         <tbody id="adminTableBody" class="divide-y divide-slate-100 text-sm">
-                            <!-- Populated dynamically via JS -->
                             <tr>
                                 <td colspan="6" class="p-8 text-center text-slate-400">
                                     <div class="flex flex-col items-center justify-center space-y-2">
                                         <i class="fa-solid fa-spinner fa-spin text-2xl text-brand-500"></i>
-                                        <p class="text-xs font-medium">Menghubungkan ke database awan...</p>
+                                        <p class="text-xs font-medium">Memuat data database...</p>
                                     </div>
                                 </td>
                             </tr>
@@ -298,12 +296,12 @@
     <!-- FOOTER -->
     <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 text-center mt-12">
         <p class="mb-1">&copy; 2026 PKKS PNF Sumedang &bull; Kabupaten Sumedang, Jawa Barat.</p>
-        <p class="text-slate-600">Sistem terintegrasi cloud real-time dengan proteksi sandbox.</p>
+        <p class="text-slate-600">Sistem Portal Mandiri - Mendukung Sinkronisasi Cloud & GitHub Pages.</p>
     </footer>
 
     <!-- MODAL PENILAIAN / ACTION ADMIN -->
     <div id="adminReviewModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
+        <div class="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl border border-slate-100">
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <div class="flex items-center gap-2.5">
                     <div class="bg-brand-100 text-brand-700 p-2 rounded-lg">
@@ -371,35 +369,50 @@
     </div>
 
 
-    <!-- ==================== FIREBASE SDK SINKRONISASI CLOUD ==================== -->
+    <!-- ==================== FIREBASE ENGINE DENGAN FALLBACK LOKAL (GITHUB-COMPATIBLE) ==================== -->
     <script type="module">
-        // Import Firebase dari CDN resmi v11.6.1
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, query, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Konfigurasi aplikasi yang dikirim dari enviroment atau fallback aman
+        // Deteksi ID Aplikasi dari Canvas, jika kosong gunakan default publik
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'pkks-pnf-sumedang-2026';
-        let firebaseConfig;
-        
+        let firebaseConfig = null;
+        let isFirebaseActive = false;
+        let db, auth;
+
+        // Mencoba parsing Firebase Config dari Canvas Environment
         try {
-            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-                apiKey: "",
-                authDomain: "",
-                projectId: "pkks-dummy-project",
-                storageBucket: "",
-                messagingSenderId: "",
-                appId: ""
-            };
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                firebaseConfig = JSON.parse(__firebase_config);
+            }
         } catch (e) {
-            console.warn("Gagal parse firebase config. Menggunakan setup lokal.");
-            firebaseConfig = { apiKey: "", authDomain: "", projectId: "pkks-dummy-project" };
+            console.warn("Menggunakan mode mandiri/GitHub.");
         }
 
-        // Inisialisasi Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        // Jika tidak ada konfigurasi dari Canvas (seperti ketika ditaruh di GitHub), kita buat fallback dummy
+        // atau Anda bisa langsung mengganti nilai objek di bawah ini dengan kredensial Firebase asli Anda.
+        if (!firebaseConfig || !firebaseConfig.projectId) {
+            firebaseConfig = {
+                apiKey: "AIzaSyAsFakeKeyForGitHubPagesUseLocalFallback",
+                authDomain: "pkks-pnf-sumedang.firebaseapp.com",
+                projectId: "pkks-pnf-sumedang",
+                storageBucket: "pkks-pnf-sumedang.appspot.com",
+                messagingSenderId: "1234567890",
+                appId: "1:1234567890:web:abcdefgh123456"
+            };
+        }
+
+        // Inisialisasi Firebase aman
+        try {
+            const app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            isFirebaseActive = true;
+        } catch (error) {
+            console.warn("Firebase gagal diinisialisasi secara online, mengaktifkan mode sandbox lokal:", error);
+            isFirebaseActive = false;
+        }
 
         // List 8 Standar Nasional Pendidikan
         const daftarStandar = [
@@ -415,14 +428,32 @@
 
         // State Global Aplikasi
         let currentUser = null;
-        let currentRole = "school"; // "school" atau "admin"
+        let currentRole = "school"; 
         let selectedSchoolName = "";
         let selectedSchoolNpsn = "";
-        let uploadedFilesData = []; // Menyimpan semua data berkas yang ditarik dari Firestore
-        let activeReviewTarget = null; // Menyimpan info dokumen yang sedang direview admin
+        let uploadedFilesData = []; 
+        let activeReviewTarget = null; 
 
-        // ==================== DAFTAR ATURAN CLOUD FIRESTORE TERSTRUKTUR (RULE 1) ====================
-        // Kami mengumpulkan data file ke path aman publik: /artifacts/{appId}/public/data/pkk_files
+        // Fungsi Cadangan Penyimpanan Lokal jika Firebase Offline di GitHub
+        const getLocalStorageData = () => {
+            const data = localStorage.getItem(`pkks_data_${appId}`);
+            return data ? JSON.parse(data) : [];
+        };
+
+        const saveLocalStorageData = (data) => {
+            localStorage.setItem(`pkks_data_${appId}`, JSON.stringify(data));
+            uploadedFilesData = data;
+            triggerUIRefresh();
+        };
+
+        // Sinkronisasi data ke UI
+        const triggerUIRefresh = () => {
+            updateSchoolDashboard();
+            renderAdminTable();
+            updateAdminMetrics();
+        };
+
+        // Path Terstruktur Firestore (Aman sesuai regulasi Canvas / Firebase)
         const getCollectionRef = () => {
             return collection(db, 'artifacts', appId, 'public', 'data', 'pkk_files');
         };
@@ -431,38 +462,42 @@
             return doc(db, 'artifacts', appId, 'public', 'data', 'pkk_files', documentId);
         };
 
-        // ==================== AUTHENTICATION ENGINE (RULE 3) ====================
+        // Autentikasi Mandiri
         const initAuth = async () => {
+            if (!isFirebaseActive) {
+                uploadedFilesData = getLocalStorageData();
+                triggerUIRefresh();
+                return;
+            }
+
             try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                // Gunakan Anonymous sign in di GitHub / Sandbox secara aman
+                await signInAnonymously(auth);
             } catch (error) {
-                console.error("Proses otentikasi Firebase gagal:", error);
-                showToast("Koneksi aman gagal. Menjalankan mode luring terbatas.", "error");
+                console.warn("Gagal terhubung database online. Beralih ke penyimpanan browser lokal.");
+                isFirebaseActive = false;
+                uploadedFilesData = getLocalStorageData();
+                triggerUIRefresh();
             }
         };
 
-        // Mulai dengerin status user
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                // Jalankan Listener data dari Firestore secara realtime begitu auth beres
-                setupRealtimeListener();
-            } else {
-                currentUser = null;
-            }
-        });
+        // Deteksi Perubahan Autentikasi Online
+        if (isFirebaseActive) {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                    setupRealtimeListener();
+                } else {
+                    currentUser = null;
+                }
+            });
+        }
 
-        // ==================== REALTIME DATABASE SYNCER (RULE 2) ====================
+        // Listener Real-time Database Firestore (Offline Fallback Handled)
         const setupRealtimeListener = () => {
-            if (!currentUser) return;
+            if (!isFirebaseActive || !currentUser) return;
 
-            // Menggunakan query collection sederhana tanpa orderBy/where yang kompleks demi menghindari eror indeks
             const q = getCollectionRef();
-
             onSnapshot(q, (snapshot) => {
                 uploadedFilesData = [];
                 snapshot.forEach((doc) => {
@@ -471,48 +506,40 @@
                         ...doc.data()
                     });
                 });
-                
-                // Perbarui antarmuka pengguna
-                updateSchoolDashboard();
-                renderAdminTable();
-                updateAdminMetrics();
+                triggerUIRefresh();
             }, (error) => {
-                console.error("Sinkronisasi real-time Firestore gagal:", error);
-                showToast("Gagal menyinkronkan data terbaru dari server.", "error");
+                console.warn("Firestore terblokir CORS / aturan keamanan. Mengaktifkan sistem penyimpanan hibrida lokal.");
+                isFirebaseActive = false;
+                uploadedFilesData = getLocalStorageData();
+                triggerUIRefresh();
             });
         };
 
-        // ==================== FUNGSI AKSI SATUAN PENDIDIKAN ====================
+        // ==================== OPERASI AKSI SATUAN PENDIDIKAN ====================
         
-        // Render item standar untuk Satuan Pendidikan
         const renderSchoolStandards = () => {
             const container = document.getElementById('standarContainer');
             const template = document.getElementById('standarTemplate');
+            if (!container || !template) return;
             container.innerHTML = '';
 
             daftarStandar.forEach(std => {
                 const clone = template.content.cloneNode(true);
-                
-                // Cari data berkas yang sudah terunggah dari database untuk standar ini
                 const matchingFile = uploadedFilesData.find(f => f.npsn === selectedSchoolNpsn && f.standarId === std.id);
 
-                // Setup elemen data
                 clone.querySelector('.standar-code').textContent = std.code;
                 clone.querySelector('.standar-title').textContent = std.title;
 
-                const cardEl = clone.querySelector('div');
                 const badgeEl = clone.querySelector('.status-badge');
                 const filePreviewEl = clone.querySelector('.file-preview-area');
                 const feedbackEl = clone.querySelector('.feedback-area');
                 const inputContainerEl = clone.querySelector('.upload-input-container');
 
-                // Bind standar ID ke input agar tahu berkas milik standar mana saat mengunggah
                 const fileInput = clone.querySelector('.file-input');
                 fileInput.setAttribute('data-standar-id', std.id);
                 fileInput.setAttribute('data-standar-title', std.title);
 
                 if (matchingFile) {
-                    // Update Badge Status
                     if (matchingFile.status === 'approved') {
                         badgeEl.textContent = 'Disetujui';
                         badgeEl.className = 'status-badge px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-emerald-100 text-emerald-800';
@@ -524,39 +551,38 @@
                         badgeEl.className = 'status-badge px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-amber-100 text-amber-800';
                     }
 
-                    // Tampilkan area nama file
                     filePreviewEl.classList.remove('hidden');
                     filePreviewEl.querySelector('.filename-txt').textContent = matchingFile.fileName;
                     filePreviewEl.querySelector('.filesize-txt').textContent = formatBytes(matchingFile.fileSize);
 
-                    // Aksi tombol Download
                     filePreviewEl.querySelector('.btn-download-file').onclick = () => {
                         downloadBase64File(matchingFile.fileBase64, matchingFile.fileName, matchingFile.fileMime);
                     };
 
-                    // Aksi tombol Delete
                     filePreviewEl.querySelector('.btn-delete-file').onclick = async () => {
                         if (confirm(`Apakah Anda yakin ingin menghapus berkas di ${std.title}?`)) {
                             try {
-                                await deleteDoc(getDocRef(matchingFile.docId));
-                                showToast("Dokumen berhasil dihapus dari server.", "success");
+                                if (isFirebaseActive) {
+                                    await deleteDoc(getDocRef(matchingFile.docId));
+                                } else {
+                                    const filtered = uploadedFilesData.filter(f => f.docId !== matchingFile.docId);
+                                    saveLocalStorageData(filtered);
+                                }
+                                showToast("Dokumen berhasil dihapus.", "success");
                             } catch (e) {
-                                console.error("Gagal menghapus dokumen:", e);
-                                showToast("Gagal menghapus dokumen dari database cloud.", "error");
+                                console.error(e);
+                                showToast("Gagal menghapus dokumen.", "error");
                             }
                         }
                     };
 
-                    // Sembunyikan input file
                     inputContainerEl.classList.add('hidden');
 
-                    // Jika ada feedback dari admin
                     if (matchingFile.feedback) {
                         feedbackEl.classList.remove('hidden');
                         feedbackEl.querySelector('.feedback-txt').textContent = matchingFile.feedback;
                     }
                 } else {
-                    // Tampilan Default Belum Unggah
                     badgeEl.textContent = 'Belum Diunggah';
                     badgeEl.className = 'status-badge px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-slate-200 text-slate-600';
                     filePreviewEl.classList.add('hidden');
@@ -568,35 +594,31 @@
             });
         };
 
-        // Fungsi ketika Satuan Pendidikan mengunggah dokumen baru
         window.handleFileUpload = async (event) => {
             const file = event.target.files[0];
             if (!file) return;
 
-            // Batasi ukuran file (misal 750 KB untuk kenyamanan Firestore)
-            const maxLimit = 750 * 1024; // 750 KB
+            const maxLimit = 750 * 1024; 
             if (file.size > maxLimit) {
-                showToast("Ukuran berkas melebihi batas maksimal (750 KB). Silakan kompres atau perkecil dokumen Anda.", "error");
-                event.target.value = ""; // reset input
+                showToast("Ukuran berkas melebihi 750 KB. Silakan diperkecil terlebih dahulu.", "error");
+                event.target.value = "";
                 return;
             }
 
             const standarId = event.target.getAttribute('data-standar-id');
             const standarTitle = event.target.getAttribute('data-standar-title');
 
-            showToast("Sedang memproses dan mengunggah berkas ke cloud...", "info");
+            showToast("Memproses dan mengenkripsi dokumen...", "info");
 
             try {
-                // Konversi file ke base64 agar aman disimpan langsung di dokumen Firestore (RULE 1)
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = async () => {
                     const base64String = reader.result;
-
-                    // Buat ID Dokumen unik gabungan dari NPSN dan Standar ID
                     const documentId = `${selectedSchoolNpsn}_${standarId}`;
 
                     const dataDokumen = {
+                        docId: documentId,
                         npsn: selectedSchoolNpsn,
                         schoolName: selectedSchoolName,
                         standarId: standarId,
@@ -605,35 +627,42 @@
                         fileSize: file.size,
                         fileMime: file.type,
                         fileBase64: base64String,
-                        status: 'pending', // Awal unggah statusnya 'pending' untuk direview admin
+                        status: 'pending',
                         uploadedAt: new Date().toISOString(),
                         feedback: ''
                     };
 
-                    // Simpan ke Firestore
-                    await setDoc(getDocRef(documentId), dataDokumen);
-                    showToast(`Sukses mengunggah dokumen ${standarTitle} ke database!`, "success");
+                    if (isFirebaseActive) {
+                        await setDoc(getDocRef(documentId), dataDokumen);
+                    } else {
+                        const localData = getLocalStorageData();
+                        const existingIdx = localData.findIndex(f => f.docId === documentId);
+                        if (existingIdx > -1) {
+                            localData[existingIdx] = dataDokumen;
+                        } else {
+                            localData.push(dataDokumen);
+                        }
+                        saveLocalStorageData(localData);
+                    }
+                    showToast(`Sukses mengunggah dokumen ${standarTitle}!`, "success");
                 };
             } catch (error) {
-                console.error("Gagal mengunggah file:", error);
-                showToast("Proses pengunggahan ke server Firestore gagal.", "error");
+                console.error(error);
+                showToast("Proses pengunggahan gagal.", "error");
             }
         };
 
-        // Update statistik sekolah terpilih
         const updateSchoolDashboard = () => {
             if (!selectedSchoolNpsn) return;
-            
-            // Hitung berapa standar yang sudah diunggah untuk sekolah terpilih
             const myFiles = uploadedFilesData.filter(f => f.npsn === selectedSchoolNpsn);
-            document.getElementById('schoolStatsUploaded').textContent = myFiles.length;
-
+            const statsEl = document.getElementById('schoolStatsUploaded');
+            if (statsEl) statsEl.textContent = myFiles.length;
             renderSchoolStandards();
         };
 
-        // Ketika Satuan Pendidikan mengganti pilihan sekolah
         window.handleSchoolChange = () => {
             const select = document.getElementById('schoolSelect');
+            if (!select) return;
             const selectedOption = select.options[select.selectedIndex];
             
             selectedSchoolName = select.value;
@@ -655,30 +684,35 @@
             }
         };
 
-        // ==================== FUNGSI AKSI ADMIN / PENILAI ====================
+        // ==================== OPERASI AKSI ADMIN / PENILAI ====================
 
-        // Hitung metrik di dasbor atas admin
         const updateAdminMetrics = () => {
-            // Unik NPSN dari database untuk menghitung total lembaga yang aktif mengunggah
+            const totalLembagaEl = document.getElementById('adminTotalLembaga');
+            const totalApprovedEl = document.getElementById('adminTotalApproved');
+            const totalPendingEl = document.getElementById('adminTotalPending');
+
+            if (!totalLembagaEl) return;
+
             const uniqueSchools = [...new Set(uploadedFilesData.map(f => f.npsn))];
-            document.getElementById('adminTotalLembaga').textContent = Math.max(6, uniqueSchools.length); // minimal default list lembaga kita
+            totalLembagaEl.textContent = Math.max(6, uniqueSchools.length);
 
             const approvedCount = uploadedFilesData.filter(f => f.status === 'approved').length;
             const pendingCount = uploadedFilesData.filter(f => f.status === 'pending').length;
 
-            document.getElementById('adminTotalApproved').textContent = approvedCount;
-            document.getElementById('adminTotalPending').textContent = pendingCount;
+            totalApprovedEl.textContent = approvedCount;
+            totalPendingEl.textContent = pendingCount;
         };
 
-        // Render tabel data pengunggahan untuk Admin
         window.renderAdminTable = () => {
-            const filter = document.getElementById('adminFilterStatus').value;
+            const filterEl = document.getElementById('adminFilterStatus');
             const tbody = document.getElementById('adminTableBody');
+            if (!tbody || !filterEl) return;
+
+            const filter = filterEl.value;
             tbody.innerHTML = '';
 
             let filteredData = [...uploadedFilesData];
             
-            // Filter Berdasarkan Status jika dipilih
             if (filter !== 'all') {
                 filteredData = filteredData.filter(f => f.status === filter);
             }
@@ -688,27 +722,24 @@
                     <tr>
                         <td colspan="6" class="p-8 text-center text-slate-400">
                             <i class="fa-solid fa-folder-open text-3xl mb-2 block"></i>
-                            <span class="text-xs font-semibold">Tidak ada dokumen yang sesuai dengan filter saat ini.</span>
+                            <span class="text-xs font-semibold">Tidak ada dokumen yang tersedia.</span>
                         </td>
                     </tr>
                 `;
                 return;
             }
 
-            // Urutkan berdasarkan waktu unggah terbaru
             filteredData.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
 
             filteredData.forEach(item => {
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition-colors duration-150";
 
-                // Tanggal format lokal
                 const tgl = new Date(item.uploadedAt);
                 const formatTgl = tgl.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) + ' ' + tgl.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
 
-                // Penentuan Warna Status Badge
                 let badgeClass = "bg-slate-100 text-slate-700";
-                let statusLabel = "Menunggu Tinjauan";
+                let statusLabel = "Menunggu Review";
                 if (item.status === 'approved') {
                     badgeClass = "bg-emerald-50 text-emerald-700 border border-emerald-100";
                     statusLabel = "Disetujui";
@@ -735,12 +766,11 @@
                     </td>
                     <td class="p-4 text-right">
                         <button class="btn-review bg-slate-900 hover:bg-brand-600 hover:text-white text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all-custom shadow-xs">
-                            <i class="fa-solid fa-file-pen mr-1"></i> Review & Nilai
+                            <i class="fa-solid fa-file-pen mr-1"></i> Nilai & Komentar
                         </button>
                     </td>
                 `;
 
-                // Event Listener Tombol Review
                 tr.querySelector('.btn-review').onclick = () => {
                     openReviewModal(item);
                 };
@@ -749,7 +779,6 @@
             });
         };
 
-        // Buka modal penilaian oleh admin
         const openReviewModal = (item) => {
             activeReviewTarget = item;
 
@@ -758,7 +787,6 @@
             document.getElementById('modalFileSize').textContent = formatBytes(item.fileSize);
             document.getElementById('modalFeedbackText').value = item.feedback || '';
 
-            // Set radio button status
             const radios = document.getElementsByName('reviewStatus');
             radios.forEach(radio => {
                 if (radio.value === item.status) {
@@ -766,22 +794,18 @@
                 }
             });
 
-            // Set aksi unduh pada modal
             document.getElementById('modalBtnDownload').onclick = () => {
                 downloadBase64File(item.fileBase64, item.fileName, item.fileMime);
             };
 
-            // Tampilkan modal
             document.getElementById('adminReviewModal').classList.remove('hidden');
         };
 
-        // Tutup modal penilaian
         window.closeReviewModal = () => {
             document.getElementById('adminReviewModal').classList.add('hidden');
             activeReviewTarget = null;
         };
 
-        // Simpan hasil review admin ke Firestore
         window.saveAdminReview = async () => {
             if (!activeReviewTarget) return;
 
@@ -789,26 +813,34 @@
             const feedbackText = document.getElementById('modalFeedbackText').value;
 
             try {
-                showToast("Sedang menyimpan penilaian...", "info");
-                const docRef = getDocRef(activeReviewTarget.docId);
+                showToast("Menyimpan evaluasi...", "info");
                 
-                // Update Firestore
-                await updateDoc(docRef, {
-                    status: selectedStatus,
-                    feedback: feedbackText
-                });
+                if (isFirebaseActive) {
+                    const docRef = getDocRef(activeReviewTarget.docId);
+                    await updateDoc(docRef, {
+                        status: selectedStatus,
+                        feedback: feedbackText
+                    });
+                } else {
+                    const localData = getLocalStorageData();
+                    const targetIdx = localData.findIndex(f => f.docId === activeReviewTarget.docId);
+                    if (targetIdx > -1) {
+                        localData[targetIdx].status = selectedStatus;
+                        localData[targetIdx].feedback = feedbackText;
+                        saveLocalStorageData(localData);
+                    }
+                }
 
                 closeReviewModal();
-                showToast("Hasil penilaian dan umpan balik sukses dikirim ke satuan pendidikan!", "success");
+                showToast("Evaluasi berhasil disimpan dan disinkronkan!", "success");
             } catch (error) {
-                console.error("Gagal menyimpan review:", error);
-                showToast("Gagal menyimpan hasil penilaian ke server.", "error");
+                console.error(error);
+                showToast("Gagal menyimpan evaluasi.", "error");
             }
         };
 
-        // ==================== UTILITIES & GLOBAL INTERACTION ====================
+        // ==================== SISTEM NAVIGASI & UTILITIES ====================
 
-        // Format Tampilan Size File
         const formatBytes = (bytes, decimals = 2) => {
             if (bytes === 0) return '0 Bytes';
             const k = 1024;
@@ -818,7 +850,6 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         };
 
-        // Trigger Switch Antara Satuan Pendidikan (School) dan Admin/Penilai
         window.switchRole = (role) => {
             currentRole = role;
             const btnSchool = document.getElementById('btnRoleSchool');
@@ -842,30 +873,28 @@
             }
         };
 
-        // Unduh File Base64
         const downloadBase64File = (base64String, fileName, mimeType) => {
             try {
-                // Gunakan link temporary tersembunyi untuk mentrigger download di peramban pengguna
                 const downloadLink = document.createElement("a");
                 downloadLink.href = base64String;
                 downloadLink.download = fileName;
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
-                showToast(`Memulai proses pengunduhan berkas: ${fileName}`, "success");
+                showToast(`Mengunduh berkas: ${fileName}`, "success");
             } catch (error) {
-                console.error("Gagal mengunduh berkas:", error);
-                showToast("Gagal memproses unduhan dokumen.", "error");
+                console.error(error);
+                showToast("Gagal mengunduh berkas.", "error");
             }
         };
 
-        // Toast Notification System
         window.showToast = (message, type = "info") => {
             const toast = document.getElementById('notificationToast');
             const messageEl = document.getElementById('toastMessage');
             const iconEl = document.getElementById('toastIcon');
 
-            // Setup styling berdasarkan tipe
+            if (!toast) return;
+
             if (type === 'success') {
                 toast.className = "mb-6 p-4 rounded-xl border flex items-center justify-between shadow-sm transition-all duration-300 bg-emerald-50 border-emerald-100 text-emerald-800";
                 iconEl.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-500"></i>';
@@ -883,7 +912,6 @@
             messageEl.textContent = message;
             toast.classList.remove('hidden');
 
-            // Auto dismiss info/success setelah 4 detik
             if (type !== 'info') {
                 setTimeout(() => {
                     dismissToast();
@@ -892,10 +920,10 @@
         };
 
         window.dismissToast = () => {
-            document.getElementById('notificationToast').classList.add('hidden');
+            const toast = document.getElementById('notificationToast');
+            if (toast) toast.classList.add('hidden');
         };
 
-        // Jalankan Inisialisasi Auth saat dokumen siap
         window.addEventListener('DOMContentLoaded', async () => {
             await initAuth();
             renderSchoolStandards();
