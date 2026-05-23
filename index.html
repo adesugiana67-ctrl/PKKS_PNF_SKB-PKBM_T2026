@@ -490,8 +490,6 @@
         // Autentikasi Mandiri Pintar (Bypass Auth untuk pengetesan lokal file://)
         const initAuth = async () => {
             if (!isFirebaseActive) {
-                uploadedFilesData = getLocalStorageData();
-                triggerUIRefresh();
                 return;
             }
 
@@ -500,21 +498,17 @@
 
             if (isLocalProtocol) {
                 console.log("Aplikasi dibuka secara lokal (file://). Firebase Auth dilewati, menghubungkan langsung ke database...");
-                // Langsung aktifkan listener Firestore. 
-                // Karena rules Anda diset "allow read, write: if true", Firestore akan sukses terkoneksi tanpa login!
                 setupRealtimeListener();
                 return;
             }
 
             try {
-                // Proses login online normal (untuk hosting HTTP/HTTPS)
+                // Proses login online asinkron di latar belakang
                 const credential = await signInAnonymously(auth);
                 currentUser = credential.user;
                 setupRealtimeListener();
             } catch (error) {
                 console.warn("Autentikasi gagal, mencoba koneksi database langsung tanpa login...", error);
-                // Jika login gagal (misal domain belum di-add), jangan menyerah!
-                // Coba tembak langsung ke database, karena rules Anda terbuka untuk publik (if true), ini akan sukses terkoneksi!
                 setupRealtimeListener(error.code || error.message);
             }
         };
@@ -524,7 +518,18 @@
             if (!isFirebaseActive) return;
 
             const q = getCollectionRef();
+            
+            // Set timeout 4 detik untuk beralih ke local jika koneksi Firestore menggantung (hang)
+            const connTimeout = setTimeout(() => {
+                if (uploadedFilesData.length === 0) {
+                    console.log("Koneksi lambat, menggunakan data lokal terlebih dahulu.");
+                    uploadedFilesData = getLocalStorageData();
+                    triggerUIRefresh();
+                }
+            }, 4000);
+
             onSnapshot(q, (snapshot) => {
+                clearTimeout(connTimeout);
                 uploadedFilesData = [];
                 snapshot.forEach((doc) => {
                     uploadedFilesData.push({
@@ -541,6 +546,7 @@
                 statusIcon.className = "fa-solid fa-circle text-emerald-500 animate-none";
                 statusText.textContent = "Database Online Terkoneksi (Cloud Firestore)";
             }, (error) => {
+                clearTimeout(connTimeout);
                 console.warn("Firestore ditolak:", error);
                 
                 // Masuk ke mode lokal jika database gagal total
@@ -973,9 +979,18 @@
             if (toast) toast.classList.add('hidden');
         };
 
-        window.addEventListener('DOMContentLoaded', async () => {
-            await initAuth();
-            renderSchoolStandards();
+        // EVENT LISTENER UTAMA (DIUBAH MENJADI NON-BLOCKING / INSTANT LOAD)
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. Muat data luring instan dari memori lokal agar halaman tidak hang (0.1 detik langsung terbuka)
+            uploadedFilesData = getLocalStorageData();
+            triggerUIRefresh();
+            
+            // Set status indikator awal
+            statusBadge.className = "mb-4 px-4 py-3 rounded-xl text-xs font-bold inline-flex flex-col md:flex-row md:items-center gap-2 shadow-sm border bg-amber-50 border-amber-100 text-amber-800";
+            statusText.textContent = "Menghubungkan ke database online... (Menggunakan database lokal sementara)";
+
+            // 2. Lakukan inisialisasi koneksi Firebase di latar belakang secara senyap (asinkronus)
+            initAuth();
         });
     </script>
 </body>
