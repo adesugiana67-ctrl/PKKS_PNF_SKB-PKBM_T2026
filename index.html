@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PKKS PNF SKB/PKBM - Kabupaten Sumedang 2026</title>
-    <!-- Google Fonts Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Tailwind CSS for elegant components -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,11 +31,9 @@
         }
     </script>
     <style>
-        /* Smooth Custom Transitions */
         .transition-all-custom {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -57,7 +52,6 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
 
-    <!-- TOP HEADER / BRANDING -->
     <header class="bg-gradient-to-r from-brand-900 to-slate-900 text-white shadow-md py-4 px-6 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
@@ -70,7 +64,6 @@
                 </div>
             </div>
             
-            <!-- ROLE SELECTOR -->
             <div class="flex items-center bg-slate-800/80 p-1 rounded-full border border-slate-700">
                 <button id="btnRoleSchool" onclick="switchRole('school')" class="px-4 py-1.5 rounded-full text-xs font-semibold transition-all-custom bg-brand-500 text-white">
                     <i class="fa-solid fa-school mr-1.5"></i>Satuan Pendidikan
@@ -82,10 +75,8 @@
         </div>
     </header>
 
-    <!-- MAIN CONTAINER -->
     <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8">
         
-        <!-- ALERT BOX UNTUK NOTIFIKASI -->
         <div id="notificationToast" class="hidden mb-6 p-4 rounded-xl border flex items-center justify-between shadow-sm transition-all duration-300">
             <div class="flex items-center gap-3">
                 <span id="toastIcon" class="text-lg"></span>
@@ -96,7 +87,6 @@
             </button>
         </div>
 
-        <!-- INDICATOR KONEKSI DATABASE (Dengan Diagnostik Eror Spesifik) -->
         <div id="dbStatusBadge" class="mb-4 px-4 py-3 rounded-xl text-xs font-bold inline-flex flex-col md:flex-row md:items-center gap-2 shadow-sm border w-full max-w-3xl transition-all duration-300 bg-amber-50 border-amber-100 text-amber-800">
             <div class="flex items-center gap-2">
                 <i id="dbStatusIcon" class="fa-solid fa-circle animate-pulse text-amber-500"></i>
@@ -105,33 +95,39 @@
             <span id="dbStatusText" class="font-medium">Mengecek koneksi database...</span>
         </div>
 
-        <!-- ==================== AREA SATUAN PENDIDIKAN ==================== -->
         <section id="sectionSchool" class="space-y-6">
-            <!-- Pilihan Sekolah & Status -->
             <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 space-y-4">
                     <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
                         <span class="w-1.5 h-6 bg-brand-500 rounded-full"></span>
-                        Identitas Satuan Pendidikan
+                        Identitas Satuan Pendidikan & Kepala Sekolah
                     </h2>
-                    <p class="text-sm text-slate-500">Silakan pilih lembaga PKBM atau SKB Anda untuk memulai proses unggah dokumen evaluasi kinerja.</p>
+                    <p class="text-sm text-slate-500">Silakan pilih lembaga PKBM atau SKB Anda untuk memuat instrumen penilaian kinerja kepala sekolah kesetaraan.</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Nama Lembaga</label>
                             <select id="schoolSelect" onchange="handleSchoolChange()" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 bg-slate-50 text-sm font-medium">
                                 <option value="">-- Pilih Satuan Pendidikan --</option>
-                                <option value="SKB Sumedang" data-npsn="P9961234">SKB Sumedang (P9961234)</option>
-                                <option value="PKBM At-Taqwa" data-npsn="P9961111">PKBM At-Taqwa (P9961111)</option>
-                                <option value="PKBM Bina Mandiri" data-npsn="P9961122">PKBM Bina Mandiri (P9961122)</option>
-                                <option value="PKBM Insan Mandiri" data-npsn="P9961133">PKBM Insan Mandiri (P9961133)</option>
-                                <option value="PKBM Melati" data-npsn="P9961144">PKBM Melati (P9961144)</option>
-                                <option value="PKBM Sejahtera" data-npsn="P9961155">PKBM Sejahtera (P9961155)</option>
+                                <option value="SKB Sumedang" data-npsn="P9961234" data-kepsek="Drs. H. Ahmad Fauzi, M.Pd." data-alamat="Jl. Angkasa No. 12, Sumedang Utara, Sumedang">SKB Sumedang (P9961234)</option>
+                                <option value="PKBM At-Taqwa" data-npsn="P9961111" data-kepsek="Siti Aminah, S.Pd.I." data-alamat="Jl. Pesantren No. 45, Cimalaka, Sumedang">PKBM At-Taqwa (P9961111)</option>
+                                <option value="PKBM Bina Mandiri" data-npsn="P9961122" data-kepsek="Dedi Setiadi, S.E." data-alamat="Dusun Sukamaju RT 02/RW 05, Tanjungsari, Sumedang">PKBM Bina Mandiri (P9961122)</option>
+                                <option value="PKBM Insan Mandiri" data-npsn="P9961133" data-kepsek="Irwan Hermawan, S.Pd." data-alamat="Jl. Raya Jatinangor No. 88, Jatinangor, Sumedang">PKBM Insan Mandiri (P9961133)</option>
+                                <option value="PKBM Melati" data-npsn="P9961144" data-kepsek="Dewi Lestari, S.Sos." data-alamat="Kp. Baru RT 01/RW 03, Situraja, Sumedang">PKBM Melati (P9961144)</option>
+                                <option value="PKBM Sejahtera" data-npsn="P9961155" data-kepsek="Budi Santoso, S.Kom." data-alamat="Jl. Pangeran Kornel No. 201, Sumedang Selatan, Sumedang">PKBM Sejahtera (P9961155)</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">NPSN</label>
                             <input type="text" id="schoolNpsn" placeholder="NPSN Otomatis Terisi" disabled class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-100 text-slate-500 text-sm font-medium focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Nama Kepala Sekolah / Kepala SKB</label>
+                            <input type="text" id="schoolKepsek" placeholder="Nama Kepala Otomatis Terisi" disabled class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-100 text-slate-500 text-sm font-medium focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Alamat Lembaga</label>
+                            <input type="text" id="schoolAlamat" placeholder="Alamat Otomatis Terisi" disabled class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-100 text-slate-500 text-sm font-medium focus:outline-none">
                         </div>
                     </div>
                 </div>
@@ -141,34 +137,32 @@
                         <span class="text-xs font-bold text-brand-700 bg-brand-100 px-2.5 py-1 rounded-full uppercase tracking-wider">Status Dokumen</span>
                         <div class="mt-4 flex items-baseline gap-2">
                             <span id="schoolStatsUploaded" class="text-3xl font-extrabold text-brand-900">0</span>
-                            <span class="text-slate-500 text-sm">/ 8 Standar Diunggah</span>
+                            <span id="schoolStatsTotal" class="text-slate-500 text-sm">/ 9 Borang Diunggah</span>
                         </div>
                     </div>
-                    <p class="text-xs text-brand-800/80 mt-4 leading-relaxed"><i class="fa-solid fa-circle-info mr-1"></i> Unggah berkas dalam format PDF atau Gambar (maksimal 750 KB per file) agar terekam dengan baik pada sistem.</p>
+                    <p class="text-xs text-brand-800/80 mt-4 leading-relaxed"><i class="fa-solid fa-circle-info mr-1"></i> Unggah dokumen pendukung instrumen PNF Kesetaraan (PDF/Gambar maksimal 750 KB) sebagai pemenuhan porto kinerja.</p>
                 </div>
             </div>
 
-            <!-- FORM UNGGAH PER STANDAR -->
             <div id="schoolUploadArea" class="hidden space-y-6">
                 <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
                     <h3 class="text-base font-bold text-slate-900 mb-6 flex items-center gap-2">
                         <i class="fa-solid fa-cloud-arrow-up text-brand-500"></i>
-                        Unggah Bukti Fisik Standar Nasional Pendidikan
+                        Borang Penilaian Kinerja Kepala Sekolah (PKKS) PNF SKB/PKBM Kesetaraan
                     </h3>
 
-                    <!-- GRID STANDAR -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <template id="standarTemplate">
                             <div class="p-5 rounded-xl border border-slate-100 hover:border-slate-200 hover:shadow-sm bg-slate-50/50 transition-all-custom flex flex-col justify-between space-y-4">
                                 <div class="flex items-start justify-between gap-3">
                                     <div class="space-y-1">
-                                        <span class="text-[10px] font-bold tracking-widest text-brand-600 uppercase block standar-code">STANDAR</span>
-                                        <h4 class="text-sm font-bold text-slate-800 standar-title">Nama Standar</h4>
+                                        <span class="text-[10px] font-bold tracking-widest text-brand-600 uppercase block standar-code">BORANG</span>
+                                        <h4 class="text-sm font-bold text-slate-800 standar-title">Nama Komponen</h4>
+                                        <p class="text-xs text-slate-400 font-medium leading-relaxed standar-desc">Deskripsi rincian instrumen penilaian...</p>
                                     </div>
-                                    <span class="status-badge px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase">Belum Diunggah</span>
+                                    <span class="status-badge px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase flex-shrink-0">Belum Diunggah</span>
                                 </div>
 
-                                <!-- Preview Berkas -->
                                 <div class="file-preview-area hidden bg-white p-3 rounded-lg border border-slate-100 flex items-center justify-between">
                                     <div class="flex items-center gap-2 overflow-hidden">
                                         <i class="fa-solid fa-file-pdf text-red-500 text-lg flex-shrink-0"></i>
@@ -187,17 +181,15 @@
                                     </div>
                                 </div>
 
-                                <!-- Feedback Catatan Penilai -->
                                 <div class="feedback-area hidden p-3 rounded-lg bg-amber-50 border border-amber-100 text-amber-900 text-xs">
                                     <p class="font-bold flex items-center gap-1"><i class="fa-solid fa-comment-dots text-amber-500"></i> Catatan Penilai:</p>
                                     <p class="mt-1 font-medium feedback-txt">Catatan di sini...</p>
                                 </div>
 
-                                <!-- Upload Input Area -->
                                 <div class="upload-input-container">
                                     <label class="flex flex-col items-center justify-center border-2 border-dashed border-slate-200 hover:border-brand-400 rounded-xl py-4 px-2 cursor-pointer bg-white transition-all duration-300">
                                         <i class="fa-solid fa-file-arrow-up text-slate-400 mb-1 text-lg"></i>
-                                        <span class="text-xs font-semibold text-slate-600 hover:text-brand-500">Pilih Berkas PDF/Gambar</span>
+                                        <span class="text-xs font-semibold text-slate-600 hover:text-brand-500">Pilih Berkas Bukti Fisik</span>
                                         <span class="text-[9px] text-slate-400 mt-0.5">Maksimal 750 KB</span>
                                         <input type="file" accept=".pdf,image/*" class="hidden file-input" onchange="handleFileUpload(event)">
                                     </label>
@@ -205,32 +197,28 @@
                             </div>
                         </template>
                         <div id="standarContainer" class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Diisi lewat JS secara dinamis -->
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAMPILAN JIKA BELUM PILIH SEKOLAH -->
             <div id="schoolEmptyState" class="bg-white rounded-2xl p-12 text-center border border-slate-100 shadow-sm flex flex-col items-center justify-center space-y-4">
                 <div class="bg-slate-50 p-6 rounded-full text-slate-400">
                     <i class="fa-solid fa-school-flag text-5xl"></i>
                 </div>
                 <h3 class="text-base font-bold text-slate-800">Silakan Pilih Lembaga Terlebih Dahulu</h3>
-                <p class="text-sm text-slate-500 max-w-md">Setelah Anda memilih nama lembaga dan mengisi NPSN, sistem akan memuat data dokumen bukti fisik Anda langsung secara otomatis.</p>
+                <p class="text-sm text-slate-500 max-w-md">Setelah Anda memilih nama lembaga, sistem akan secara otomatis memuat nama Kepala Sekolah, Alamat, serta instrumen Borang Penilaian PNF Kesetaraan.</p>
             </div>
         </section>
 
-        <!-- ==================== AREA ADMIN / PENILAI ==================== -->
         <section id="sectionAdmin" class="hidden space-y-6">
-            <!-- Dasbor Ringkasan Admin -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm flex items-center gap-5">
                     <div class="bg-brand-50 p-4 rounded-xl text-brand-600">
                         <i class="fa-solid fa-school text-3xl"></i>
                     </div>
                     <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Total Sekolah Terdata</p>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Total Lembaga Terdata</p>
                         <h3 id="adminTotalLembaga" class="text-3xl font-extrabold text-slate-800 mt-1">6</h3>
                     </div>
                 </div>
@@ -239,7 +227,7 @@
                         <i class="fa-solid fa-file-circle-check text-3xl"></i>
                     </div>
                     <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Dokumen Disetujui</p>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Borang Disetujui</p>
                         <h3 id="adminTotalApproved" class="text-3xl font-extrabold text-emerald-600 mt-1">0</h3>
                     </div>
                 </div>
@@ -248,24 +236,22 @@
                         <i class="fa-solid fa-file-circle-exclamation text-3xl"></i>
                     </div>
                     <div>
-                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Dokumen Butuh Tinjauan</p>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Borang Butuh Tinjauan</p>
                         <h3 id="adminTotalPending" class="text-3xl font-extrabold text-amber-600 mt-1">0</h3>
                     </div>
                 </div>
             </div>
 
-            <!-- TABEL REKAPITULASI DOKUMEN SATUAN PENDIDIKAN -->
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="p-6 border-b border-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Rekapitulasi Pengunggahan Lembaga</h3>
-                        <p class="text-xs text-slate-400 mt-1">Pantau seluruh dokumen unggahan PKKS satuan pendidikan secara real-time.</p>
+                        <h3 class="text-base font-bold text-slate-900">Rekapitulasi Pengunggahan Borang PKKS</h3>
+                        <p class="text-xs text-slate-400 mt-1">Pantau dokumen instrumen penilaian kinerja kepala sekolah secara real-time.</p>
                     </div>
-                    <!-- Filter Status -->
                     <div class="flex items-center gap-2">
                         <span class="text-xs font-semibold text-slate-400">Filter:</span>
                         <select id="adminFilterStatus" onchange="renderAdminTable()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500/25">
-                            <option value="all">Semua Dokumen</option>
+                            <option value="all">Semua Komponen</option>
                             <option value="pending">Perlu Review</option>
                             <option value="approved">Disetujui</option>
                             <option value="rejected">Perlu Revisi</option>
@@ -277,8 +263,8 @@
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-slate-50 text-slate-400 text-[10px] font-bold tracking-wider uppercase border-b border-slate-100">
-                                <th class="p-4">Lembaga & NPSN</th>
-                                <th class="p-4">Standar</th>
+                                <th class="p-4">Lembaga & Identitas</th>
+                                <th class="p-4">Komponen Borang PNF Kesetaraan</th>
                                 <th class="p-4">Tanggal Unggah</th>
                                 <th class="p-4">Nama File & Ukuran</th>
                                 <th class="p-4">Status</th>
@@ -302,13 +288,11 @@
 
     </main>
 
-    <!-- FOOTER -->
     <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 text-center mt-12">
         <p class="mb-1">&copy; 2026 PKKS PNF Sumedang &bull; Kabupaten Sumedang, Jawa Barat.</p>
-        <p class="text-slate-600">Sistem Portal Mandiri - Mendukung Sinkronisasi Cloud & GitHub Pages.</p>
+        <p class="text-slate-600">Sistem Portal Mandiri - Instrumen Penilaian Kinerja Kepala SKB/PKBM Kesetaraan.</p>
     </footer>
 
-    <!-- MODAL PENILAIAN / ACTION ADMIN -->
     <div id="adminReviewModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl border border-slate-100">
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
@@ -317,8 +301,8 @@
                         <i class="fa-solid fa-clipboard-check"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-900 text-sm">Review Berkas PKKS</h3>
-                        <p class="text-[10px] text-slate-400 mt-0.5" id="modalSubTitle">SKB Sumedang &bull; Standar 1</p>
+                        <h3 class="font-bold text-slate-900 text-sm">Review Berkas Borang PKKS</h3>
+                        <p class="text-[10px] text-slate-400 mt-0.5" id="modalSubTitle">SKB Sumedang &bull; Komponen 1</p>
                     </div>
                 </div>
                 <button onclick="closeReviewModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
@@ -327,7 +311,6 @@
             </div>
             
             <div class="p-6 space-y-5">
-                <!-- Info Berkas -->
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex items-center justify-between">
                     <div class="flex items-center gap-3 overflow-hidden">
                         <i class="fa-solid fa-file-pdf text-red-500 text-2xl flex-shrink-0"></i>
@@ -341,7 +324,6 @@
                     </button>
                 </div>
 
-                <!-- Update Status -->
                 <div class="space-y-2">
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Tentukan Status Dokumen</label>
                     <div class="grid grid-cols-3 gap-3">
@@ -350,7 +332,7 @@
                             <span class="text-xs font-bold text-emerald-700">Disetujui</span>
                         </label>
                         <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-slate-100 hover:border-amber-300 bg-slate-50 cursor-pointer transition-all-custom">
-                            <input type="radio" name="reviewStatus" value="rejected" class="text-amber-500 focus:ring-amber-500">
+                            <input type="radio" name="reviewStatus" value="rejected" class="text-amber-500 focus:ring-emerald-500">
                             <span class="text-xs font-bold text-amber-700">Perlu Revisi</span>
                         </label>
                         <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-slate-100 hover:border-slate-300 bg-slate-50 cursor-pointer transition-all-custom">
@@ -360,14 +342,12 @@
                     </div>
                 </div>
 
-                <!-- Komentar Catatan -->
                 <div class="space-y-2">
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Catatan Evaluator / Penilai</label>
-                    <textarea id="modalFeedbackText" rows="3" placeholder="Tulis masukan, catatan revisi, atau koreksi dokumen di sini jika ada..." class="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs font-medium"></textarea>
+                    <textarea id="modalFeedbackText" rows="3" placeholder="Tulis masukan skor, catatan verifikasi borang kesetaraan di sini..." class="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs font-medium"></textarea>
                 </div>
             </div>
 
-            <!-- Footer Action Modal -->
             <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
                 <button onclick="closeReviewModal()" class="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-700 transition-all">Batal</button>
                 <button onclick="saveAdminReview()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-1.5">
@@ -378,15 +358,11 @@
     </div>
 
 
-    <!-- ==================== FIREBASE ENGINE DENGAN FALLBACK LOKAL (GITHUB-COMPATIBLE) ==================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, query, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, collection, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // =========================================================================
-        // PROYEK FIREBASE ASLI YANG DIAMBIL DARI GAMBAR SCREENSHOT ANDA (AKTIF)
-        // =========================================================================
         const myActualFirebaseConfig = {
             apiKey: "AIzaSyArp_Qp_fG7X3K3X6P8pD7n2t9D9v1E",
             authDomain: "pkks-pnf-sumedang.firebaseapp.com",
@@ -395,28 +371,12 @@
             messagingSenderId: "248066804595",
             appId: "1:248066804595:web:86de0888df4c3e8568c07e"
         };
-        // =========================================================================
 
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'pkks-pnf-sumedang-2026';
-        let firebaseConfig = null;
+        let firebaseConfig = myActualFirebaseConfig;
         let isFirebaseActive = false;
         let db, auth;
 
-        // Mendeteksi apakah dijalankan di Canvas Sandbox atau Mandiri di GitHub
-        try {
-            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                firebaseConfig = JSON.parse(__firebase_config);
-            }
-        } catch (e) {
-            console.warn("Menggunakan mode mandiri/GitHub.");
-        }
-
-        // Jika tidak ada konfigurasi otomatis dari Canvas, beralih ke konfigurasi manual user
-        if (!firebaseConfig || !firebaseConfig.projectId || firebaseConfig.projectId.includes("dummy")) {
-            firebaseConfig = myActualFirebaseConfig;
-        }
-
-        // Inisialisasi Firebase aman
         const statusBadge = document.getElementById('dbStatusBadge');
         const statusText = document.getElementById('dbStatusText');
         const statusIcon = document.getElementById('dbStatusIcon');
@@ -427,39 +387,34 @@
                 auth = getAuth(app);
                 db = getFirestore(app);
                 isFirebaseActive = true;
-            } else {
-                isFirebaseActive = false;
-                statusBadge.className = "mb-4 px-4 py-3 rounded-xl text-xs font-bold inline-flex flex-col md:flex-row md:items-center gap-2 shadow-sm border bg-amber-50 border-amber-100 text-amber-800";
-                statusText.textContent = "Mode Sandbox Lokal (Silakan isi firebaseConfig asli Anda di dalam kode)";
             }
         } catch (error) {
-            console.warn("Firebase gagal diinisialisasi secara online, mengaktifkan mode sandbox lokal:", error);
+            console.warn("Firebase offline mode sandbox aktif.", error);
             isFirebaseActive = false;
-            statusBadge.className = "mb-4 px-4 py-3 rounded-xl text-xs font-bold inline-flex flex-col md:flex-row md:items-center gap-2 shadow-sm border bg-amber-50 border-amber-100 text-amber-800";
-            statusText.textContent = "Mode Sandbox Lokal Aktif (Koneksi Database Offline)";
         }
 
-        // List 8 Standar Nasional Pendidikan
+        // DATA INSTRUMEN PNF SATUAN PENDIDIKAN KESETARAAN (9 INDIKATOR)
         const daftarStandar = [
-            { id: "S1", title: "Standar Isi", code: "Standar 1" },
-            { id: "S2", title: "Standar Proses", code: "Standar 2" },
-            { id: "S3", title: "Standar Kompetensi Lulusan", code: "Standar 3" },
-            { id: "S4", title: "Standar Pendidik & Tenaga Kependidikan", code: "Standar 4" },
-            { id: "S5", title: "Standar Sarana & Prasarana", code: "Standar 5" },
-            { id: "S6", title: "Standar Pengelolaan", code: "Standar 6" },
-            { id: "S7", title: "Standar Pembiayaan", code: "Standar 7" },
-            { id: "S8", title: "Standar Penilaian Pendidikan", code: "Standar 8" }
+            { id: "B1", title: "Penyusunan RKJM & RKT Lembaga", code: "Borang 1", desc: "Ketersediaan program kerja jangka panjang (RKJM) dan tahunan (RKT) yang melibatkan tutor dan pamong belajar." },
+            { id: "B2", title: "Tata Kelola Sarana, Prasarana & Media", code: "Borang 2", desc: "Optimalisasi ruang tutorial, ketersediaan perangkat teknologi informasi (komputer), modul cetak/digital, dan inventarisasi sarana." },
+            { id: "B3", title: "Administrasi Warga Belajar & Tutor", code: "Borang 3", desc: "Kerapian data Buku Induk Warga Belajar, pengelolaan presensi kehadiran tutor, jurnal pengajaran, dan dokumen Dapodik PNF." },
+            { id: "B4", title: "Aliansi Strategis & MoU DUDI", code: "Borang 4", desc: "Jejaring kemitraan magang kerja, sertifikasi kompetensi, dan penyaluran lulusan kursus / warga belajar paket dengan Dunia Usaha Dunia Industri." },
+            { id: "B5", title: "Inovasi Inkubasi Usaha Mandiri (Edupreneurship)", code: "Borang 5", desc: "Pengembangan unit bisnis mandiri lembaga (tata busana, katering, jasa sablon, dll) sebagai penopang pembiayaan operasional internal PKBM." },
+            { id: "B6", title: "Supervisi Akademik & Pembelajaran", code: "Borang 6", desc: "Ketersediaan program, instrumen, dan jadwal pemantauan perangkat pembelajaran mandiri tutor serta observasi metode tutorial tatap muka." },
+            { id: "B7", title: "Evaluasi Mutu Pembelajaran & Tindak Lanjut", code: "Borang 7", desc: "Pelaksanaan tindak lanjut hasil supervisi, pembinaan tutor, perbaikan modul/Rencana Pelaksanaan Pembelajaran (RPP) non-formal." },
+            { id: "B8", title: "Penuntasan Anak Tidak Sekolah (ATS)", code: "Borang 8", desc: "Inisiatif dan program nyata penarikan anak putus sekolah ke dalam sistem kesetaraan, penyediaan beasiswa, dan kerjasama pendataan wilayah." },
+            { id: "B9", title: "Kepeloporan Sosial & Pengabdian Masyarakat", code: "Borang 9", desc: "Keterlibatan aktif lembaga dalam memecahkan problematika sosial, kemitraan pemberdayaan komunitas rentan, dan kegiatan bakti sosial." }
         ];
 
-        // State Global Aplikasi
         let currentUser = null;
         let currentRole = "school"; 
         let selectedSchoolName = "";
         let selectedSchoolNpsn = "";
+        let selectedSchoolKepsek = "";
+        let selectedSchoolAlamat = "";
         let uploadedFilesData = []; 
         let activeReviewTarget = null; 
 
-        // Fungsi Cadangan Penyimpanan Lokal jika Firebase Offline di GitHub
         const getLocalStorageData = () => {
             const data = localStorage.getItem(`pkks_data_${appId}`);
             return data ? JSON.parse(data) : [];
@@ -471,107 +426,55 @@
             triggerUIRefresh();
         };
 
-        // Sinkronisasi data ke UI
         const triggerUIRefresh = () => {
             updateSchoolDashboard();
             renderAdminTable();
             updateAdminMetrics();
         };
 
-        // Path Terstruktur Firestore (Aman sesuai regulasi Canvas / Firebase)
-        const getCollectionRef = () => {
-            return collection(db, 'artifacts', appId, 'public', 'data', 'pkk_files');
-        };
+        const getCollectionRef = () => collection(db, 'artifacts', appId, 'public', 'data', 'pkk_files');
+        const getDocRef = (documentId) => doc(db, 'artifacts', appId, 'public', 'data', 'pkk_files', documentId);
 
-        const getDocRef = (documentId) => {
-            return doc(db, 'artifacts', appId, 'public', 'data', 'pkk_files', documentId);
-        };
-
-        // Autentikasi Mandiri Pintar (Bypass Auth untuk pengetesan lokal file://)
         const initAuth = async () => {
-            if (!isFirebaseActive) {
-                return;
-            }
-
-            // Jika aplikasi dibuka secara lokal di browser melalui 'file://'
-            const isLocalProtocol = window.location.protocol === 'file:';
-
-            if (isLocalProtocol) {
-                console.log("Aplikasi dibuka secara lokal (file://). Firebase Auth dilewati, menghubungkan langsung ke database...");
-                setupRealtimeListener();
-                return;
-            }
-
+            if (!isFirebaseActive) { setupRealtimeListener(); return; }
+            if (window.location.protocol === 'file:') { setupRealtimeListener(); return; }
             try {
-                // Proses login online asinkron di latar belakang
                 const credential = await signInAnonymously(auth);
                 currentUser = credential.user;
                 setupRealtimeListener();
             } catch (error) {
-                console.warn("Autentikasi gagal, mencoba koneksi database langsung tanpa login...", error);
                 setupRealtimeListener(error.code || error.message);
             }
         };
 
-        // Listener Real-time Database Firestore (Offline Fallback Handled)
         const setupRealtimeListener = (authError = null) => {
-            if (!isFirebaseActive) return;
+            if (!isFirebaseActive) {
+                uploadedFilesData = getLocalStorageData();
+                triggerUIRefresh();
+                statusBadge.className = "mb-4 px-4 py-3 rounded-xl text-xs font-bold inline-flex flex-col md:flex-row md:items-center gap-2 shadow-sm border bg-amber-50 border-amber-100 text-amber-800";
+                statusText.textContent = "Mode Sandbox Lokal Aktif (Koneksi Database Offline)";
+                return;
+            }
 
             const q = getCollectionRef();
-            
-            // Set timeout 4 detik untuk beralih ke local jika koneksi Firestore menggantung (hang)
-            const connTimeout = setTimeout(() => {
-                if (uploadedFilesData.length === 0) {
-                    console.log("Koneksi lambat, menggunakan data lokal terlebih dahulu.");
-                    uploadedFilesData = getLocalStorageData();
-                    triggerUIRefresh();
-                }
-            }, 4000);
-
             onSnapshot(q, (snapshot) => {
-                clearTimeout(connTimeout);
                 uploadedFilesData = [];
                 snapshot.forEach((doc) => {
-                    uploadedFilesData.push({
-                        docId: doc.id,
-                        ...doc.data()
-                    });
+                    uploadedFilesData.push({ docId: doc.id, ...doc.data() });
                 });
-                
-                // Menandai sukses tersinkronisasi online!
-                isFirebaseActive = true;
                 triggerUIRefresh();
-                
                 statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-emerald-50 border-emerald-100 text-emerald-800";
-                statusIcon.className = "fa-solid fa-circle text-emerald-500 animate-none";
+                statusIcon.className = "fa-solid fa-circle text-emerald-500";
                 statusText.textContent = "Database Online Terkoneksi (Cloud Firestore)";
             }, (error) => {
-                clearTimeout(connTimeout);
-                console.warn("Firestore ditolak:", error);
-                
-                // Masuk ke mode lokal jika database gagal total
                 isFirebaseActive = false;
                 uploadedFilesData = getLocalStorageData();
                 triggerUIRefresh();
-                
                 statusBadge.className = "mb-4 px-4 py-3 rounded-xl text-xs font-bold inline-flex flex-col gap-1 shadow-sm border bg-red-50 border-red-100 text-red-800 w-full max-w-3xl";
-                statusIcon.className = "fa-solid fa-lock text-red-500 mr-1";
-                
-                let errorDetails = `Aturan Firestore (Rules) diblokir.`;
-                if (authError) {
-                    errorDetails += ` (Auth Detail: ${authError})`;
-                }
-                
-                statusText.innerHTML = `
-                    <span class="text-red-700 font-bold block">Akses Cloud Firestore Ditolak (${error.code || 'Permission Denied'})</span>
-                    <span class="text-slate-500 font-normal block mt-1">Pastikan tab <strong>Firestore Database > Rules</strong> Anda sudah diubah menjadi: <code class="bg-red-100 px-1 py-0.5 rounded text-red-800 font-mono text-[10px]">allow read, write: if true;</code> lalu klik <strong>Publish</strong>.</span>
-                    <span class="text-slate-400 font-normal block text-[10px] mt-0.5">${errorDetails}</span>
-                `;
+                statusText.innerHTML = `<span class="text-red-700 font-bold block">Akses Cloud Firestore Ditolak. Mengaktifkan Sinkronisasi Sandbox Browser Lokal.</span>`;
             });
         };
 
-        // ==================== OPERASI AKSI SATUAN PENDIDIKAN ====================
-        
         const renderSchoolStandards = () => {
             const container = document.getElementById('standarContainer');
             const template = document.getElementById('standarTemplate');
@@ -584,6 +487,7 @@
 
                 clone.querySelector('.standar-code').textContent = std.code;
                 clone.querySelector('.standar-title').textContent = std.title;
+                clone.querySelector('.standar-desc').textContent = std.desc;
 
                 const badgeEl = clone.querySelector('.status-badge');
                 const filePreviewEl = clone.querySelector('.file-preview-area');
@@ -600,7 +504,7 @@
                         badgeEl.className = 'status-badge px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-emerald-100 text-emerald-800';
                     } else if (matchingFile.status === 'rejected') {
                         badgeEl.textContent = 'Perlu Revisi';
-                        badgeEl.className = 'status-badge px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-red-100 text-red-800 animate-pulse';
+                        badgeEl.className = 'status-badge px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-red-100 text-red-800';
                     } else {
                         badgeEl.textContent = 'Menunggu Review';
                         badgeEl.className = 'status-badge px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-amber-100 text-amber-800';
@@ -615,24 +519,18 @@
                     };
 
                     filePreviewEl.querySelector('.btn-delete-file').onclick = async () => {
-                        if (confirm(`Apakah Anda yakin ingin menghapus berkas di ${std.title}?`)) {
-                            try {
-                                if (isFirebaseActive) {
-                                    await deleteDoc(getDocRef(matchingFile.docId));
-                                } else {
-                                    const filtered = uploadedFilesData.filter(f => f.docId !== matchingFile.docId);
-                                    saveLocalStorageData(filtered);
-                                }
-                                showToast("Dokumen berhasil dihapus.", "success");
-                            } catch (e) {
-                                console.error(e);
-                                showToast("Gagal menghapus dokumen.", "error");
+                        if (confirm(`Hapus berkas borang ${std.title}?`)) {
+                            if (isFirebaseActive) {
+                                await deleteDoc(getDocRef(matchingFile.docId));
+                            } else {
+                                const filtered = uploadedFilesData.filter(f => f.docId !== matchingFile.docId);
+                                saveLocalStorageData(filtered);
                             }
+                            showToast("Borang berhasil dihapus.", "success");
                         }
                     };
 
                     inputContainerEl.classList.add('hidden');
-
                     if (matchingFile.feedback) {
                         feedbackEl.classList.remove('hidden');
                         feedbackEl.querySelector('.feedback-txt').textContent = matchingFile.feedback;
@@ -644,7 +542,6 @@
                     feedbackEl.classList.add('hidden');
                     inputContainerEl.classList.remove('hidden');
                 }
-
                 container.appendChild(clone);
             });
         };
@@ -653,66 +550,50 @@
             const file = event.target.files[0];
             if (!file) return;
 
-            const maxLimit = 750 * 1024; 
-            if (file.size > maxLimit) {
-                showToast("Ukuran berkas melebihi 750 KB. Silakan diperkecil terlebih dahulu.", "error");
+            if (file.size > 750 * 1024) {
+                showToast("Ukuran berkas melebihi 750 KB.", "error");
                 event.target.value = "";
                 return;
             }
 
             const standarId = event.target.getAttribute('data-standar-id');
             const standarTitle = event.target.getAttribute('data-standar-title');
+            showToast("Mengunggah borang kesetaraan...", "info");
 
-            showToast("Memproses dan mengenkripsi dokumen...", "info");
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async () => {
+                const base64String = reader.result;
+                const documentId = `${selectedSchoolNpsn}_${standarId}`;
 
-            try {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = async () => {
-                    const base64String = reader.result;
-                    const documentId = `${selectedSchoolNpsn}_${standarId}`;
-
-                    const dataDokumen = {
-                        docId: documentId,
-                        npsn: selectedSchoolNpsn,
-                        schoolName: selectedSchoolName,
-                        standarId: standarId,
-                        standarTitle: standarTitle,
-                        fileName: file.name,
-                        fileSize: file.size,
-                        fileMime: file.type,
-                        fileBase64: base64String,
-                        status: 'pending',
-                        uploadedAt: new Date().toISOString(),
-                        feedback: ''
-                    };
-
-                    if (isFirebaseActive) {
-                        await setDoc(getDocRef(documentId), dataDokumen);
-                    } else {
-                        const localData = getLocalStorageData();
-                        const existingIdx = localData.findIndex(f => f.docId === documentId);
-                        if (existingIdx > -1) {
-                            localData[existingIdx] = dataDokumen;
-                        } else {
-                            localData.push(dataDokumen);
-                        }
-                        saveLocalStorageData(localData);
-                    }
-                    showToast(`Sukses mengunggah dokumen ${standarTitle}!`, "success");
+                const dataDokumen = {
+                    docId: documentId,
+                    npsn: selectedSchoolNpsn,
+                    schoolName: selectedSchoolName,
+                    schoolKepsek: selectedSchoolKepsek,
+                    schoolAlamat: selectedSchoolAlamat,
+                    standarId: standarId,
+                    standarTitle: standarTitle,
+                    fileName: file.name,
+                    fileSize: file.size,
+                    fileMime: file.type,
+                    fileBase64: base64String,
+                    status: 'pending',
+                    uploadedAt: new Date().toISOString(),
+                    feedback: ''
                 };
-            } catch (error) {
-                console.error(error);
-                showToast("Proses pengunggahan gagal.", "error");
-            }
-        };
 
-        const updateSchoolDashboard = () => {
-            if (!selectedSchoolNpsn) return;
-            const myFiles = uploadedFilesData.filter(f => f.npsn === selectedSchoolNpsn);
-            const statsEl = document.getElementById('schoolStatsUploaded');
-            if (statsEl) statsEl.textContent = myFiles.length;
-            renderSchoolStandards();
+                if (isFirebaseActive) {
+                    await setDoc(getDocRef(documentId), dataDokumen);
+                } else {
+                    const localData = getLocalStorageData();
+                    const existingIdx = localData.findIndex(f => f.docId === documentId);
+                    if (existingIdx > -1) localData[existingIdx] = dataDokumen;
+                    else localData.push(dataDokumen);
+                    saveLocalStorageData(localData);
+                }
+                showToast(`Sukses mengunggah ${standarId}!`, "success");
+            };
         };
 
         window.handleSchoolChange = () => {
@@ -722,274 +603,170 @@
             
             selectedSchoolName = select.value;
             selectedSchoolNpsn = selectedOption.getAttribute('data-npsn') || '';
+            selectedSchoolKepsek = selectedOption.getAttribute('data-kepsek') || '';
+            selectedSchoolAlamat = selectedOption.getAttribute('data-alamat') || '';
 
-            const npsnInput = document.getElementById('schoolNpsn');
             const uploadArea = document.getElementById('schoolUploadArea');
             const emptyState = document.getElementById('schoolEmptyState');
 
             if (selectedSchoolName) {
-                npsnInput.value = selectedSchoolNpsn;
+                document.getElementById('schoolNpsn').value = selectedSchoolNpsn;
+                document.getElementById('schoolKepsek').value = selectedSchoolKepsek;
+                document.getElementById('schoolAlamat').value = selectedSchoolAlamat;
                 uploadArea.classList.remove('hidden');
                 emptyState.classList.add('hidden');
                 updateSchoolDashboard();
             } else {
-                npsnInput.value = '';
+                document.getElementById('schoolNpsn').value = '';
+                document.getElementById('schoolKepsek').value = '';
+                document.getElementById('schoolAlamat').value = '';
                 uploadArea.classList.add('hidden');
                 emptyState.classList.remove('hidden');
             }
         };
 
-        // ==================== OPERASI AKSI ADMIN / PENILAI ====================
+        const updateSchoolDashboard = () => {
+            if (!selectedSchoolNpsn) return;
+            const myFiles = uploadedFilesData.filter(f => f.npsn === selectedSchoolNpsn);
+            document.getElementById('schoolStatsUploaded').textContent = myFiles.length;
+            renderSchoolStandards();
+        };
 
         const updateAdminMetrics = () => {
             const totalLembagaEl = document.getElementById('adminTotalLembaga');
-            const totalApprovedEl = document.getElementById('adminTotalApproved');
-            const totalPendingEl = document.getElementById('adminTotalPending');
-
             if (!totalLembagaEl) return;
-
             const uniqueSchools = [...new Set(uploadedFilesData.map(f => f.npsn))];
             totalLembagaEl.textContent = Math.max(6, uniqueSchools.length);
-
-            const approvedCount = uploadedFilesData.filter(f => f.status === 'approved').length;
-            const pendingCount = uploadedFilesData.filter(f => f.status === 'pending').length;
-
-            totalApprovedEl.textContent = approvedCount;
-            totalPendingEl.textContent = pendingCount;
+            document.getElementById('adminTotalApproved').textContent = uploadedFilesData.filter(f => f.status === 'approved').length;
+            document.getElementById('adminTotalPending').textContent = uploadedFilesData.filter(f => f.status === 'pending').length;
         };
 
         window.renderAdminTable = () => {
-            const filterEl = document.getElementById('adminFilterStatus');
             const tbody = document.getElementById('adminTableBody');
+            const filterEl = document.getElementById('adminFilterStatus');
             if (!tbody || !filterEl) return;
 
             const filter = filterEl.value;
             tbody.innerHTML = '';
-
             let filteredData = [...uploadedFilesData];
-            
-            if (filter !== 'all') {
-                filteredData = filteredData.filter(f => f.status === filter);
-            }
+            if (filter !== 'all') filteredData = filteredData.filter(f => f.status === filter);
 
             if (filteredData.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="p-8 text-center text-slate-400">
-                            <i class="fa-solid fa-folder-open text-3xl mb-2 block"></i>
-                            <span class="text-xs font-semibold">Tidak ada dokumen yang tersedia.</span>
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400"><i class="fa-solid fa-folder-open text-3xl mb-2 block"></i><span class="text-xs font-semibold">Tidak ada data borang.</span></td></tr>`;
                 return;
             }
 
             filteredData.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
-
             filteredData.forEach(item => {
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 transition-colors duration-150";
-
                 const tgl = new Date(item.uploadedAt);
-                const formatTgl = tgl.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) + ' ' + tgl.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-
-                let badgeClass = "bg-slate-100 text-slate-700";
-                let statusLabel = "Menunggu Review";
-                if (item.status === 'approved') {
-                    badgeClass = "bg-emerald-50 text-emerald-700 border border-emerald-100";
-                    statusLabel = "Disetujui";
-                } else if (item.status === 'rejected') {
-                    badgeClass = "bg-red-50 text-red-700 border border-red-100";
-                    statusLabel = "Perlu Revisi";
-                }
+                const formatTgl = tgl.toLocaleDateString('id-ID') + ' ' + tgl.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
 
                 tr.innerHTML = `
                     <td class="p-4">
                         <p class="font-bold text-slate-800">${item.schoolName}</p>
-                        <p class="text-[10px] text-slate-400 font-mono mt-0.5">NPSN: ${item.npsn}</p>
+                        <p class="text-[10px] text-slate-500 font-medium">KS: ${item.schoolKepsek || '-'}</p>
+                        <p class="text-[9px] text-slate-400 font-mono">NPSN: ${item.npsn}</p>
                     </td>
-                    <td class="p-4">
-                        <span class="text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-1 rounded">${item.standarId} - ${item.standarTitle}</span>
-                    </td>
+                    <td class="p-4"><span class="text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-1 rounded">${item.standarId} - ${item.standarTitle}</span></td>
                     <td class="p-4 text-xs font-medium text-slate-500">${formatTgl}</td>
                     <td class="p-4">
-                        <p class="text-xs font-semibold text-slate-800 truncate max-w-[150px]" title="${item.fileName}">${item.fileName}</p>
-                        <p class="text-[10px] text-slate-400 font-medium">${formatBytes(item.fileSize)}</p>
+                        <p class="text-xs font-semibold text-slate-800 truncate max-w-[150px]">${item.fileName}</p>
+                        <p class="text-[10px] text-slate-400">${formatBytes(item.fileSize)}</p>
                     </td>
-                    <td class="p-4">
-                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${badgeClass}">${statusLabel}</span>
-                    </td>
-                    <td class="p-4 text-right">
-                        <button class="btn-review bg-slate-900 hover:bg-brand-600 hover:text-white text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all-custom shadow-xs">
-                            <i class="fa-solid fa-file-pen mr-1"></i> Nilai & Komentar
-                        </button>
-                    </td>
+                    <td class="p-4"><span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${item.status==='approved'?'bg-emerald-50 text-emerald-700':'bg-amber-50 text-amber-700'}">${item.status==='approved'?'Disetujui':'Review'}</span></td>
+                    <td class="p-4 text-right"><button class="btn-review bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-lg">Nilai</button></td>
                 `;
-
-                tr.querySelector('.btn-review').onclick = () => {
-                    openReviewModal(item);
-                };
-
+                tr.querySelector('.btn-review').onclick = () => openReviewModal(item);
                 tbody.appendChild(tr);
             });
         };
 
         const openReviewModal = (item) => {
             activeReviewTarget = item;
-
             document.getElementById('modalSubTitle').innerHTML = `<strong>${item.schoolName}</strong> &bull; ${item.standarTitle}`;
             document.getElementById('modalFileName').textContent = item.fileName;
             document.getElementById('modalFileSize').textContent = formatBytes(item.fileSize);
             document.getElementById('modalFeedbackText').value = item.feedback || '';
-
-            const radios = document.getElementsByName('reviewStatus');
-            radios.forEach(radio => {
-                if (radio.value === item.status) {
-                    radio.checked = true;
-                }
-            });
-
-            document.getElementById('modalBtnDownload').onclick = () => {
-                downloadBase64File(item.fileBase64, item.fileName, item.fileMime);
-            };
-
+            document.getElementsByName('reviewStatus').forEach(r => { if(r.value === item.status) r.checked = true; });
+            document.getElementById('modalBtnDownload').onclick = () => downloadBase64File(item.fileBase64, item.fileName, item.fileMime);
             document.getElementById('adminReviewModal').classList.remove('hidden');
         };
 
-        window.closeReviewModal = () => {
-            document.getElementById('adminReviewModal').classList.add('hidden');
-            activeReviewTarget = null;
-        };
+        window.closeReviewModal = () => { document.getElementById('adminReviewModal').classList.add('hidden'); };
 
         window.saveAdminReview = async () => {
             if (!activeReviewTarget) return;
-
             const selectedStatus = document.querySelector('input[name="reviewStatus"]:checked').value;
             const feedbackText = document.getElementById('modalFeedbackText').value;
 
-            try {
-                showToast("Menyimpan evaluasi...", "info");
-                
-                if (isFirebaseActive) {
-                    const docRef = getDocRef(activeReviewTarget.docId);
-                    await updateDoc(docRef, {
-                        status: selectedStatus,
-                        feedback: feedbackText
-                    });
-                } else {
-                    const localData = getLocalStorageData();
-                    const targetIdx = localData.findIndex(f => f.docId === activeReviewTarget.docId);
-                    if (targetIdx > -1) {
-                        localData[targetIdx].status = selectedStatus;
-                        localData[targetIdx].feedback = feedbackText;
-                        saveLocalStorageData(localData);
-                    }
-                }
-
-                closeReviewModal();
-                showToast("Evaluasi berhasil disimpan dan disinkronkan!", "success");
-            } catch (error) {
-                console.error(error);
-                showToast("Gagal menyimpan evaluasi.", "error");
+            if (isFirebaseActive) {
+                await updateDoc(getDocRef(activeReviewTarget.docId), { status: selectedStatus, feedback: feedbackText });
+            } else {
+                const localData = getLocalStorageData();
+                const idx = localData.findIndex(f => f.docId === activeReviewTarget.docId);
+                if (idx > -1) { localData[idx].status = selectedStatus; localData[idx].feedback = feedbackText; saveLocalStorageData(localData); }
             }
+            closeReviewModal();
+            showToast("Penilaian Berhasil Disimpan!", "success");
         };
 
-        // ==================== SISTEM NAVIGASI & UTILITIES ====================
-
-        const formatBytes = (bytes, decimals = 2) => {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const dm = decimals < 0 ? 0 : decimals;
-            const sizes = ['Bytes', 'KB', 'MB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-        };
-
+        // INTEGRASI SISTEM KEAMANAN KATA SANDI (PASSWORD PROTECTION)
         window.switchRole = (role) => {
-            currentRole = role;
             const btnSchool = document.getElementById('btnRoleSchool');
             const btnAdmin = document.getElementById('btnRoleAdmin');
-            const secSchool = document.getElementById('sectionSchool');
-            const secAdmin = document.getElementById('sectionAdmin');
-
-            if (role === 'school') {
-                btnSchool.className = "px-4 py-1.5 rounded-full text-xs font-semibold transition-all-custom bg-brand-500 text-white shadow-sm";
-                btnAdmin.className = "px-4 py-1.5 rounded-full text-xs font-semibold transition-all-custom text-slate-300 hover:text-white";
-                secSchool.classList.remove('hidden');
-                secAdmin.classList.add('hidden');
-                updateSchoolDashboard();
-            } else {
-                btnSchool.className = "px-4 py-1.5 rounded-full text-xs font-semibold transition-all-custom text-slate-300 hover:text-white";
-                btnAdmin.className = "px-4 py-1.5 rounded-full text-xs font-semibold transition-all-custom bg-brand-500 text-white shadow-sm";
-                secSchool.classList.add('hidden');
-                secAdmin.classList.remove('hidden');
+            
+            if (role === 'admin') {
+                // Konfigurasi Password Utama Pengakses Admin / Penilai
+                const passwordAdmin = "disdik2026";
+                const inputUser = prompt("Masukkan kata sandi khusus Penilai / Administrator:");
+                
+                if (inputUser !== passwordAdmin) {
+                    alert("Akses ditolak! Kata sandi salah atau tidak sesuai.");
+                    // Kembalikan tombol visual ke Satuan Pendidikan secara aman
+                    btnSchool.className = "px-4 py-1.5 rounded-full text-xs font-semibold bg-brand-500 text-white";
+                    btnAdmin.className = "px-4 py-1.5 rounded-full text-xs font-semibold text-slate-300 hover:text-white";
+                    return;
+                }
+                
+                // Jika password benar
+                currentRole = "admin";
+                btnSchool.className = "px-4 py-1.5 rounded-full text-xs font-semibold text-slate-300 hover:text-white";
+                btnAdmin.className = "px-4 py-1.5 rounded-full text-xs font-semibold bg-brand-500 text-white";
+                document.getElementById('sectionSchool').classList.add('hidden');
+                document.getElementById('sectionAdmin').classList.remove('hidden');
                 renderAdminTable();
-                updateAdminMetrics();
-            }
-        };
-
-        const downloadBase64File = (base64String, fileName, mimeType) => {
-            try {
-                const downloadLink = document.createElement("a");
-                downloadLink.href = base64String;
-                downloadLink.download = fileName;
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-                document.body.removeChild(downloadLink);
-                showToast(`Mengunduh berkas: ${fileName}`, "success");
-            } catch (error) {
-                console.error(error);
-                showToast("Gagal mengunduh berkas.", "error");
-            }
-        };
-
-        window.showToast = (message, type = "info") => {
-            const toast = document.getElementById('notificationToast');
-            const messageEl = document.getElementById('toastMessage');
-            const iconEl = document.getElementById('toastIcon');
-
-            if (!toast) return;
-
-            if (type === 'success') {
-                toast.className = "mb-6 p-4 rounded-xl border flex items-center justify-between shadow-sm transition-all duration-300 bg-emerald-50 border-emerald-100 text-emerald-800";
-                iconEl.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-500"></i>';
-            } else if (type === 'error') {
-                toast.className = "mb-6 p-4 rounded-xl border flex items-center justify-between shadow-sm transition-all duration-300 bg-red-50 border-red-100 text-red-800";
-                iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-500"></i>';
-            } else if (type === 'info') {
-                toast.className = "mb-6 p-4 rounded-xl border flex items-center justify-between shadow-sm transition-all duration-300 bg-blue-50 border-blue-100 text-blue-800";
-                iconEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-blue-500"></i>';
+                showToast("Mode Evaluator Berhasil Dibuka.", "success");
             } else {
-                toast.className = "mb-6 p-4 rounded-xl border flex items-center justify-between shadow-sm transition-all duration-300 bg-slate-50 border-slate-100 text-slate-700";
-                iconEl.innerHTML = '<i class="fa-solid fa-circle-info text-slate-400"></i>';
-            }
-
-            messageEl.textContent = message;
-            toast.classList.remove('hidden');
-
-            if (type !== 'info') {
-                setTimeout(() => {
-                    dismissToast();
-                }, 4000);
+                // Kembali ke Satuan Pendidikan
+                currentRole = "school";
+                btnSchool.className = "px-4 py-1.5 rounded-full text-xs font-semibold bg-brand-500 text-white";
+                btnAdmin.className = "px-4 py-1.5 rounded-full text-xs font-semibold text-slate-300 hover:text-white";
+                document.getElementById('sectionSchool').classList.remove('hidden');
+                document.getElementById('sectionAdmin').classList.add('hidden');
             }
         };
 
-        window.dismissToast = () => {
+        const formatBytes = (b) => b === 0 ? '0 Bytes' : (b / 1024).toFixed(2) + ' KB';
+        const downloadBase64File = (base64, name) => {
+            const a = document.createElement("a"); a.href = base64; a.download = name; a.click();
+        };
+
+        window.showToast = (msg, type) => {
             const toast = document.getElementById('notificationToast');
-            if (toast) toast.classList.add('hidden');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.remove('hidden');
+            if(type==='success') toast.className="mb-6 p-4 rounded-xl border flex bg-emerald-50 text-emerald-800";
+            else toast.className="mb-6 p-4 rounded-xl border flex bg-blue-50 text-blue-800";
+            setTimeout(() => { toast.classList.add('hidden'); }, 3000);
         };
 
-        // EVENT LISTENER UTAMA (DIUBAH MENJADI NON-BLOCKING / INSTANT LOAD)
+        window.dismissToast = () => { document.getElementById('notificationToast').classList.add('hidden'); };
+
         window.addEventListener('DOMContentLoaded', () => {
-            // 1. Muat data luring instan dari memori lokal agar halaman tidak hang (0.1 detik langsung terbuka)
             uploadedFilesData = getLocalStorageData();
             triggerUIRefresh();
-            
-            // Set status indikator awal
-            statusBadge.className = "mb-4 px-4 py-3 rounded-xl text-xs font-bold inline-flex flex-col md:flex-row md:items-center gap-2 shadow-sm border bg-amber-50 border-amber-100 text-amber-800";
-            statusText.textContent = "Menghubungkan ke database online... (Menggunakan database lokal sementara)";
-
-            // 2. Lakukan inisialisasi koneksi Firebase di latar belakang secara senyap (asinkronus)
             initAuth();
         });
     </script>
