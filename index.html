@@ -96,10 +96,13 @@
             </button>
         </div>
 
-        <!-- INDICATOR KONEKSI DATABASE -->
-        <div id="dbStatusBadge" class="mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border">
-            <i class="fa-solid fa-circle animate-pulse"></i>
-            <span id="dbStatusText">Mengecek koneksi database...</span>
+        <!-- INDICATOR KONEKSI DATABASE (Dengan Diagnostik Eror Spesifik) -->
+        <div id="dbStatusBadge" class="mb-4 px-4 py-3 rounded-xl text-xs font-bold inline-flex flex-col md:flex-row md:items-center gap-2 shadow-sm border w-full max-w-3xl transition-all duration-300 bg-amber-50 border-amber-100 text-amber-800">
+            <div class="flex items-center gap-2">
+                <i id="dbStatusIcon" class="fa-solid fa-circle animate-pulse text-amber-500"></i>
+                <span id="dbStatusTitle">Status Server:</span>
+            </div>
+            <span id="dbStatusText" class="font-medium">Mengecek koneksi database...</span>
         </div>
 
         <!-- ==================== AREA SATUAN PENDIDIKAN ==================== -->
@@ -416,6 +419,7 @@
         // Inisialisasi Firebase aman
         const statusBadge = document.getElementById('dbStatusBadge');
         const statusText = document.getElementById('dbStatusText');
+        const statusIcon = document.getElementById('dbStatusIcon');
 
         try {
             if (firebaseConfig.apiKey && firebaseConfig.apiKey !== "SALIN_API_KEY_ANDA_DI_SINI") {
@@ -423,19 +427,15 @@
                 auth = getAuth(app);
                 db = getFirestore(app);
                 isFirebaseActive = true;
-                
-                statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-emerald-50 border-emerald-100 text-emerald-800";
-                statusText.textContent = "Database Online Terkoneksi (Firebase)";
             } else {
-                // Kredensial belum diubah
                 isFirebaseActive = false;
-                statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-amber-50 border-amber-100 text-amber-800";
+                statusBadge.className = "mb-4 px-4 py-3 rounded-xl text-xs font-bold inline-flex flex-col md:flex-row md:items-center gap-2 shadow-sm border bg-amber-50 border-amber-100 text-amber-800";
                 statusText.textContent = "Mode Sandbox Lokal (Silakan isi firebaseConfig asli Anda di dalam kode)";
             }
         } catch (error) {
             console.warn("Firebase gagal diinisialisasi secara online, mengaktifkan mode sandbox lokal:", error);
             isFirebaseActive = false;
-            statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-amber-50 border-amber-100 text-amber-800";
+            statusBadge.className = "mb-4 px-4 py-3 rounded-xl text-xs font-bold inline-flex flex-col md:flex-row md:items-center gap-2 shadow-sm border bg-amber-50 border-amber-100 text-amber-800";
             statusText.textContent = "Mode Sandbox Lokal Aktif (Koneksi Database Offline)";
         }
 
@@ -487,7 +487,7 @@
             return doc(db, 'artifacts', appId, 'public', 'data', 'pkk_files', documentId);
         };
 
-        // Autentikasi Mandiri
+        // Autentikasi Mandiri Pintar (Bypass Auth untuk pengetesan lokal file://)
         const initAuth = async () => {
             if (!isFirebaseActive) {
                 uploadedFilesData = getLocalStorageData();
@@ -495,24 +495,33 @@
                 return;
             }
 
+            // Jika aplikasi dibuka secara lokal di browser melalui 'file://'
+            const isLocalProtocol = window.location.protocol === 'file:';
+
+            if (isLocalProtocol) {
+                console.log("Aplikasi dibuka secara lokal (file://). Firebase Auth dilewati, menghubungkan langsung ke database...");
+                // Langsung aktifkan listener Firestore. 
+                // Karena rules Anda diset "allow read, write: if true", Firestore akan sukses terkoneksi tanpa login!
+                setupRealtimeListener();
+                return;
+            }
+
             try {
-                // Gunakan Anonymous sign in di GitHub / Sandbox secara aman
+                // Proses login online normal (untuk hosting HTTP/HTTPS)
                 const credential = await signInAnonymously(auth);
                 currentUser = credential.user;
                 setupRealtimeListener();
             } catch (error) {
-                console.warn("Gagal login anonim. Menggunakan penyimpanan browser lokal.", error);
-                isFirebaseActive = false;
-                uploadedFilesData = getLocalStorageData();
-                triggerUIRefresh();
-                statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-red-50 border-red-100 text-red-800";
-                statusText.textContent = "Koneksi Firebase Ditolak (Pastikan Anonymous Auth Aktif di Console)";
+                console.warn("Autentikasi gagal, mencoba koneksi database langsung tanpa login...", error);
+                // Jika login gagal (misal domain belum di-add), jangan menyerah!
+                // Coba tembak langsung ke database, karena rules Anda terbuka untuk publik (if true), ini akan sukses terkoneksi!
+                setupRealtimeListener(error.code || error.message);
             }
         };
 
         // Listener Real-time Database Firestore (Offline Fallback Handled)
-        const setupRealtimeListener = () => {
-            if (!isFirebaseActive || !currentUser) return;
+        const setupRealtimeListener = (authError = null) => {
+            if (!isFirebaseActive) return;
 
             const q = getCollectionRef();
             onSnapshot(q, (snapshot) => {
@@ -523,18 +532,35 @@
                         ...doc.data()
                     });
                 });
+                
+                // Menandai sukses tersinkronisasi online!
+                isFirebaseActive = true;
                 triggerUIRefresh();
                 
-                // Jika berhasil terhubung online tanpa eror
                 statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-emerald-50 border-emerald-100 text-emerald-800";
-                statusText.textContent = "Database Online Terkoneksi (Firebase)";
+                statusIcon.className = "fa-solid fa-circle text-emerald-500 animate-none";
+                statusText.textContent = "Database Online Terkoneksi (Cloud Firestore)";
             }, (error) => {
-                console.warn("Firestore terblokir aturan keamanan. Mengaktifkan sistem penyimpanan hibrida lokal.", error);
+                console.warn("Firestore ditolak:", error);
+                
+                // Masuk ke mode lokal jika database gagal total
                 isFirebaseActive = false;
                 uploadedFilesData = getLocalStorageData();
                 triggerUIRefresh();
-                statusBadge.className = "mb-4 px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-2 shadow-sm border bg-red-50 border-red-100 text-red-800";
-                statusText.textContent = "Akses Cloud Firestore Ditolak (Silakan periksa tab 'Rules' di Firebase)";
+                
+                statusBadge.className = "mb-4 px-4 py-3 rounded-xl text-xs font-bold inline-flex flex-col gap-1 shadow-sm border bg-red-50 border-red-100 text-red-800 w-full max-w-3xl";
+                statusIcon.className = "fa-solid fa-lock text-red-500 mr-1";
+                
+                let errorDetails = `Aturan Firestore (Rules) diblokir.`;
+                if (authError) {
+                    errorDetails += ` (Auth Detail: ${authError})`;
+                }
+                
+                statusText.innerHTML = `
+                    <span class="text-red-700 font-bold block">Akses Cloud Firestore Ditolak (${error.code || 'Permission Denied'})</span>
+                    <span class="text-slate-500 font-normal block mt-1">Pastikan tab <strong>Firestore Database > Rules</strong> Anda sudah diubah menjadi: <code class="bg-red-100 px-1 py-0.5 rounded text-red-800 font-mono text-[10px]">allow read, write: if true;</code> lalu klik <strong>Publish</strong>.</span>
+                    <span class="text-slate-400 font-normal block text-[10px] mt-0.5">${errorDetails}</span>
+                `;
             });
         };
 
