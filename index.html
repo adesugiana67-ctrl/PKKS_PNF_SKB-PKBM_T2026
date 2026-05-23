@@ -21,2412 +21,1961 @@
             --sidebar-text: #94a3b8;
             --sidebar-active: #38bdf8;
             --surface: #ffffff;
-            --text-main: #0f172a;
+            --text-main: #1e293b;
             --text-muted: #64748b;
-            --primary: #3b82f6;
-            --primary-glow: rgba(59, 130, 246, 0.15);
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --border-color: #e2e8f0;
+            --accent: #f59e0b;
+            --accent-light: #fef3c7;
             --success: #10b981;
             --success-light: #ecfdf5;
-            --warning: #f59e0b;
-            --warning-light: #fffbeb;
             --danger: #ef4444;
             --danger-light: #fef2f2;
-            --border: #e2e8f0;
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            --shadow-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-card: 0 10px 15px -3px rgba(15, 23, 42, 0.04), 0 4px 6px -4px rgba(15, 23, 42, 0.02);
+            --transition-speed: 0.25s;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.2s ease, border-color 0.2s ease;
         }
 
         body {
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-app);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
+            overflow-x: hidden;
         }
 
-        /* SIDEBAR NAVIGATION (Profesional & Dinamis) */
-        aside {
-            width: 290px;
-            background-color: var(--sidebar-bg);
+        /* Loading Spinner */
+        #app-loader {
             position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 100;
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 4px 0 25px rgba(15, 23, 42, 0.15);
-        }
-
-        .brand-zone {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-bottom: 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 30px;
-        }
-
-        .brand-icon-wrapper {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .brand-name-group {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .brand-gov-title {
-            font-size: 11px;
-            font-weight: 700;
-            color: white;
-            letter-spacing: 0.5px;
-            line-height: 1.2;
-        }
-
-        .brand-dept-title {
-            font-size: 9px;
-            font-weight: 600;
-            color: var(--sidebar-active);
-            letter-spacing: 0.3px;
-            line-height: 1.2;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex-grow: 1;
-        }
-
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            padding: 12px 16px;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .sidebar-menu a:hover {
-            color: white;
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .sidebar-menu a.active {
-            color: #0f172a;
-            background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 100%);
-            font-weight: 600;
-            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
-        }
-
-        /* SIDEBAR FOOTER (ADMIN STATUS INDICATOR) */
-        .sidebar-footer {
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.04);
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            margin-top: auto;
-        }
-
-        .admin-status-text {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--sidebar-text);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--danger);
-            display: inline-block;
-        }
-        .status-dot.active {
-            background-color: var(--success);
-        }
-
-        .btn-admin-action {
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.08);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-        .btn-admin-action:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: var(--sidebar-active);
-        }
-
-        /* MAIN CONTENT AREA */
-        main {
-            margin-left: 290px;
-            flex: 1;
-            padding: 40px;
-            max-width: 1400px;
-        }
-
-        .page-section {
-            display: none;
-            animation: smoothUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        @keyframes smoothUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* TYPOGRAPHY & HEADER CONTROLS */
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            gap: 20px;
-        }
-
-        .header-title-area h1 {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-        }
-
-        .header-title-area p {
-            color: var(--text-muted);
-            margin-top: 6px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .header-action-group {
-            display: flex;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        /* DASHBOARD METRICS CARDS */
-        .metrics-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 35px;
-        }
-
-        .metric-card {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            box-shadow: var(--shadow-card);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-        }
-        .m-blue::before { background-color: var(--primary); }
-        .m-green::before { background-color: var(--success); }
-        .m-orange::before { background-color: var(--warning); }
-
-        .metric-num {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--text-main);
-            line-height: 1;
-        }
-
-        .metric-title {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 8px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .metric-badge-icon {
-            width: 54px;
-            height: 54px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-        .b-blue { background-color: #eff6ff; color: var(--primary); }
-        .b-green { background-color: #ecfdf5; color: var(--success); }
-        .b-orange { background-color: #fffbeb; color: var(--warning); }
-
-        /* CONTENT CARDS & TABLES */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1.6fr 1fr;
-            gap: 24px;
-            align-items: start;
-        }
-        .full-grid { grid-template-columns: 1fr; }
-        .half-grid { grid-template-columns: 1fr 1fr; }
-
-        .card {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            box-shadow: var(--shadow-card);
-            margin-bottom: 24px;
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* PREMIUM DYNAMIC BANNER */
-        .active-banner {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
-            border-radius: var(--radius-lg);
-            padding: 20px 24px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: var(--shadow-subtle);
-        }
-
-        .active-banner .info-block { display: flex; align-items: center; gap: 15px; }
-        .active-banner i { font-size: 20px; color: var(--sidebar-active); }
-
-        /* DATA TABLES */
-        .table-wrapper { width: 100%; overflow-x: auto; }
-        .modern-table { width: 100%; border-collapse: collapse; text-align: left; }
-        .modern-table th {
-            background-color: #f8fafc;
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 12px;
-            padding: 16px 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap;
-        }
-        .modern-table td {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-            color: var(--text-main);
-        }
-        .modern-table tr:last-child td { border-bottom: none; }
-        .modern-table tr:hover td { background-color: #f8fafc; }
-
-        /* BADGES */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        .badge-done { background-color: var(--success-light); color: var(--success); }
-        .badge-pending { background-color: var(--danger-light); color: var(--danger); }
-        .badge-rank { background-color: #f0fdfa; color: #0d9488; border: 1px solid #ccfbf1; }
-
-        /* INTERACTIVE BUTTONS */
-        .action-btn {
-            background-color: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 8px 14px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-        .action-btn:hover {
-            background-color: var(--primary);
-            border-color: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px var(--primary-glow);
-        }
-
-        .btn-submit {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-        }
-        .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4); }
-
-        .btn-print {
-            background-color: var(--sidebar-bg);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-        .btn-print:hover { background-color: #1e293b; transform: translateY(-1px); }
-
-        .btn-download {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);
-        }
-        .btn-download:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(5, 150, 105, 0.3); }
-
-        .btn-pdf {
-            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
-        }
-        .btn-pdf:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(239, 68, 68, 0.3); }
-
-        .btn-add-school {
-            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
-        }
-        .btn-add-school:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3); }
-
-        /* FORM INSTRUMENT SLIDERS & UPLOADS */
-        .form-card {
-            background-color: #f8fafc;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .form-card label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--text-main); }
-        .form-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
-        
-        .slider-flex { display: flex; align-items: center; gap: 20px; }
-        .slider-flex input[type="range"] { flex: 1; accent-color: var(--primary); height: 6px; border-radius: 5px; cursor: pointer; }
-        
-        .val-indicator {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--primary);
-            background-color: white;
-            border: 1px solid var(--border);
-            padding: 6px 12px;
-            border-radius: 8px;
-            min-width: 50px;
-            text-align: center;
-            box-shadow: var(--shadow-subtle);
-        }
-
-        .input-text-modern {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-size: 14px;
-            color: var(--text-main);
-            background-color: #ffffff;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-        .input-text-modern:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--primary-glow);
-        }
-
-        /* CUSTOM FILE UPLOAD THEME */
-        .file-upload-wrapper {
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1px dashed var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .btn-upload-file {
-            background-color: #f1f5f9;
-            border: 1px dashed #cbd5e1;
-            color: #475569;
-            padding: 8px 16px;
-            font-size: 12px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-
-        .btn-upload-file:hover {
-            background-color: var(--primary-light);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .file-input-hidden {
-            display: none;
-        }
-
-        .file-status-badge {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--success);
-            background-color: var(--success-light);
-            padding: 6px 12px;
-            border-radius: 50px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            max-width: 320px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        /* SVG CHART STYLING */
-        .chart-box { background-color: #f8fafc; border-radius: var(--radius-md); padding: 20px; text-align: center; border: 1px solid var(--border); }
-
-        /* TOAST SYSTEM (ELEGANT CUSTOM NOTIFICATION) */
-        #toast-container {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.9);
             z-index: 9999;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            pointer-events: none;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            transition: opacity var(--transition-speed);
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border-color);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Sidebar Styling */
+        aside {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            color: #fff;
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .logo-text h1 {
+            font-size: 1.125rem;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--sidebar-text);
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.75rem 1rem;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background-color: #1e293b;
+            color: var(--sidebar-active);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .admin-badge {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+        }
+
+        .admin-badge .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--text-muted);
+        }
+
+        .admin-badge.logged-in .status-indicator {
+            background-color: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        /* Main Content Styling */
+        main {
+            margin-left: 280px;
+            flex: 1;
+            min-height: 100vh;
+            padding: 2.5rem;
+            width: calc(100% - 280px);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header-title h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.025em;
+        }
+
+        .header-title p {
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Buttons & Badges */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: #fff;
+            color: var(--text-main);
+            border-color: var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-app);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            color: #fff;
+        }
+
+        .btn-accent:hover {
+            background-color: #d97706;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards and Layouts */
+        .metrics-grid {
+            display: grid;
+            grid-template-cols: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .metric-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .metric-info h4 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .metric-info .value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .icon-blue { background-color: var(--primary-light); color: var(--primary); }
+        .icon-amber { background-color: var(--accent-light); color: var(--accent); }
+        .icon-emerald { background-color: var(--success-light); color: var(--success); }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 1.5rem;
+            background-color: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            padding: 1rem 1.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 1.25rem 1.5rem;
+            font-size: 0.875rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 9999px;
+        }
+
+        .badge-info { background-color: #e0f2fe; color: #0369a1; }
+        .badge-success { background-color: var(--success-light); color: #047857; }
+        .badge-danger { background-color: var(--danger-light); color: #b91c1c; }
+
+        /* Evaluation Section Styling */
+        .selection-panel {
+            display: grid;
+            grid-template-cols: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-main);
+        }
+
+        select, input[type="text"], input[type="password"], textarea {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background-color: var(--surface);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color var(--transition-speed);
+            width: 100%;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .evaluation-layout {
+            display: grid;
+            grid-template-cols: 320px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .parameter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .parameter-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .parameter-card:hover {
+            border-color: var(--primary);
+        }
+
+        .parameter-card.active {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .parameter-card.active h5 {
+            color: var(--primary);
+        }
+
+        .parameter-card h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .parameter-card p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .assessment-panel {
+            background-color: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .indicator-row {
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .indicator-row:last-child {
+            padding-bottom: 0;
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .indicator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .indicator-desc {
+            flex: 1;
+        }
+
+        .indicator-desc h6 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .indicator-desc p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .scoring-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8fafc;
+            border-radius: var(--radius-md);
+        }
+
+        .range-slider-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 6px;
+            background: #cbd5e1;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: var(--primary-hover);
+        }
+
+        .score-output {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary);
+            width: 48px;
+            height: 38px;
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rubric-text {
+            font-size: 0.825rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Evidence Upload Grid */
+        .evidence-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding: 1rem;
+            border: 1px dashed var(--border-color);
+            background-color: #ffffff;
+            border-radius: var(--radius-md);
+        }
+
+        .evidence-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .evidence-info i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .evidence-meta h7 {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .evidence-meta span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .evidence-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Modal Overlay & Card Styling */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 500px;
+            animation: zoomIn 0.25s ease-out;
+            overflow: hidden;
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            background-color: #f8fafc;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .close-modal {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color var(--transition-speed);
+        }
+
+        .close-modal:hover {
+            color: var(--text-main);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .modal-footer {
+            padding: 1.25rem 1.5rem;
+            background-color: #f8fafc;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
         .toast {
-            background-color: #1e293b;
-            color: #ffffff;
-            padding: 14px 20px;
+            background-color: var(--sidebar-bg);
+            color: #fff;
+            padding: 1rem 1.5rem;
             border-radius: var(--radius-md);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: var(--shadow-lg);
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 500;
-            min-width: 320px;
-            pointer-events: auto;
-            animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            border-left: 4px solid var(--primary);
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .toast-success { border-left-color: var(--success); }
-        .toast-error { border-left-color: var(--danger); }
-        .toast-info { border-left-color: var(--primary); }
+        .toast.success { border-left: 4px solid var(--success); }
+        .toast.error { border-left: 4px solid var(--danger); }
+        .toast.info { border-left: 4px solid var(--primary); }
 
-        @keyframes slideInRight {
+        @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
 
-        @keyframes fadeOut {
-            from { opacity: 1; transform: scale(1); }
-            to { opacity: 0; transform: scale(0.95); }
+        .toast.fadeOut {
+            animation: slideOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* MODAL COMMON LAYOUT */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
         }
 
-        .modal-overlay.active {
-            display: flex;
-            opacity: 1;
+        /* PDF Export Styling (Targeted print area) */
+        #print-area {
+            background-color: #fff;
+            padding: 2rem;
+            font-size: 12px;
+            color: #000;
         }
-
-        .modal-card {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 32px;
+        #print-area table {
+            border-collapse: collapse;
             width: 100%;
-            max-width: 440px;
-            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
-            transform: scale(0.95);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
+            margin-top: 1.5rem;
         }
-
-        .modal-overlay.active .modal-card {
-            transform: scale(1);
-        }
-
-        .modal-header-icon {
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 24px;
-            margin: 0 auto 20px auto;
-            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
-        }
-
-        .modal-title {
-            text-align: center;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 8px;
-        }
-
-        .modal-subtitle {
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
-
-        .password-input-wrapper {
-            position: relative;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .password-toggle-icon {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 16px;
-            padding: 4px;
-        }
-
-        .modal-form-group {
-            margin-bottom: 16px;
+        #print-area th, #print-area td {
+            border: 1px solid #000;
+            padding: 8px;
             text-align: left;
         }
-
-        .modal-form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 6px;
+        #print-area th {
+            background-color: #f2f2f2;
         }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .btn-modal-cancel {
-            flex: 1;
-            background-color: var(--bg-app);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 12px;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
+        .text-center { text-align: center; }
+        .m-t-20 { margin-top: 20px; }
+        .fw-bold { font-weight: bold; }
+        .signature-grid {
+            display: grid;
+            grid-template-cols: 1fr 1fr;
+            margin-top: 40px;
             text-align: center;
-        }
-        .btn-modal-cancel:hover {
-            background-color: var(--border);
-        }
-
-        .btn-modal-submit {
-            flex: 1;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: #ffffff;
-            border: none;
-            padding: 12px;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.25);
-            transition: all 0.2s;
-            text-align: center;
-        }
-        .btn-modal-submit:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 14px rgba(59, 130, 246, 0.35);
-        }
-
-        /* PRINT STYLING & MEDIA QUERY */
-        @media print {
-            aside, .sidebar-menu, .header-action-group, .action-btn, .btn-submit, .badge-pending, .badge-done, .modal-overlay, #toast-container, .sidebar-footer {
-                display: none !important;
-            }
-            body {
-                background-color: #ffffff !important;
-                color: #000000 !important;
-            }
-            main {
-                margin-left: 0 !important;
-                padding: 0 !important;
-                width: 100% !important;
-            }
-            .card {
-                box-shadow: none !important;
-                border: 1px solid #94a3b8 !important;
-                page-break-inside: avoid;
-                margin-bottom: 20px !important;
-            }
-            .chart-box {
-                border: 1px solid #94a3b8 !important;
-            }
-            .active-banner {
-                background: none !important;
-                border: 1px solid #000000 !important;
-                color: #000000 !important;
-            }
-            .active-banner span, .active-banner strong {
-                color: #000000 !important;
-            }
         }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR NAV KEKINIAN & PROFESIONAL -->
+    <!-- App Loader -->
+    <div id="app-loader">
+        <div class="spinner"></div>
+        <p style="font-weight: 500; color: var(--text-muted);" id="loader-text">Menghubungkan ke Cloud Firestore & Storage...</p>
+    </div>
+
+    <!-- Sidebar -->
     <aside>
-        <div class="brand-zone">
-            <!-- Vector Emblem of Sumedang Government Structure -->
-            <div class="brand-icon-wrapper">
-                <svg class="brand-icon-svg" viewBox="0 0 100 100" width="46" height="46" style="background: #1e293b; border-radius: 8px; padding: 3px;">
-                    <!-- Shield Background -->
-                    <path d="M 50 10 Q 80 10 80 45 Q 80 80 50 90 Q 20 80 20 45 Q 20 10 50 10 Z" fill="#0f766e" stroke="#fbbf24" stroke-width="3.5"/>
-                    <!-- Lingga Monument representing Sumedang -->
-                    <rect x="46" y="34" width="8" height="30" fill="#fbbf24" rx="1" />
-                    <polygon points="42,34 58,34 50,21" fill="#fbbf24" />
-                    <!-- Pedestal/Base -->
-                    <rect x="38" y="64" width="24" height="6" fill="#f59e0b" rx="1" />
-                    <rect x="34" y="70" width="32" height="4" fill="#d97706" rx="1" />
-                    <!-- Crown/Sun rays circle at top -->
-                    <circle cx="50" cy="21" r="3.5" fill="#ffffff" />
-                </svg>
-            </div>
-            <div class="brand-name-group">
-                <div class="brand-gov-title">DINAS PENDIDIKAN</div>
-                <div class="brand-dept-title">KABUPATEN SUMEDANG</div>
+        <div class="logo-container">
+            <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="logo-text">
+                <h1>PKKS PNF</h1>
+                <p>Kab. Sumedang 2026</p>
             </div>
         </div>
-        <ul class="sidebar-menu">
-            <li><a id="nav-beranda" class="active" onclick="showPage('beranda')"><i class="fa-solid fa-chart-pie"></i> Beranda Laporan</a></li>
-            <li><a id="nav-satuan" onclick="showPage('satuan')"><i class="fa-solid fa-school"></i>Satpen SKB/PKBM</a></li>
-            <li><a id="nav-instrumen" onclick="showPage('instrumen')"><i class="fa-solid fa-pen-to-square"></i> Instrumen Isian</a></li>
-        </ul>
 
-        <!-- STATUS SESI ADMIN DI SIDEBAR -->
-        <div class="sidebar-footer">
-            <div class="admin-status-text" id="admin-status-lbl">
-                <span class="status-dot" id="admin-status-dot"></span>
-                <span>Mode Pengunjung (Read-Only)</span>
+        <nav>
+            <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard Utama
             </div>
-            <button class="btn-admin-action" id="btn-admin-lock" onclick="toggleAdminLogin()">
+            <div class="nav-item" onclick="showPage('evaluasi')" id="nav-evaluasi">
+                <i class="fa-solid fa-star-half-stroke"></i> Penilaian PKKS
+            </div>
+            <div class="nav-item" onclick="showPage('rekapitulasi')" id="nav-rekapitulasi">
+                <i class="fa-solid fa-file-invoice"></i> Rekapitulasi & Cetak
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="admin-badge" id="admin-badge-indicator">
+                <span>Mode Administrator</span>
+                <span class="status-indicator"></span>
+            </div>
+            <button class="btn btn-secondary w-full" id="btn-admin-login" onclick="toggleAdminLogin()">
                 <i class="fa-solid fa-lock"></i> Login Admin
             </button>
         </div>
     </aside>
 
-    <!-- TOAST CONTAINER FOR NOTIFICATIONS -->
-    <div id="toast-container"></div>
-
-    <!-- ADMIN PASSWORD OVERLAY MODAL -->
-    <div class="modal-overlay" id="admin-modal">
-        <div class="modal-card">
-            <div class="modal-header-icon" style="background: linear-gradient(135deg, #ef4444, #f43f5e); box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);">
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-            <h2 class="modal-title">Otorisasi Admin</h2>
-            <p class="modal-subtitle">Pengisian instrumen dan pengeditan identitas sekolah hanya dapat dilakukan oleh Admin Dinas Pendidikan.</p>
-            
-            <div class="password-input-wrapper">
-                <input type="password" id="admin-password-input" class="input-text-modern" placeholder="Masukkan Password Admin..." onkeydown="handlePasswordKeydown(event)">
-                <span class="password-toggle-icon" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye" id="eye-icon"></i></span>
-            </div>
-
-            <div class="modal-actions">
-                <button class="btn-modal-cancel" onclick="closeAdminModal()">Batal</button>
-                <button class="btn-modal-submit" onclick="submitAdminPassword()">Verifikasi</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ADD NEW SCHOOL MODAL -->
-    <div class="modal-overlay" id="add-school-modal">
-        <div class="modal-card">
-            <div class="modal-header-icon">
-                <i class="fa-solid fa-school"></i>
-            </div>
-            <h2 class="modal-title">Tambah Satpen Baru</h2>
-            <p class="modal-subtitle">Silakan isi formulir identitas di bawah untuk menambahkan Satuan Pendidikan Non-Formal (SKB/PKBM) baru.</p>
-            
-            <div class="modal-form-group">
-                <label>Nama Satuan PKBM/SKB</label>
-                <input type="text" id="add-school-name" class="input-text-modern" placeholder="Contoh: PKBM Mandiri Jaya...">
-            </div>
-            <div class="modal-form-group">
-                <label>Nomor Pokok Sekolah Nasional (NPSN)</label>
-                <input type="text" id="add-school-npsn" class="input-text-modern" style="font-family: monospace;" placeholder="Contoh: P9912345...">
-            </div>
-            <div class="modal-form-group">
-                <label>Nama Kepala Sekolah</label>
-                <input type="text" id="add-school-kepala" class="input-text-modern" placeholder="Nama Kepala Sekolah beserta gelar...">
-            </div>
-            <div class="modal-form-group">
-                <label>Alamat Sekolah</label>
-                <input type="text" id="add-school-alamat" class="input-text-modern" placeholder="Alamat lengkap operasional...">
-            </div>
-
-            <div class="modal-actions">
-                <button class="btn-modal-cancel" onclick="closeAddSchoolModal()">Batal</button>
-                <button class="btn-modal-submit" onclick="submitNewSchool()">Simpan</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MAIN VIEW CONTAINER -->
+    <!-- Main Content Panel -->
     <main>
+        <!-- Header -->
+        <header>
+            <div class="header-title">
+                <h2 id="page-title">Dashboard Utama</h2>
+                <p id="page-subtitle">Rangkuman Kinerja Penilaian Kinerja Kepala Sekolah Non Formal</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="checkAndOpenAddSchoolModal()" id="btn-add-school-dashboard" style="display: none;">
+                    <i class="fa-solid fa-plus"></i> Tambah Lembaga
+                </button>
+            </div>
+        </header>
 
-        <!-- SECTION 1: BERANDA / DASHBOARD UTAMA -->
-        <section id="page-beranda" class="page-section active">
-            <div class="page-header">
-                <div class="header-title-area">
-                    <h1>PKKS Satuan Pendidikan PNF SKB/PKBM</h1>
-                    <p>Penilaian Kinerja Kepala Sekolah — Dinas Pendidikan Kabupaten Sumedang Tahun 2026</p>
+        <!-- Toast Notifications Container -->
+        <div class="toast-container" id="toast-container"></div>
+
+        <!-- PAGE 1: DASHBOARD -->
+        <div id="page-dashboard" class="page active">
+            <!-- Metrics Grid -->
+            <div class="metrics-grid">
+                <div class="card metric-card">
+                    <div class="metric-info">
+                        <h4>Total Lembaga</h4>
+                        <div class="value" id="metric-total-sekolah">0</div>
+                    </div>
+                    <div class="metric-icon icon-blue">
+                        <i class="fa-solid fa-school"></i>
+                    </div>
                 </div>
-                <div class="header-action-group">
-                    <button class="btn-pdf" onclick="downloadPDF()"><i class="fa-solid fa-file-pdf"></i> Unduh PDF</button>
-                    <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Cetak Laporan</button>
-                    <button class="btn-download" onclick="downloadCSV()"><i class="fa-solid fa-file-csv"></i> Unduh Data CSV</button>
+                <div class="card metric-card">
+                    <div class="metric-info">
+                        <h4>Selesai Dinilai</h4>
+                        <div class="value" id="metric-completed">0</div>
+                    </div>
+                    <div class="metric-icon icon-emerald">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-info">
+                        <h4>Rata-rata Nilai</h4>
+                        <div class="value" id="metric-avg-score">0.0</div>
+                    </div>
+                    <div class="metric-icon icon-amber">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
                 </div>
             </div>
 
-            <!-- Kartu Metrik Ringkasan -->
-            <div class="metrics-row">
-                <div class="metric-card m-blue">
-                    <div>
-                        <div class="metric-num" id="dash-total-units">32</div>
-                        <div class="metric-title">Total Lembaga</div>
-                    </div>
-                    <div class="metric-badge-icon b-blue"><i class="fa-solid fa-landmark"></i></div>
+            <!-- List of Institutions -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="font-size: 1.125rem; font-weight: 700;">Daftar Lembaga (SKB/PKBM) Kabupaten Sumedang</h3>
+                    <div style="font-size: 0.85rem; color: var(--text-muted); font-style: italic;" id="sync-status">Sistem Sinkron Cloud Aktif</div>
                 </div>
-                <div class="metric-card m-green">
-                    <div>
-                        <div class="metric-num" id="dash-progress">0/32</div>
-                        <div class="metric-title">Telah Dievaluasi</div>
-                    </div>
-                    <div class="metric-badge-icon b-green"><i class="fa-solid fa-clipboard-check"></i></div>
-                </div>
-                <div class="metric-card m-orange">
-                    <div>
-                        <div class="metric-num" id="dash-avg">0.0</div>
-                        <div class="metric-title">Rata-Rata Wilayah</div>
-                    </div>
-                    <div class="metric-badge-icon b-orange"><i class="fa-solid fa-chart-line"></i></div>
-                </div>
-            </div>
-
-            <div class="content-grid">
-                <!-- Grafik Utama -->
-                <div class="card">
-                    <div class="card-title" id="chart-main-title"><i class="fa-solid fa-chart-bar" style="color:var(--primary)"></i> Grafik Kompetensi Satuan Terpilih</div>
-                    <div class="chart-box">
-                        <svg viewBox="0 0 500 260" width="100%">
-                            <!-- Grid Lines -->
-                            <line x1="50" y1="40" x2="470" y2="40" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4" />
-                            <line x1="50" y1="90" x2="470" y2="90" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4" />
-                            <line x1="50" y1="140" x2="470" y2="140" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4" />
-                            <line x1="50" y1="190" x2="470" y2="190" stroke="#cbd5e1" stroke-width="1.5" />
-
-                            <!-- Y Labels -->
-                            <text x="35" y="44" font-size="10" font-weight="600" fill="#94a3b8" text-anchor="end">100</text>
-                            <text x="35" y="94" font-size="10" font-weight="600" fill="#94a3b8" text-anchor="end">50</text>
-                            <text x="35" y="144" font-size="10" font-weight="600" fill="#94a3b8" text-anchor="end">25</text>
-                            <text x="35" y="194" font-size="10" font-weight="600" fill="#94a3b8" text-anchor="end">0</text>
-
-                            <!-- Gradient Bars Dynamic -->
-                            <rect id="g-manajerial" x="85" y="190" width="48" height="0" fill="#3b82f6" rx="6" />
-                            <text id="t-manajerial" x="109" y="185" font-size="11" font-weight="700" fill="#1e293b" text-anchor="middle">0</text>
-
-                            <rect id="g-kewirausahaan" x="185" y="190" width="48" height="0" fill="#10b981" rx="6" />
-                            <text id="t-kewirausahaan" x="209" y="185" font-size="11" font-weight="700" fill="#1e293b" text-anchor="middle">0</text>
-
-                            <rect id="g-supervisi" x="285" y="190" width="48" height="0" fill="#f59e0b" rx="6" />
-                            <text id="t-supervisi" x="309" y="185" font-size="11" font-weight="700" fill="#1e293b" text-anchor="middle">0</text>
-
-                            <rect id="g-sosial" x="385" y="190" width="48" height="0" fill="#8b5cf6" rx="6" />
-                            <text id="t-sosial" x="409" y="185" font-size="11" font-weight="700" fill="#1e293b" text-anchor="middle">0</text>
-
-                            <!-- X Labels -->
-                            <text x="109" y="216" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle">Manajerial</text>
-                            <text x="209" y="216" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle">Kewirausahaan</text>
-                            <text x="309" y="216" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle">Supervisi</text>
-                            <text x="409" y="216" font-size="11" font-weight="600" fill="#64748b" text-anchor="middle">Sosial/Prof</text>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- Leaderboard Samping -->
-                <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-award" style="color:#f59e0b"></i> Peringkat 3 Tertinggi</div>
-                    <div class="table-wrapper">
-                        <table class="modern-table">
-                            <thead>
-                                <tr>
-                                    <th>Nama Lembaga</th>
-                                    <th>Skor</th>
-                                    <th>Predikat</th>
-                                </tr>
-                            </thead>
-                            <tbody id="top-schools-tbody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 2: DAFTAR SATUAN PENDIDIKAN SKB/PKBM -->
-        <section id="page-satuan" class="page-section">
-            <div class="page-header">
-                <div class="header-title-area">
-                    <h1>Data Satuan Pendidikan PNF</h1>
-                    <p>Daftar Satuan Pendidikan (SKB/PKBM) di wilayah binaan Dinas Pendidikan Kabupaten Sumedang.</p>
-                </div>
-                <div class="header-action-group">
-                    <button class="btn-add-school" onclick="checkAndOpenAddSchoolModal()"><i class="fa-solid fa-plus"></i> Tambah Sekolah Baru</button>
-                    <button class="btn-pdf" onclick="downloadPDF()"><i class="fa-solid fa-file-pdf"></i> Unduh PDF Rekap</button>
-                    <button class="btn-download" onclick="downloadCSV()"><i class="fa-solid fa-file-csv"></i> Unduh Format CSV</button>
-                </div>
-            </div>
-
-            <div class="card" style="margin-top: 30px;">
-                <div class="table-wrapper">
-                    <table class="modern-table">
+                <div class="table-responsive">
+                    <table>
                         <thead>
                             <tr>
-                                <th>No</th>
                                 <th>NPSN</th>
-                                <th>Nama Satuan PKBM</th>
-                                <th>Kepala Sekolah</th>
-                                <th>Alamat Sekolah</th>
-                                <th>Status Borang</th>
+                                <th>Nama Lembaga</th>
+                                <th>Kecamatan</th>
+                                <th>Jenis</th>
+                                <th>Status PKKS</th>
                                 <th>Skor Akhir</th>
-                                <th>Aksi Kerja</th>
+                                <th>Predikat</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="schools-tbody"></tbody>
+                        <tbody id="table-satuan-body">
+                            <!-- Populated dynamically via JavaScript -->
+                        </tbody>
                     </table>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- SECTION 3: INSTRUMEN EVALUASI ISIAN -->
-        <section id="page-instrumen" class="page-section">
-            <div class="active-banner" id="current-school-banner">
-                <div class="info-block">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <span>Sistem Belum Siap. Silakan tentukan target satuan di menu <strong>Satpen SKB/PKBM</strong> terlebih dahulu.</span>
+        <!-- PAGE 2: EVALUATION PENILAIAN -->
+        <div id="page-evaluasi" class="page">
+            <!-- School Selector & Summary Info -->
+            <div class="selection-panel">
+                <div class="card form-group">
+                    <label for="eval-school-selector">Pilih Lembaga yang akan Dinilai:</label>
+                    <select id="eval-school-selector" onchange="pilihSekolahEvaluasi()">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+                <div class="card" style="display: flex; flex-direction: column; justify-content: center; gap: 0.25rem;">
+                    <h4 style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;" id="eval-school-title">Lembaga Terpilih</h4>
+                    <h3 style="font-size: 1.25rem; font-weight: 700;" id="eval-school-name">-</h3>
+                    <p style="font-size: 0.875rem;" id="eval-school-desc">NPSN: - | Kecamatan: -</p>
                 </div>
             </div>
 
-            <div class="page-header" style="margin-bottom: 20px;">
-                <div class="header-title-area">
-                    <h1>Borang Penilaian Kinerja Kepala Sekolah (PKKS) PNF SKB/PKBM</h1>
-                    <p>Sesuaikan isian data identitas serta indikator kinerja berdasarkan dokumen bukti fisik riil di lapangan.</p>
-                </div>
-            </div>
-
-            <!-- KARTU FORM IDENTITAS SEKOLAH (DINAMIS & DAPAT DIEDIT) -->
-            <div class="card" id="form-identitas-card" style="margin-bottom: 24px;">
-                <div class="card-title" style="color: var(--primary); margin-bottom: 18px;">
-                    <i class="fa-solid fa-id-card"></i> Identitas Satuan PKBM Terpilih
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
-                    <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">Nama Satuan PKBM</label>
-                        <input type="text" id="input-nama" class="input-text-modern" style="font-weight: 600;" placeholder="Nama Satuan PKBM...">
+            <!-- Main Evaluation Workspace -->
+            <div class="evaluation-layout">
+                <!-- Parameters Side Nav -->
+                <div class="parameter-list">
+                    <div class="parameter-card active" onclick="switchParameter(1)" id="param-card-1">
+                        <h5>Komponen 1 <span id="param-badge-1" class="badge badge-info">0.0</span></h5>
+                        <p>Kepemimpinan & Manajerial</p>
                     </div>
-                    <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">Nomor Pokok Sekolah Nasional (NPSN)</label>
-                        <input type="text" id="input-npsn" class="input-text-modern" style="font-family: monospace; font-weight: 600; letter-spacing: 0.5px;" placeholder="Masukkan NPSN...">
+                    <div class="parameter-card" onclick="switchParameter(2)" id="param-card-2">
+                        <h5>Komponen 2 <span id="param-badge-2" class="badge badge-info">0.0</span></h5>
+                        <p>Kewirausahaan & Inovasi</p>
                     </div>
-                    <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">Nama Kepala Sekolah / PKBM</label>
-                        <input type="text" id="input-kepala" class="input-text-modern" placeholder="Nama Kepala Sekolah...">
+                    <div class="parameter-card" onclick="switchParameter(3)" id="param-card-3">
+                        <h5>Komponen 3 <span id="param-badge-3" class="badge badge-info">0.0</span></h5>
+                        <p>Supervisi & Pendidik</p>
                     </div>
-                    <div>
-                        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">Alamat Operasional Lembaga</label>
-                        <input type="text" id="input-alamat" class="input-text-modern" placeholder="Alamat Lengkap Satuan...">
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-grid half-grid">
-                <!-- Kolom Kiri Form -->
-                <div>
-                    <!-- I. BIDANG MANAJERIAL -->
-                    <div class="card">
-                        <div class="card-title" style="color:var(--primary)"><i class="fa-solid fa-folder-tree"></i> I. Bidang Manajerial</div>
-                        
-                        <div class="form-card">
-                            <label>1. Penyusunan RKJM & RKT Lembaga</label>
-                            <div class="form-desc">Ketersediaan program kerja jangka panjang (RKJM) dan tahunan (RKT) yang melibatkan tutor dan pamong belajar.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-m1" min="0" max="100" value="0" oninput="syncScoreText('m1')">
-                                <span class="val-indicator" id="txt-m1">0</span>
-                            </div>
-                            <div class="file-upload-wrapper">
-                                <label class="btn-upload-file">
-                                    <i class="fa-solid fa-paperclip"></i> Unggah Bukti RKJM/RKT
-                                    <input type="file" id="file-m1" class="file-input-hidden" onchange="handleEvidenceUpload('m1')">
-                                </label>
-                                <span class="file-status-badge" id="badge-m1" style="display: none;">Belum ada dokumen</span>
-                            </div>
-                        </div>
-                        
-                        <div class="form-card">
-                            <label>2. Tata Kelola Sarana, Prasarana & Media</label>
-                            <div class="form-desc">Optimalisasi ruang tutorial, ketersediaan perangkat teknologi informasi (komputer), modul cetak/digital, dan inventarisasi sarana.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-m2" min="0" max="100" value="0" oninput="syncScoreText('m2')">
-                                <span class="val-indicator" id="txt-m2">0</span>
-                            </div>
-                            <div class="file-upload-wrapper">
-                                <label class="btn-upload-file">
-                                    <i class="fa-solid fa-paperclip"></i> Unggah Bukti Inventarisasi
-                                    <input type="file" id="file-m2" class="file-input-hidden" onchange="handleEvidenceUpload('m2')">
-                                </label>
-                                <span class="file-status-badge" id="badge-m2" style="display: none;">Belum ada dokumen</span>
-                            </div>
-                        </div>
-
-                        <div class="form-card">
-                            <label>3. Administrasi Warga Belajar & Tutor</label>
-                            <div class="form-desc">Kerapian data Buku Induk Warga Belajar, pengelolaan presensi kehadiran tutor, jurnal pengajaran, dan dokumen Dapodik PNF.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-m3" min="0" max="100" value="0" oninput="syncScoreText('m3')">
-                                <span class="val-indicator" id="txt-m3">0</span>
-                            </div>
-                            <div class="file-upload-wrapper">
-                                <label class="btn-upload-file">
-                                    <i class="fa-solid fa-paperclip"></i> Unggah Bukti Administrasi
-                                    <input type="file" id="file-m3" class="file-input-hidden" onchange="handleEvidenceUpload('m3')">
-                                </label>
-                                <span class="file-status-badge" id="badge-m3" style="display: none;">Belum ada dokumen</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- II. BIDANG KEWIRAUSAHAAN -->
-                    <div class="card">
-                        <div class="card-title" style="color:var(--success)"><i class="fa-solid fa-seedling"></i> II. Bidang Kewirausahaan</div>
-                        
-                        <div class="form-card">
-                            <label>4. Aliansi Strategis & MoU DUDI</label>
-                            <div class="form-desc">Jejaring kemitraan magang kerja, sertifikasi kompetensi, dan penyaluran lulusan kursus / warga belajar paket dengan Dunia Usaha Dunia Industri.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-k1" min="0" max="100" value="0" oninput="syncScoreText('k1')">
-                                <span class="val-indicator" id="txt-k1">0</span>
-                            </div>
-                            <div class="file-upload-wrapper">
-                                <label class="btn-upload-file">
-                                    <i class="fa-solid fa-paperclip"></i> Unggah MoU / Kerjasama
-                                    <input type="file" id="file-k1" class="file-input-hidden" onchange="handleEvidenceUpload('k1')">
-                                </label>
-                                <span class="file-status-badge" id="badge-k1" style="display: none;">Belum ada dokumen</span>
-                            </div>
-                        </div>
-
-                        <div class="form-card">
-                            <label>5. Inovasi Inkubasi Usaha Mandiri (*Edupreneurship*)</label>
-                            <div class="form-desc">Pengembangan unit bisnis mandiri lembaga (tata busana, katering, jasa sablon, dll) sebagai penopang pembiayaan operasional internal PKBM.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-k2" min="0" max="100" value="0" oninput="syncScoreText('k2')">
-                                <span class="val-indicator" id="txt-k2">0</span>
-                            </div>
-                            <div class="file-upload-wrapper">
-                                <label class="btn-upload-file">
-                                    <i class="fa-solid fa-paperclip"></i> Unggah Bukti Inkubasi Usaha
-                                    <input type="file" id="file-k2" class="file-input-hidden" onchange="handleEvidenceUpload('k2')">
-                                </label>
-                                <span class="file-status-badge" id="badge-k2" style="display: none;">Belum ada dokumen</span>
-                            </div>
-                        </div>
+                    <div class="parameter-card" onclick="switchParameter(4)" id="param-card-4">
+                        <h5>Komponen 4 <span id="param-badge-4" class="badge badge-info">0.0</span></h5>
+                        <p>Pengembangan Mutu</p>
                     </div>
                 </div>
 
-                <!-- Kolom Kanan Form -->
-                <div>
-                    <!-- III. BIDANG SUPERVISI -->
-                    <div class="card">
-                        <div class="card-title" style="color:var(--warning)"><i class="fa-solid fa-users-viewfinder"></i> III. Bidang Supervisi</div>
-                        
-                        <div class="form-card">
-                            <label>6. Supervisi Akademik & Pembelajaran</label>
-                            <div class="form-desc">Ketersediaan program, instrumen, dan jadwal pemantauan perangkat pembelajaran mandiri tutor serta observasi metode tutorial tatap muka.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-s1" min="0" max="100" value="0" oninput="syncScoreText('s1')">
-                                <span class="val-indicator" id="txt-s1">0</span>
-                            </div>
-                            <div class="file-upload-wrapper">
-                                <label class="btn-upload-file">
-                                    <i class="fa-solid fa-paperclip"></i> Unggah Rencana Supervisi
-                                    <input type="file" id="file-s1" class="file-input-hidden" onchange="handleEvidenceUpload('s1')">
-                                </label>
-                                <span class="file-status-badge" id="badge-s1" style="display: none;">Belum ada dokumen</span>
-                            </div>
-                        </div>
-
-                        <div class="form-card">
-                            <label>7. Evaluasi Mutu Pembelajaran & Tindak Lanjut</label>
-                            <div class="form-desc">Pelaksanaan tindak lanjut hasil supervisi, pembinaan tutor, perbaikan modul/Rencana Pelaksanaan Pembelajaran (RPP) non-formal.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-s2" min="0" max="100" value="0" oninput="syncScoreText('s2')">
-                                <span class="val-indicator" id="txt-s2">0</span>
-                            </div>
-                            <div class="file-upload-wrapper">
-                                <label class="btn-upload-file">
-                                    <i class="fa-solid fa-paperclip"></i> Unggah Bukti Tindak Lanjut
-                                    <input type="file" id="file-s2" class="file-input-hidden" onchange="handleEvidenceUpload('s2')">
-                                </label>
-                                <span class="file-status-badge" id="badge-s2" style="display: none;">Belum ada dokumen</span>
-                            </div>
-                        </div>
+                <!-- Active Parameter Indicators workspace -->
+                <div class="assessment-panel">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+                        <h4 style="font-size: 1.125rem; font-weight: 700;" id="active-param-title">Komponen 1: Kepemimpinan & Manajerial</h4>
+                        <span class="badge badge-info" id="active-param-calc-score" style="font-size: 0.9rem; padding: 0.5rem 1rem;">Skor Komponen: 0.0</span>
                     </div>
 
-                    <!-- IV. SOSIAL & PROFESIONAL PNF -->
-                    <div class="card">
-                        <div class="card-title" style="color:#8b5cf6"><i class="fa-solid fa-hand-holding-heart"></i> IV. Sosial & Profesional PNF</div>
-                        
-                        <div class="form-card">
-                            <label>8. Penuntasan Anak Tidak Sekolah (ATS)</label>
-                            <div class="form-desc">Inisiatif dan program nyata penarikan anak putus sekolah ke dalam sistem kesetaraan, penyediaan beasiswa, dan kerjasama pendataan wilayah.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-p1" min="0" max="100" value="0" oninput="syncScoreText('p1')">
-                                <span class="val-indicator" id="txt-p1">0</span>
-                            </div>
-                            <div class="file-upload-wrapper">
-                                <label class="btn-upload-file">
-                                    <i class="fa-solid fa-paperclip"></i> Unggah Data & Program ATS
-                                    <input type="file" id="file-p1" class="file-input-hidden" onchange="handleEvidenceUpload('p1')">
-                                </label>
-                                <span class="file-status-badge" id="badge-p1" style="display: none;">Belum ada dokumen</span>
-                            </div>
-                        </div>
-
-                        <div class="form-card">
-                            <label>9. Kepeloporan Sosial & Pengabdian Masyarakat</label>
-                            <div class="form-desc">Keterlibatan aktif lembaga dalam memecahkan problematika sosial, kemitraan pemberdayaan komunitas rentan, dan kegiatan bakti sosial.</div>
-                            <div class="slider-flex">
-                                <input type="range" id="score-p2" min="0" max="100" value="0" oninput="syncScoreText('p2')">
-                                <span class="val-indicator" id="txt-p2">0</span>
-                            </div>
-                            <div class="file-upload-wrapper">
-                                <label class="btn-upload-file">
-                                    <i class="fa-solid fa-paperclip"></i> Unggah Dokumentasi Pengabdian
-                                    <input type="file" id="file-p2" class="file-input-hidden" onchange="handleEvidenceUpload('p2')">
-                                </label>
-                                <span class="file-status-badge" id="badge-p2" style="display: none;">Belum ada dokumen</span>
-                            </div>
-                        </div>
+                    <div id="indicators-container">
+                        <!-- Populated by system js based on selected parameter -->
                     </div>
 
-                    <div style="text-align: right; margin-top: 10px;">
-                        <button class="btn-submit" onclick="saveScores()"><i class="fa-solid fa-cloud-arrow-up"></i> Finalisasi & Terapkan Skor</button>
+                    <!-- Floating save bar at bottom of card -->
+                    <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                        <button class="btn btn-secondary" onclick="showPage('dashboard')">Kembali</button>
+                        <button class="btn btn-primary" onclick="saveScores()"><i class="fa-solid fa-floppy-disk"></i> Simpan Penilaian</button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
+        <!-- PAGE 3: REKAPITULASI & PRINT -->
+        <div id="page-rekapitulasi" class="page">
+            <div class="card" style="margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <div>
+                        <h3 style="font-size: 1.125rem; font-weight: 700;">Rekap Hasil Penilaian Kinerja</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Unduh data dalam format CSV (Excel) atau cetak Laporan Resmi</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button class="btn btn-secondary" onclick="downloadCSV()"><i class="fa-solid fa-file-csv"></i> Unduh CSV</button>
+                        <button class="btn btn-primary" onclick="downloadPDF()"><i class="fa-solid fa-print"></i> Cetak Dokumen PDF</button>
+                    </div>
+                </div>
+
+                <!-- Preview Table inside Tab -->
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>NPSN</th>
+                                <th>Nama Lembaga</th>
+                                <th>Komponen 1 (30%)</th>
+                                <th>Komponen 2 (20%)</th>
+                                <th>Komponen 3 (25%)</th>
+                                <th>Komponen 4 (25%)</th>
+                                <th>Skor Kumulatif</th>
+                                <th>Predikat</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rekap-table-body">
+                            <!-- Populated Dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <!-- CORE SCRIPT ENGINE DATA MANAGEMENT -->
-    <script type="module">
-        // Import Firebase modules for real-time cloud data storage
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getFirestore, doc, setDoc, getDoc, collection, getDocs, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+    <!-- MODAL 1: Password Administrator Login -->
+    <div class="modal" id="modal-admin-login">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Akses Kode Administrator</h3>
+                <span class="close-modal" onclick="closeAdminModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="admin-password-input">Masukkan Password:</label>
+                    <div style="position: relative;">
+                        <input type="password" id="admin-password-input" placeholder="Masukkan password admin..." onkeydown="handlePasswordKeydown(event)">
+                        <span onclick="togglePasswordVisibility()" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--text-muted);">
+                            <i class="fa-solid fa-eye" id="password-eye-icon"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAdminModal()">Batal</button>
+                <button class="btn btn-primary" onclick="submitAdminPassword()">Verifikasi</button>
+            </div>
+        </div>
+    </div>
 
-        const namaPKBMMaster = [
-            "PKBM MEKAR BUANA", "PKBM PASCA MARGA", "PKBM MULYASARI SEJATI", "PKBM AL-AMANAH", 
-            "PKBM MENTARI MADANI", "PKBM MENTARI KREATIF MANDIRI", "PKBM CENDIKIA PURNAMA", "PKBM TARBIYATUL UMMAH",
-            "PKBM CIGEMBONG", "PKBM PELITA INSANI", "PKBM PANDAWA", "PKBM MAHARANI",
-            "PKBM SRIKANDI", "PKBM AL GHOFUR SITURAJA", "PKBM AT-TAYIBAH", "PKBM CERDAS KARYA",
-            "PKBM PRIMAGAMA", "PKBM ACTUAL SEJAHTERA", "PKBM AS-SALAAM", "PKBM CENDEKIA",
-            "PKBM Generasi Khoiru Ummah", "PKBM IGI SUMEDANG", "PKBM NURUL HUDA", "PKBM SHOHIBUL QURAN",
-            "PKBM AL QOSIMMIYAH", "PKBM JEMBAR KABISA", "PKBM ASSYARIATUL ULUUM", "PKBM SIMPAY WARGI",
-            "PKBM BINA BHAKTI MANDIRI", "PKBM NUURUL HAQQ", "PKBM AGROFORESTY", "PKBM RAUDHOTUL JANNAH"
-        ];
+    <!-- MODAL 2: Tambah Lembaga Baru -->
+    <div class="modal" id="modal-add-school">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tambah Lembaga Baru</h3>
+                <span class="close-modal" onclick="closeAddSchoolModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="add-school-npsn">Nomor Pokok Sekolah Nasional (NPSN):</label>
+                    <input type="text" id="add-school-npsn" placeholder="Contoh: P9912345">
+                </div>
+                <div class="form-group">
+                    <label for="add-school-nama">Nama Lembaga:</label>
+                    <input type="text" id="add-school-nama" placeholder="Contoh: PKBM Bina Mandiri">
+                </div>
+                <div class="form-group">
+                    <label for="add-school-jenis">Jenis Satuan:</label>
+                    <select id="add-school-jenis">
+                        <option value="PKBM">PKBM (Pusat Kegiatan Belajar Masyarakat)</option>
+                        <option value="SKB">SKB (Sanggar Kegiatan Belajar)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="add-school-kecamatan">Kecamatan:</label>
+                    <input type="text" id="add-school-kecamatan" placeholder="Contoh: Sumedang Selatan">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAddSchoolModal()">Batal</button>
+                <button class="btn btn-primary" onclick="submitNewSchool()">Simpan Baru</button>
+            </div>
+        </div>
+    </div>
 
-        const kepalaSekolahMaster = [
-            "EGI ZAENAL MUTAQIEN", "DEDEH KURAESIN", "GRACY MEILANITA", "DEDI MUHAMMAD ISHAK", 
-            "YANA SATRIANA", "ARIF FIRMAN", "ERWIN SUHERLAN", "NYAI SUMIATI",
-            "RIFIN KUSTIAN", "DADANG SUHENRA", "LILIS SUWANGSIH", "TATANG JUWITA",
-            "WAWAN HADI MULYANA", "ELIS TARYAMAH", "M. FARID TAUFIQURROHMAN", "SARSA WITARSA",
-            "ECIN KURASESIN", "HADI NUGRAHA", "NURLAELA FATIMAH", "IKE MEDYAWATI",
-            "PITRA SAGARA", "RIDA FATIMAH ZAKIYATUL HUDA", "FEBRIYAN RAMADHAN", "KIKI KURNIAWAN",
-            "DEDI HERYADI", "SURYANA", "NETI YULIANI", "GATOT YUNIARTA",
-            "ISARIS ARWIANTI", "JAJANG ZAINAL MUTAQIN", "NENG TETI RUSMAYANTI", "DEWI SRI WARTINI"
-        ];
-
-        const alamatSekolahMaster = [
-            "Jl. Angkrek No.98 Kel.Kotakaler", "Jl. KLK No.72 Rt2/Rw2,Desa.Rancamulya", "Dsn. Kadapugur Rt1/Rw6 Desa Mulyasari", "Jl. Angkrek Gg. Karyawan II Kel. Situ",
-            "Prm Jatihurip Blok 9 Desa Jatihurip", "Jl Serma Muhtar NO 97 RT 1RW 7,Kel. Situ", "Jln. 11 April No. 07 Tegalkalong Kel. Kota Kaler", "Dsn Cijengkol Rt 1/Rw 4,Desa Cikoneng",
-            "Dsn. Cigembong RT 1/RW 3, Desa Cikondang", "Jl Pangeran Bungsu No.01 RT1/RW4 Desa Cisarua", "Dusun Cibolang RT2/RW3 Desa Kebon Kalapa", "Jln. Raya Situraja No. 163-164, RT/RW 4/03 Ds. Situraja",
-            "Jalan. Wirahadikusumah No.19 Desa SukatalI", "Kampung Tarikolot RT 02/04 Desa Situraja", "Dsn. Pakemitan, RT.02 RW.05 Desa Situraja", "Dusun Cimuruy Rt. 003 Rw. 001 Desa Mekarmulya",
-            "Dsn. Cijatihilir RT 01/RW 06 Desa Jatimekar", "Jl. Pangeran Geusan Ulun No. 125 Sumedang Kel. Regolwetan", "Dusun SingkupRT 1RW 1 Desa Ciherang", "Jl. Kebon Seureuh 03/03 Kelurahan Cipameungpeuk",
-            "Dusun Cieurih Rt 02 Rw 05 Desa Cipancar", "Prm. Dago Village F2 Rt 03/Rw 11 Desa Sukajaya", "Dusun Kukulu RT 4 RW 5 Desa Sukajaya", "Lingkungan Warung Jambu RT. 02 RW. 05 Kel. Pasangrahan",
-            "Dusun Pasir Rt. 01 Rw. 05 Desa Rancakalong", "Dsn. Selaawi RT 2/RW 7 Desa Sukahayu", "Dusun Babakan Rt.05/07 Desa Pangadegan", "Dusun KawungluwukRT 2RW 1, Desa Linggajaya",
-            "Dusun Dustan RT.03 RW.04, Desa Cisitu", "Dusun Elos Rt. 05/Rw. 03, Desa Cikareo selatan", "Dusun Bojongjati Rt.003 Rw.02, Desa Tarikolot", "Dsn. Cikuda 05/05 Desa Sukatani"
-        ];
-
-        const npsnMaster = [
-            "P2963449", "P9934726", "P9952581", "P9999789",
-            "P9984783", "P2970750", "P2971163", "P2963445",
-            "P9968108", "P9984832", "P2970545", "P9952443",
-            "P9997402", "P9952442", "P2963429", "P2970650",
-            "P2970727", "P9984552", "P2963439", "P9984560",
-            "P9999642", "P9984529", "P2963440", "P9998294",
-            "P9996364", "P2963437", "P9999067", "P2964041",
-            "P9934693", "P9984831", "P2970386", "P9911127"
-        ];
-
-        let dataSatuan = [];
-        let selectedIdx = -1;
-        let isAdmin = false;
-        let pendingAction = null;
-        let tempFiles = {};
-
-        // Firebase-specific references
-        let db = null;
-        let auth = null;
-        let isFirebaseActive = false;
-        let appId = 'default-app-id';
-
-        // Password Admin Dinas
-        const ADMIN_PASSWORD_HASH = "sumedang2026"; 
-
-        // Toast alert UI
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
+    <!-- HIDDEN PDF GENERATION DOCK (Hanya muncul saat proses render PDF berjalan di balik layar) -->
+    <div style="display: none;">
+        <div id="print-area">
+            <h1 class="text-center">LAPORAN REKAPITULASI HASIL PENILAIAN KINERJA KEPALA SEKOLAH (PKKS)</h1>
+            <h2 class="text-center">PENDIDIKAN NON FORMAL (SKB/PKBM) KABUPATEN SUMEDANG TAHUN 2026</h2>
+            <div class="m-t-20">
+                <p>Waktu Unduh: <span id="pdf-download-time">-</span></p>
+                <p>Status Data: Validated Cloud Storage Sync</p>
+            </div>
             
-            let icon = '<i class="fa-solid fa-circle-check" style="color: var(--success)"></i>';
-            if (type === 'error') {
-                icon = '<i class="fa-solid fa-circle-xmark" style="color: var(--danger)"></i>';
-            } else if (type === 'info') {
-                icon = '<i class="fa-solid fa-circle-info" style="color: var(--primary)"></i>';
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-center">No</th>
+                        <th>NPSN</th>
+                        <th>Nama Lembaga</th>
+                        <th class="text-center">K1 (30%)</th>
+                        <th class="text-center">K2 (20%)</th>
+                        <th class="text-center">K3 (25%)</th>
+                        <th class="text-center">K4 (25%)</th>
+                        <th class="text-center">Skor Akhir</th>
+                        <th class="text-center">Predikat</th>
+                    </tr>
+                </thead>
+                <tbody id="pdf-table-body">
+                    <!-- Cloned via JS -->
+                </tbody>
+            </table>
+
+            <div class="signature-grid">
+                <div>
+                    <p>Mengetahui,</p>
+                    <p class="fw-bold m-t-20" style="margin-top: 60px;">Ketua Tim Penilai PKKS</p>
+                    <p>NIP. ..........................................</p>
+                </div>
+                <div>
+                    <p>Sumedang, 2026</p>
+                    <p class="fw-bold m-t-20" style="margin-top: 60px;">Penilai / Asesor PKKS</p>
+                    <p>NIP. ..........................................</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FIREBASE INTEGRATION MODULE ==================== -->
+    <script type="module">
+        // Import Firebase Core, Firestore, dan Firebase Storage SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDocs, collection, query, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+        // Konfigurasi Google Firebase SDK
+        // GANTI DETAIL DI BAWAH INI DENGAN KONFIGURASI DARI FIREBASE CONSOLE ANDA
+        const firebaseConfig = {
+            apiKey: "",
+            authDomain: "pkks-pnf-sumedang.firebaseapp.com",
+            projectId: "pkks-pnf-sumedang",
+            storageBucket: "pkks-pnf-sumedang.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:12345:web:abcde"
+        };
+
+        // Inisialisasi Firebase Services
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // State Global Aplikasi
+        let dbAppId = 'pkks-pnf-sumedang-2026';
+        let isRealtimeActive = false;
+
+        // FUNGSI UTAMA: Sinkronisasi Cloud dengan Firestore & Firebase Storage
+        async function setupCloudDatabase() {
+            try {
+                const loaderText = document.getElementById("loader-text");
+                if (loaderText) loaderText.innerText = "Mengunduh struktur database lembaga dari cloud...";
+
+                // Menggunakan query sederhana untuk mengambil koleksi dataSatuan dari cloud
+                const publicCollectionRef = collection(db, 'artifacts', dbAppId, 'public', 'data', 'dataSatuan');
+                
+                // Set Up Realtime listener agar data terupdate secara instan bagi seluruh asesor/penilai
+                onSnapshot(publicCollectionRef, (snapshot) => {
+                    let loadedData = [];
+                    snapshot.forEach((doc) => {
+                        loadedData.push(doc.data());
+                    });
+
+                    // Jika data ada di Cloud, replace data lokal default
+                    if (loadedData.length > 0) {
+                        window.dataSatuan = loadedData;
+                    } else {
+                        // Jika cloud kosong, inisialisasi dengan data dummy default bawaan di index.html
+                        initializeDefaultDataToCloud();
+                    }
+
+                    // Mutakhirkan Antarmuka UI Dashboard
+                    updateDashboardMetrics();
+                    renderTableSatuan();
+                    populateSchoolSelectors();
+                    
+                    // Hilangkan Layar Loader Pengisi Sistem
+                    const loader = document.getElementById("app-loader");
+                    if (loader) {
+                        loader.style.opacity = "0";
+                        setTimeout(() => loader.style.display = "none", 300);
+                    }
+                    isRealtimeActive = true;
+                    showToast("Database Firestore & Storage Berhasil Sinkron!", "success");
+                }, (error) => {
+                    console.error("Kesalahan Firestore Snapshots: ", error);
+                    showToast("Gagal memuat pembaruan otomatis database.", "error");
+                });
+
+            } catch (err) {
+                console.error("Gagal inisialisasi Cloud Services:", err);
+                showToast("Koneksi cloud gagal. Bekerja dalam mode cadangan.", "error");
+                // Fallback hilangkan loader agar aplikasi tetap dapat diakses
+                const loader = document.getElementById("app-loader");
+                if (loader) loader.style.display = "none";
             }
+        }
 
-            toast.innerHTML = `
-                ${icon}
-                <span>${message}</span>
-            `;
+        // Simpan Data Satuan Sekolah Terpilih ke Firestore
+        async function saveToFirestore(schoolObj) {
+            try {
+                // Gunakan NPSN sebagai ID dokumen agar unik
+                const docRef = doc(db, 'artifacts', dbAppId, 'public', 'data', 'dataSatuan', schoolObj.npsn);
+                await setDoc(docRef, schoolObj);
+                console.log(`Berhasil sinkronisasi Firestore untuk NPSN: ${schoolObj.npsn}`);
+            } catch (error) {
+                console.error("Gagal sinkron data ke Firestore: ", error);
+                showToast("Gagal menyinkronkan data ke Server Cloud", "error");
+            }
+        }
 
+        // Unggah File ke Firebase Storage dan Update URL Unduhan di Firestore
+        async function uploadFileToFirebaseStorage(file, schoolNpsn, parameterId) {
+            try {
+                showToast(`Mengunggah berkas bukti dukung ${file.name}...`, "info");
+                
+                // Buat rujukan lokasi penyimpanan di Firebase Storage
+                // Jalur berkas: evidence/{NPSN}/{KomponenId}_{NamaFileAsli}
+                const storageRef = ref(storage, `evidence/${schoolNpsn}/${parameterId}_${file.name}`);
+                
+                // Unggah berkas asli secara langsung
+                const snapshot = await uploadBytes(storageRef, file);
+                
+                // Dapatkan link URL publik dari berkas yang diunggah
+                const downloadUrl = await getDownloadURL(snapshot.ref);
+                
+                // Cari index sekolah target di data lokal
+                const schoolIndex = window.dataSatuan.findIndex(s => s.npsn === schoolNpsn);
+                if (schoolIndex !== -1) {
+                    // Masukkan URL unduhan ke field evidence di objek sekolah
+                    if (parameterId === 'p1') {
+                        window.dataSatuan[schoolIndex].p1_file = file.name;
+                        window.dataSatuan[schoolIndex].p1_file_data = downloadUrl; // Ganti isian string base64 dengan link download Storage
+                    } else if (parameterId === 'p2') {
+                        window.dataSatuan[schoolIndex].p2_file = file.name;
+                        window.dataSatuan[schoolIndex].p2_file_data = downloadUrl; // Ganti isian string base64 dengan link download Storage
+                    }
+                    
+                    // Simpan data terbaru objek sekolah ini kembali ke Cloud Firestore
+                    await saveToFirestore(window.dataSatuan[schoolIndex]);
+                    showToast(`Berkas bukti dukung berhasil diunggah ke Storage!`, "success");
+                    
+                    // Muat ulang rendering UI evaluasi yang aktif
+                    renderActiveParameter();
+                }
+            } catch (error) {
+                console.error("Gagal mengunggah file ke Firebase Storage: ", error);
+                showToast("Kesalahan sistem pengunggahan berkas.", "error");
+            }
+        }
+
+        // Push data awal/default jika database cloud kosong
+        async function initializeDefaultDataToCloud() {
+            try {
+                for (let school of window.dataSatuan) {
+                    await saveToFirestore(school);
+                }
+                console.log("Inisialisasi data default berhasil disimpan ke cloud!");
+            } catch (e) {
+                console.error("Gagal melakukan inisialisasi awal ke cloud", e);
+            }
+        }
+
+        // Ekspos fungsi cloud ke objek window agar fungsi lokal bawaan bisa memanggilnya
+        window.setupCloudDatabase = setupCloudDatabase;
+        window.saveToFirestore = saveToFirestore;
+        window.uploadFileToFirebaseStorage = uploadFileToFirebaseStorage;
+
+        // Mulai sambungkan ke Cloud pada saat DOM siap dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            setupCloudDatabase();
+        });
+    </script>
+
+    <!-- ==================== LOCAL LOGICAL SYSTEM SCRIPT ==================== -->
+    <script>
+        // Data Dummy Terverifikasi Dinas Pendidikan Kabupaten Sumedang (Data Satuan PKBM & SKB)
+        window.dataSatuan = [
+            {
+                npsn: "P9926123", nama: "SKB Kabupaten Sumedang", jenis: "SKB", kecamatan: "Sumedang Utara",
+                p1_1: 4, p1_2: 4, p1_3: 4, p1_avg: 4.0,
+                p2_1: 4, p2_2: 4, p2_avg: 4.0,
+                p3_1: 4, p3_2: 4, p3_3: 4, p3_avg: 4.0,
+                p4_1: 4, p4_2: 4, p4_avg: 4.0,
+                skor_akhir: 100.00, predikat: "A (Sangat Baik)", status: "Selesai Dinilai",
+                p1_file: "SK_Pendirian.pdf", p1_file_data: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                p2_file: null, p2_file_data: null
+            },
+            {
+                npsn: "P2963155", nama: "PKBM Bina Mandiri", jenis: "PKBM", kecamatan: "Sumedang Selatan",
+                p1_1: 0, p1_2: 0, p1_3: 0, p1_avg: 0.0,
+                p2_1: 0, p2_2: 0, p2_avg: 0.0,
+                p3_1: 0, p3_2: 0, p3_3: 0, p3_avg: 0.0,
+                p4_1: 0, p4_2: 0, p4_avg: 0.0,
+                skor_akhir: 0.00, predikat: "Belum Dinilai", status: "Belum Dinilai",
+                p1_file: null, p1_file_data: null,
+                p2_file: null, p2_file_data: null
+            },
+            {
+                npsn: "P2963160", nama: "PKBM Al-Falah", jenis: "PKBM", kecamatan: "Cimalaka",
+                p1_1: 0, p1_2: 0, p1_3: 0, p1_avg: 0.0,
+                p2_1: 0, p2_2: 0, p2_avg: 0.0,
+                p3_1: 0, p3_2: 0, p3_3: 0, p3_avg: 0.0,
+                p4_1: 0, p4_2: 0, p4_avg: 0.0,
+                skor_akhir: 0.00, predikat: "Belum Dinilai", status: "Belum Dinilai",
+                p1_file: null, p1_file_data: null,
+                p2_file: null, p2_file_data: null
+            },
+            {
+                npsn: "P2963175", nama: "PKBM Mandiri Utama", jenis: "PKBM", kecamatan: "Wado",
+                p1_1: 3, p1_2: 3, p1_3: 4, p1_avg: 3.33,
+                p2_1: 3, p2_2: 4, p2_avg: 3.5,
+                p3_1: 4, p3_2: 3, p3_3: 3, p3_avg: 3.33,
+                p4_1: 4, p4_2: 4, p4_avg: 4.0,
+                skor_akhir: 87.50, predikat: "A (Sangat Baik)", status: "Selesai Dinilai",
+                p1_file: "Rencana_Mutu_Satuan.pdf", p1_file_data: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                p2_file: "Brosur_Produk_Inovasi.pdf", p2_file_data: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+            }
+        ];
+
+        // System Config & State
+        let selectedSchoolNpsn = "";
+        let currentParameterId = 1;
+        let isAdminLoggedIn = false;
+
+        // Parameter & Indikator Rubrik PKKS PNF
+        const instrumenPKKS = {
+            1: {
+                title: "Komponen 1: Kepemimpinan & Manajerial (Bobot 30%)",
+                indicators: [
+                    { id: "p1_1", label: "Indikator 1.1: Perencanaan Program Kerja Satuan", rubric: "Asesor menilai kejelasan visi, misi, dan target operasional satuan pendidikan (SKB/PKBM)." },
+                    { id: "p1_2", label: "Indikator 1.2: Pengelolaan Sumber Daya Manusia (PTK)", rubric: "Asesor menilai efektivitas pembagian tugas pendidik, tenaga kependidikan, serta pembinaan kompetensi rutin." },
+                    { id: "p1_3", label: "Indikator 1.3: Pengelolaan Sarana Prasarana & Keuangan", rubric: "Asesor menilai transparansi pengelolaan keuangan dan pemeliharaan inventaris aset secara berkala." }
+                ],
+                evidence_req: "Dokumen KTSP / Kurikulum Satuan, Rencana Anggaran Pendapatan Belanja (RAPB) Lembaga.",
+                evidence_id: "p1"
+            },
+            2: {
+                title: "Komponen 2: Kewirausahaan & Inovasi (Bobot 20%)",
+                indicators: [
+                    { id: "p2_1", label: "Indikator 2.1: Kemitraan Dunia Kerja & Pemberdayaan Masyarakat", rubric: "Asesor menilai keberadaan MoU aktif dengan UMKM, industri, atau pemerintah desa setempat." },
+                    { id: "p2_2", label: "Indikator 2.2: Pengembangan Program Kursus / Unit Produksi Mandiri", rubric: "Asesor menilai kemampuan lembaga dalam mendatangkan pendapatan mandiri di luar dana hibah pemerintah (BOSP/BOP)." }
+                ],
+                evidence_req: "Dokumen MoU Kerjasama Mitra, Foto Produk Layanan Unggulan/Unit Usaha Lembaga.",
+                evidence_id: "p2"
+            },
+            3: {
+                title: "Komponen 3: Supervisi & Pendidik (Bobot 25%)",
+                indicators: [
+                    { id: "p3_1", label: "Indikator 3.1: Pelaksanaan Evaluasi Kinerja Guru", rubric: "Asesor menilai keberadaan instrumen supervisi kelas, hasil evaluasi pengajaran, dan catatan perbaikan." },
+                    { id: "p3_2", label: "Indikator 3.2: Tindak Lanjut Hasil Supervisi Pendidik", rubric: "Asesor menilai adanya pelatihan khusus atau coaching bagi guru pasca supervisi dilaksanakan." },
+                    { id: "p3_3", label: "Indikator 3.3: Pengembangan Kompetensi Mandiri Kepala Satuan", rubric: "Asesor menilai sertifikat keikutsertaan Diklat/Seminar kepemimpinan kepala sekolah." }
+                ],
+                evidence_req: "Dokumen Dokumen Supervisi Pendidik, Sertifikat Diklat Kepala Satuan.",
+                evidence_id: "p3"
+            },
+            4: {
+                title: "Komponen 4: Pengembangan Mutu (Bobot 25%)",
+                indicators: [
+                    { id: "p4_1", label: "Indikator 4.1: Evaluasi Diri Satuan (EDS) & Rapor Pendidikan", rubric: "Asesor menilai pemanfaatan platform Rapor Pendidikan untuk perencanaan program tahunan berbasis data." },
+                    { id: "p4_2", label: "Indikator 4.2: Peningkatan Status Akreditasi Lembaga", rubric: "Asesor menilai pencapaian nilai akreditasi BAN-PDM (minimal Terakreditasi B)." }
+                ],
+                evidence_req: "Unduhan Rapor Pendidikan Satuan, Sertifikat Akreditasi Terkini.",
+                evidence_id: "p4"
+            }
+        };
+
+        // UI Toast Notification Helper
+        function showToast(message, type = "info") {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            
+            let icon = '<i class="fa-solid fa-info-circle"></i>';
+            if (type === 'success') icon = '<i class="fa-solid fa-circle-check"></i>';
+            if (type === 'error') icon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+
+            toast.innerHTML = `${icon} <span>${message}</span>`;
             container.appendChild(toast);
 
             setTimeout(() => {
-                toast.style.animation = 'fadeOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards';
-                toast.addEventListener('animationend', () => {
+                toast.classList.add("fadeOut");
+                toast.addEventListener("animationend", () => {
                     toast.remove();
                 });
             }, 3000);
         }
 
-        // Initialize Firebase Google Apps Database persistence
-        async function setupCloudDatabase() {
-            // Check session status first
-            const adminSession = sessionStorage.getItem('pkks_is_admin');
-            if (adminSession === 'true') {
-                isAdmin = true;
-                updateAdminSidebarUI();
-            }
-
-            // Detect environment injected config variables
-            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                try {
-                    appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-                    const firebaseConfig = JSON.parse(__firebase_config);
-                    
-                    const app = initializeApp(firebaseConfig);
-                    auth = getAuth(app);
-                    db = getFirestore(app);
-                    isFirebaseActive = true;
-
-                    // Auth Rule 3 validation
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-
-                    onAuthStateChanged(auth, (user) => {
-                        if (user) {
-                            showToast("Berhasil sinkronisasi dengan Google Cloud Database!", "success");
-                            syncFromFirestore();
-                        }
-                    });
-                } catch (err) {
-                    console.error("Cloud database setup failed, using Local Storage:", err);
-                    setupLocalStorageFallback();
-                }
-            } else {
-                setupLocalStorageFallback();
-            }
-        }
-
-        // Setup Local Storage Fallback if Firebase not injected
-        function setupLocalStorageFallback() {
-            const localData = localStorage.getItem('pkks_32_master_data');
-            if (localData) {
-                const parsedData = JSON.parse(localData);
-                dataSatuan = parsedData.map((item, idx) => {
-                    return {
-                        ...item,
-                        m3: item.m3 || 0,
-                        s2: item.s2 || 0,
-                        p2: item.p2 || 0,
-                        m1_file: item.m1_file || null,
-                        m2_file: item.m2_file || null,
-                        m3_file: item.m3_file || null,
-                        k1_file: item.k1_file || null,
-                        k2_file: item.k2_file || null,
-                        s1_file: item.s1_file || null,
-                        s2_file: item.s2_file || null,
-                        p1_file: item.p1_file || null,
-                        p2_file: item.p2_file || null
-                    };
-                });
-            } else {
-                for(let i = 0; i < 32; i++) {
-                    dataSatuan.push({
-                        id: i + 1,
-                        npsn: npsnMaster[i],
-                        nama: namaPKBMMaster[i],
-                        kepala: kepalaSekolahMaster[i],
-                        alamat: alamatSekolahMaster[i],
-                        status: false,
-                        m1: 0, m2: 0, m3: 0,
-                        k1: 0, k2: 0,
-                        s1: 0, s2: 0,
-                        p1: 0, p2: 0,
-                        rataRata: 0,
-                        m1_file: null, m2_file: null, m3_file: null,
-                        k1_file: null, k2_file: null,
-                        s1_file: null, s2_file: null,
-                        p1_file: null, p2_file: null
-                    });
-                }
-                saveToDatabase();
-            }
-            selectedIdx = 0;
-            updateDashboardMetrics();
-        }
-
-        // Read all documents from Firestore path securely (Rule 1 & Rule 2)
-        async function syncFromFirestore() {
-            if (!db || !auth.currentUser) return;
-            try {
-                // Rule 1 strict public data path
-                const querySnapshot = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'pkks_sumedang_2026'));
-                let cloudData = [];
-                querySnapshot.forEach((doc) => {
-                    cloudData.push(doc.data());
-                });
-
-                if (cloudData.length > 0) {
-                    // Sort by original id index
-                    cloudData.sort((a, b) => a.id - b.id);
-                    dataSatuan = cloudData;
-                } else {
-                    // Populate initial 32 units if cloud is blank
-                    for(let i = 0; i < 32; i++) {
-                        dataSatuan.push({
-                            id: i + 1,
-                            npsn: npsnMaster[i],
-                            nama: namaPKBMMaster[i],
-                            kepala: kepalaSekolahMaster[i],
-                            alamat: alamatSekolahMaster[i],
-                            status: false,
-                            m1: 0, m2: 0, m3: 0,
-                            k1: 0, k2: 0,
-                            s1: 0, s2: 0,
-                            p1: 0, p2: 0,
-                            rataRata: 0,
-                            m1_file: null, m2_file: null, m3_file: null,
-                            k1_file: null, k2_file: null,
-                            s1_file: null, s2_file: null,
-                            p1_file: null, p2_file: null
-                        });
-                    }
-                    await saveAllToCloud();
-                }
-                selectedIdx = 0;
-                updateDashboardMetrics();
-                if (document.getElementById('page-satuan').classList.contains('active')) {
-                    renderTableSatuan();
-                }
-            } catch (err) {
-                console.error("Firestore sync fail:", err);
-                setupLocalStorageFallback();
-            }
-        }
-
-        // Save all data locally or to Firestore
-        async function saveToDatabase() {
-            if (isFirebaseActive && db && auth.currentUser) {
-                await saveSingleToCloud(selectedIdx);
-            } else {
-                saveToLocalStorage();
-            }
-        }
-
-        async function saveSingleToCloud(idx) {
-            if (idx === -1 || !dataSatuan[idx]) return;
-            try {
-                const school = dataSatuan[idx];
-                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'pkks_sumedang_2026', 'school_' + school.id);
-                await setDoc(docRef, school);
-            } catch (err) {
-                console.error("Failed to save doc to cloud:", err);
-            }
-        }
-
-        async function saveAllToCloud() {
-            for (let i = 0; i < dataSatuan.length; i++) {
-                await saveSingleToCloud(i);
-            }
-        }
-
-        // Routing Page Navigation Control
+        // Navigation Engine
         function showPage(pageId) {
-            if (pageId === 'instrumen' && !isAdmin) {
-                pendingAction = { type: 'navigate', target: 'instrumen' };
-                openAdminModal();
-                return;
-            }
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+            const targetPage = document.getElementById(`page-${pageId}`);
+            const targetNav = document.getElementById(`nav-${pageId}`);
             
-            document.getElementById('page-' + pageId).classList.add('active');
-            document.getElementById('nav-' + pageId).classList.add('active');
+            if (targetPage) targetPage.classList.add('active');
+            if (targetNav) targetNav.classList.add('active');
 
-            if(pageId === 'beranda') updateDashboardMetrics();
-            else if(pageId === 'satuan') renderTableSatuan();
-            else if(pageId === 'instrumen') loadInstrumenForm();
+            // Set Title & Subtitle Dynamic Header
+            const titleEl = document.getElementById("page-title");
+            const subEl = document.getElementById("page-subtitle");
+
+            if (pageId === 'dashboard') {
+                titleEl.innerText = "Dashboard Utama";
+                subEl.innerText = "Rangkuman Kinerja Penilaian Kinerja Kepala Sekolah Non Formal";
+                document.getElementById("btn-add-school-dashboard").style.display = isAdminLoggedIn ? "inline-flex" : "none";
+            } else if (pageId === 'evaluasi') {
+                titleEl.innerText = "Ruang Asesmen PKKS";
+                subEl.innerText = "Silakan pilih lembaga dan isi nilai evaluasi beserta unggah bukti dukung";
+                document.getElementById("btn-add-school-dashboard").style.display = "none";
+            } else if (pageId === 'rekapitulasi') {
+                titleEl.innerText = "Rekapitulasi Penilaian";
+                subEl.innerText = "Ekspor laporan rekapitulasi penilaian dalam bentuk PDF maupun CSV";
+                document.getElementById("btn-add-school-dashboard").style.display = "none";
+                renderRekapTable();
+            }
         }
 
+        // Hitung Kinerja Metrik di Dashboard Utama
+        function updateDashboardMetrics() {
+            const total = window.dataSatuan.length;
+            const completed = window.dataSatuan.filter(s => s.status === "Selesai Dinilai").length;
+            
+            // Average calculation of school scores
+            let sum = 0;
+            let activeGraded = 0;
+            window.dataSatuan.forEach(s => {
+                if (s.skor_akhir > 0) {
+                    sum += s.skor_akhir;
+                    activeGraded++;
+                }
+            });
+            const avg = activeGraded > 0 ? (sum / activeGraded).toFixed(2) : "0.0";
+
+            document.getElementById("metric-total-sekolah").innerText = total;
+            document.getElementById("metric-completed").innerText = completed;
+            document.getElementById("metric-avg-score").innerText = avg;
+        }
+
+        // Render data lembaga ke tabel Dashboard
         function renderTableSatuan() {
-            const tbody = document.getElementById('schools-tbody');
-            tbody.innerHTML = '';
+            const tbody = document.getElementById("table-satuan-body");
+            tbody.innerHTML = "";
 
-            dataSatuan.forEach((item, idx) => {
-                const tr = document.createElement('tr');
-                const badge = item.status ? 
-                    `<span class="status-badge badge-done"><i class="fa-solid fa-circle-check"></i> Selesai</span>` : 
-                    `<span class="status-badge badge-pending"><i class="fa-solid fa-circle-minus"></i> Kosong</span>`;
+            window.dataSatuan.forEach(s => {
+                const badgeClass = s.status === "Selesai Dinilai" ? "badge-success" : "badge-danger";
+                
+                let actionBtnHtml = `<button class="btn btn-secondary" onclick="pergiEvaluasiLembaga('${s.npsn}')" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;"><i class="fa-solid fa-star-half-stroke"></i> Evaluasi</button>`;
+                
+                if (isAdminLoggedIn) {
+                    actionBtnHtml += ` <button class="btn btn-danger" onclick="hapusLembaga('${s.npsn}')" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;"><i class="fa-solid fa-trash"></i></button>`;
+                }
 
+                const tr = document.createElement("tr");
                 tr.innerHTML = `
-                    <td>${item.id}</td>
-                    <td><code style="font-weight: 600; color: var(--primary);">${item.npsn}</code></td>
-                    <td><strong>${item.nama}</strong></td>
-                    <td>${item.kepala}</td>
-                    <td style="font-size: 13px; color: var(--text-muted); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${item.alamat}">${item.alamat}</td>
-                    <td>${badge}</td>
-                    <td><strong style="color: var(--primary);">${item.rataRata.toFixed(1)}</strong></td>
-                    <td>
-                        <button class="action-btn" onclick="pilihSekolahEvaluasi(${idx})"><i class="fa-solid fa-user-pen"></i> Evaluasi</button>
-                    </td>
+                    <td class="fw-bold">${s.npsn}</td>
+                    <td><div style="font-weight: 600;">${s.nama}</div></td>
+                    <td>${s.kecamatan}</td>
+                    <td><span class="badge badge-info">${s.jenis}</span></td>
+                    <td><span class="badge ${badgeClass}">${s.status}</span></td>
+                    <td class="fw-bold text-center" style="font-size: 1rem; color: var(--primary);">${s.skor_akhir.toFixed(2)}</td>
+                    <td><span class="fw-bold">${s.predikat}</span></td>
+                    <td>${actionBtnHtml}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        function pilihSekolahEvaluasi(idx) {
-            if (!isAdmin) {
-                pendingAction = { type: 'evaluate', index: idx };
-                openAdminModal();
+        // Navigasi cepat dari dashboard ke tab evaluasi sekolah
+        function pergiEvaluasiLembaga(npsn) {
+            const selector = document.getElementById("eval-school-selector");
+            selector.value = npsn;
+            pilihSekolahEvaluasi();
+            showPage('evaluasi');
+        }
+
+        // Isi dropdown pilihan sekolah
+        function populateSchoolSelectors() {
+            const selector = document.getElementById("eval-school-selector");
+            selector.innerHTML = `<option value="">-- Pilih Lembaga --</option>`;
+            
+            window.dataSatuan.forEach(s => {
+                const opt = document.createElement("option");
+                opt.value = s.npsn;
+                opt.innerText = `${s.nama} (${s.npsn})`;
+                selector.appendChild(opt);
+            });
+
+            if (selectedSchoolNpsn) {
+                selector.value = selectedSchoolNpsn;
+            }
+        }
+
+        // Ganti Sekolah Terpilih di Halaman Evaluasi
+        function pilihSekolahEvaluasi() {
+            const selector = document.getElementById("eval-school-selector");
+            selectedSchoolNpsn = selector.value;
+
+            if (!selectedSchoolNpsn) {
+                document.getElementById("eval-school-name").innerText = "-";
+                document.getElementById("eval-school-desc").innerText = "NPSN: - | Kecamatan: -";
+                document.getElementById("indicators-container").innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 3rem 0;">Silakan pilih sekolah terlebih dahulu pada dropdown di atas.</p>`;
                 return;
             }
-            selectedIdx = idx;
-            showPage('instrumen');
-        }
 
-        function syncScoreText(id) {
-            const val = document.getElementById('score-' + id).value;
-            document.getElementById('txt-' + id).innerText = val;
-        }
-
-        // HANDLER FILE UPLOAD DOKUMENTASI (Read File as Base64 dataURL for Google App Storage)
-        function handleEvidenceUpload(id) {
-            const fileInput = document.getElementById('file-' + id);
-            const badge = document.getElementById('badge-' + id);
-            
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
+            const school = window.dataSatuan.find(s => s.npsn === selectedSchoolNpsn);
+            if (school) {
+                document.getElementById("eval-school-name").innerText = school.nama;
+                document.getElementById("eval-school-desc").innerText = `NPSN: ${school.npsn} | Kecamatan: ${school.kecamatan} | Tipe: ${school.jenis}`;
                 
-                // Firestore limit is 1MB per document, keep file under 800KB safely
-                if (file.size > 800 * 1024) {
-                    showToast("Ukuran berkas melebihi batas database cloud (Max 800 KB)!", "error");
-                    fileInput.value = "";
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const base64Data = e.target.result;
-                    const fileSizeKB = (file.size / 1024).toFixed(1);
-                    
-                    const fileInfo = {
-                        name: file.name,
-                        size: fileSizeKB + " KB"
-                    };
-                    
-                    // Temporary store the Base64 along metadata in memory
-                    tempFiles[id + '_file'] = fileInfo;
-                    tempFiles[id + '_file_data'] = base64Data;
-                    
-                    // Update UI badge with direct download capability
-                    badge.style.display = 'inline-flex';
-                    badge.className = 'file-status-badge';
-                    badge.innerHTML = `
-                        <i class="fa-solid fa-circle-check"></i> ${file.name} (${fileSizeKB} KB)
-                        <button type="button" onclick="downloadEvidence('${id}')" style="margin-left:8px; background:none; border:none; color:var(--primary); cursor:pointer;" title="Unduh Berkas"><i class="fa-solid fa-download"></i></button>
-                    `;
-                    showToast(`Bukti fisik untuk indikator ${id.toUpperCase()} berhasil diunggah!`, 'info');
-                };
-                reader.readAsDataURL(file);
+                // Perbarui nilai lencana pada tab-tab komponen di sebelah kiri
+                updateComponentScoresInLeftBadges(school);
+                
+                // Muat parameter aktif
+                renderActiveParameter();
             }
         }
 
-        // DOWNLOAD DIRECT EVIDENCE (Restores original document from Google cloud Base64)
-        function downloadEvidence(indicatorId) {
-            // Get files from temporary or main memory safely
-            const fileData = tempFiles[indicatorId + '_file_data'] || (dataSatuan[selectedIdx] && dataSatuan[selectedIdx][indicatorId + '_file_data']);
-            const fileMeta = tempFiles[indicatorId + '_file'] || (dataSatuan[selectedIdx] && dataSatuan[selectedIdx][indicatorId + '_file']);
+        function updateComponentScoresInLeftBadges(school) {
+            document.getElementById("param-badge-1").innerText = school.p1_avg ? school.p1_avg.toFixed(2) : "0.0";
+            document.getElementById("param-badge-2").innerText = school.p2_avg ? school.p2_avg.toFixed(2) : "0.0";
+            document.getElementById("param-badge-3").innerText = school.p3_avg ? school.p3_avg.toFixed(2) : "0.0";
+            document.getElementById("param-badge-4").innerText = school.p4_avg ? school.p4_avg.toFixed(2) : "0.0";
+        }
+
+        function switchParameter(paramId) {
+            document.querySelectorAll(".parameter-card").forEach(c => c.classList.remove("active"));
+            document.getElementById(`param-card-${paramId}`).classList.add("active");
+            currentParameterId = paramId;
+            renderActiveParameter();
+        }
+
+        // Render Indikator Evaluasi Komponen Aktif
+        function renderActiveParameter() {
+            if (!selectedSchoolNpsn) return;
             
-            if (fileData && fileMeta) {
-                const link = document.createElement('a');
-                link.href = fileData;
-                link.download = fileMeta.name;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                showToast("Berkas berhasil diunduh!", "success");
+            const school = window.dataSatuan.find(s => s.npsn === selectedSchoolNpsn);
+            const comp = instrumenPKKS[currentParameterId];
+            
+            document.getElementById("active-param-title").innerText = comp.title;
+            
+            // Render skor rata-rata komponen aktif saat ini
+            let scoreKey = `p${currentParameterId}_avg`;
+            let currentScore = school[scoreKey] ? school[scoreKey].toFixed(2) : "0.00";
+            document.getElementById("active-param-calc-score").innerText = `Skor Komponen: ${currentScore}`;
+
+            const container = document.getElementById("indicators-container");
+            container.innerHTML = "";
+
+            // Render slider skor untuk masing-masing indikator komponen
+            comp.indicators.forEach(ind => {
+                const currentVal = school[ind.id] || 0;
+                const row = document.createElement("div");
+                row.className = "indicator-row";
+                row.innerHTML = `
+                    <div class="indicator-header">
+                        <div class="indicator-desc">
+                            <h6>${ind.label}</h6>
+                            <p>${ind.rubric}</p>
+                        </div>
+                    </div>
+                    <div class="scoring-section">
+                        <div class="range-slider-container">
+                            <span style="font-size: 0.85rem; font-weight: 600;">Skor: 0</span>
+                            <input type="range" min="0" max="4" value="${currentVal}" id="slide-${ind.id}" oninput="syncScoreText('${ind.id}', this.value)">
+                            <span style="font-size: 0.85rem; font-weight: 600;">4</span>
+                        </div>
+                        <div class="score-output" id="val-text-${ind.id}">${currentVal}</div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            // Evidence Upload Section
+            const evidenceContainer = document.createElement("div");
+            evidenceContainer.style.marginTop = "2rem";
+            evidenceContainer.style.paddingTop = "1.5rem";
+            evidenceContainer.style.borderTop = "2px dashed var(--border-color)";
+            
+            let fileKey = `${comp.evidence_id}_file`;
+            let fileDataKey = `${comp.evidence_id}_file_data`;
+            
+            let evidenceStatusText = "Belum Unggah Berkas Bukti";
+            let actionBtn = "";
+
+            // Deteksi jika file sudah terunggah dan memiliki link URL Firebase Storage
+            if (school[fileKey]) {
+                evidenceStatusText = `Tersimpan: ${school[fileKey]}`;
+                actionBtn = `
+                    <button class="btn btn-secondary" onclick="downloadEvidence('${school[fileDataKey]}')" style="padding: 0.5rem;"><i class="fa-solid fa-download"></i> Unduh</button>
+                    <button class="btn btn-danger" onclick="hapusEvidence('${comp.evidence_id}')" style="padding: 0.5rem;"><i class="fa-solid fa-trash-can"></i></button>
+                `;
             } else {
-                showToast("Berkas bukti fisik tidak ditemukan!", "error");
-            }
-        }
-
-        function loadInstrumenForm() {
-            const banner = document.getElementById('current-school-banner');
-            const identitasCard = document.getElementById('form-identitas-card');
-
-            if (selectedIdx === -1 || !dataSatuan[selectedIdx]) {
-                banner.innerHTML = `<div class="info-block"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i> <span>Harap pilih satuan PKBM di tab data untuk memulai penilaian.</span></div>`;
-                if(identitasCard) identitasCard.style.display = 'none';
-                return;
+                actionBtn = `
+                    <label class="btn btn-primary" style="margin: 0; cursor: pointer;">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Unggah Bukti
+                        <input type="file" style="display: none;" onchange="handleEvidenceUpload(event, '${school.npsn}', '${comp.evidence_id}')" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
+                    </label>
+                `;
             }
 
-            if(identitasCard) identitasCard.style.display = 'block';
-
-            const sekolah = dataSatuan[selectedIdx];
-            banner.innerHTML = `
-                <div class="info-block" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px;">
-                    <div><i class="fa-solid fa-school" style="color: var(--sidebar-active)"></i> <span>Satpen Aktif Fokus Evaluasi: <strong>${sekolah.nama}</strong></span></div>
-                    <div style="font-size: 13px; color: var(--sidebar-text); margin-left: 24px;">
-                        <span>NPSN: <strong>${sekolah.npsn}</strong></span> | <span>Kepala Sekolah: <strong>${sekolah.kepala}</strong></span>
+            evidenceContainer.innerHTML = `
+                <h6 style="font-size: 0.95rem; font-weight: 600; color: var(--text-main);"><i class="fa-solid fa-paperclip" style="color: var(--primary);"></i> Bukti Dukung yang Diperlukan:</h6>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">${comp.evidence_req}</p>
+                <div class="evidence-box">
+                    <div class="evidence-info">
+                        <i class="fa-solid ${school[fileKey] ? 'fa-file-circle-check' : 'fa-file-shield'}" style="${school[fileKey] ? 'color: var(--success);' : 'color: var(--text-muted);'}"></i>
+                        <div class="evidence-meta">
+                            <h7>${evidenceStatusText}</h7>
+                            <span>Maksimal Ukuran File: 5MB (.pdf, .jpg, .docx)</span>
+                        </div>
+                    </div>
+                    <div class="evidence-actions">
+                        ${actionBtn}
                     </div>
                 </div>
             `;
-
-            // Reset temp file container from school's persistent database values
-            tempFiles = {
-                m1_file: sekolah.m1_file || null,
-                m1_file_data: sekolah.m1_file_data || null,
-                m2_file: sekolah.m2_file || null,
-                m2_file_data: sekolah.m2_file_data || null,
-                m3_file: sekolah.m3_file || null,
-                m3_file_data: sekolah.m3_file_data || null,
-                k1_file: sekolah.k1_file || null,
-                k1_file_data: sekolah.k1_file_data || null,
-                k2_file: sekolah.k2_file || null,
-                k2_file_data: sekolah.k2_file_data || null,
-                s1_file: sekolah.s1_file || null,
-                s1_file_data: sekolah.s1_file_data || null,
-                s2_file: sekolah.s2_file || null,
-                s2_file_data: sekolah.s2_file_data || null,
-                p1_file: sekolah.p1_file || null,
-                p1_file_data: sekolah.p1_file_data || null,
-                p2_file: sekolah.p2_file || null,
-                p2_file_data: sekolah.p2_file_data || null
-            };
-
-            // Load Identitas ke Input Field
-            document.getElementById('input-nama').value = sekolah.nama;
-            document.getElementById('input-npsn').value = sekolah.npsn;
-            document.getElementById('input-kepala').value = sekolah.kepala;
-            document.getElementById('input-alamat').value = sekolah.alamat;
-
-            // Load Nilai Skor Kinerja ke Slider (Expanded 9 Indicators)
-            document.getElementById('score-m1').value = sekolah.m1 || 0;
-            document.getElementById('score-m2').value = sekolah.m2 || 0;
-            document.getElementById('score-m3').value = sekolah.m3 || 0;
-            
-            document.getElementById('score-k1').value = sekolah.k1 || 0;
-            document.getElementById('score-k2').value = sekolah.k2 || 0;
-            
-            document.getElementById('score-s1').value = sekolah.s1 || 0;
-            document.getElementById('score-s2').value = sekolah.s2 || 0;
-            
-            document.getElementById('score-p1').value = sekolah.p1 || 0;
-            document.getElementById('score-p2').value = sekolah.p2 || 0;
-
-            syncScoreText('m1'); syncScoreText('m2'); syncScoreText('m3');
-            syncScoreText('k1'); syncScoreText('k2');
-            syncScoreText('s1'); syncScoreText('s2');
-            syncScoreText('p1'); syncScoreText('p2');
-
-            // Render upload badges from existing values
-            renderBadgeFromState('m1', sekolah.m1_file);
-            renderBadgeFromState('m2', sekolah.m2_file);
-            renderBadgeFromState('m3', sekolah.m3_file);
-            renderBadgeFromState('k1', sekolah.k1_file);
-            renderBadgeFromState('k2', sekolah.k2_file);
-            renderBadgeFromState('s1', sekolah.s1_file);
-            renderBadgeFromState('s2', sekolah.s2_file);
-            renderBadgeFromState('p1', sekolah.p1_file);
-            renderBadgeFromState('p2', sekolah.p2_file);
+            container.appendChild(evidenceContainer);
         }
 
-        function renderBadgeFromState(id, fileState) {
-            const badge = document.getElementById('badge-' + id);
-            const fileInput = document.getElementById('file-' + id);
-            fileInput.value = ""; // Clear file selector state
-            
-            if (fileState && fileState.name) {
-                badge.style.display = 'inline-flex';
-                badge.className = 'file-status-badge';
-                badge.innerHTML = `
-                    <i class="fa-solid fa-circle-check"></i> ${fileState.name} (${fileState.size})
-                    <button type="button" onclick="downloadEvidence('${id}')" style="margin-left:8px; background:none; border:none; color:var(--primary); cursor:pointer; line-height:1;" title="Unduh Berkas"><i class="fa-solid fa-download"></i></button>
-                `;
-            } else {
-                badge.style.display = 'none';
-            }
+        // Live scoring slider sinkronisasi
+        function syncScoreText(id, val) {
+            document.getElementById(`val-text-${id}`).innerText = val;
         }
 
-        async function saveScores() {
-            if (!isAdmin) {
-                showToast("Anda harus login sebagai Admin untuk menyimpan data!", "error");
+        // Menangani Pengunggahan Berkas Bukti Dukung ke Firebase Storage
+        function handleEvidenceUpload(event, npsn, parameterId) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validasi Ukuran File (maksimal 5 MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast("Ukuran berkas melebihi batas 5MB!", "error");
                 return;
             }
-            if (selectedIdx === -1) return;
 
-            // Simpan perubahan Identitas dari Input Form
-            dataSatuan[selectedIdx].nama = document.getElementById('input-nama').value.trim() || dataSatuan[selectedIdx].nama;
-            dataSatuan[selectedIdx].npsn = document.getElementById('input-npsn').value.trim() || dataSatuan[selectedIdx].npsn;
-            dataSatuan[selectedIdx].kepala = document.getElementById('input-kepala').value.trim() || dataSatuan[selectedIdx].kepala;
-            dataSatuan[selectedIdx].alamat = document.getElementById('input-alamat').value.trim() || dataSatuan[selectedIdx].alamat;
-
-            // Ambil Skor Kinerja dari 9 Indikator
-            const m1 = parseInt(document.getElementById('score-m1').value);
-            const m2 = parseInt(document.getElementById('score-m2').value);
-            const m3 = parseInt(document.getElementById('score-m3').value);
-            
-            const k1 = parseInt(document.getElementById('score-k1').value);
-            const k2 = parseInt(document.getElementById('score-k2').value);
-            
-            const s1 = parseInt(document.getElementById('score-s1').value);
-            const s2 = parseInt(document.getElementById('score-s2').value);
-            
-            const p1 = parseInt(document.getElementById('score-p1').value);
-            const p2 = parseInt(document.getElementById('score-p2').value);
-
-            // Perhitungan rata-rata per komponen secara adil
-            const avgM = (m1 + m2 + m3) / 3;
-            const avgK = (k1 + k2) / 2;
-            const avgS = (s1 + s2) / 2;
-            const avgP = (p1 + p2) / 2;
-
-            // Update array state
-            dataSatuan[selectedIdx].m1 = m1;
-            dataSatuan[selectedIdx].m2 = m2;
-            dataSatuan[selectedIdx].m3 = m3;
-            dataSatuan[selectedIdx].k1 = k1;
-            dataSatuan[selectedIdx].k2 = k2;
-            dataSatuan[selectedIdx].s1 = s1;
-            dataSatuan[selectedIdx].s2 = s2;
-            dataSatuan[selectedIdx].p1 = p1;
-            dataSatuan[selectedIdx].p2 = p2;
-
-            // Apply uploaded files along Base64 strings to target school
-            dataSatuan[selectedIdx].m1_file = tempFiles.m1_file || null;
-            dataSatuan[selectedIdx].m1_file_data = tempFiles.m1_file_data || null;
-            
-            dataSatuan[selectedIdx].m2_file = tempFiles.m2_file || null;
-            dataSatuan[selectedIdx].m2_file_data = tempFiles.m2_file_data || null;
-            
-            dataSatuan[selectedIdx].m3_file = tempFiles.m3_file || null;
-            dataSatuan[selectedIdx].m3_file_data = tempFiles.m3_file_data || null;
-            
-            dataSatuan[selectedIdx].k1_file = tempFiles.k1_file || null;
-            dataSatuan[selectedIdx].k1_file_data = tempFiles.k1_file_data || null;
-            
-            dataSatuan[selectedIdx].k2_file = tempFiles.k2_file || null;
-            dataSatuan[selectedIdx].k2_file_data = tempFiles.k2_file_data || null;
-            
-            dataSatuan[selectedIdx].s1_file = tempFiles.s1_file || null;
-            dataSatuan[selectedIdx].s1_file_data = tempFiles.s1_file_data || null;
-            
-            dataSatuan[selectedIdx].s2_file = tempFiles.s2_file || null;
-            dataSatuan[selectedIdx].s2_file_data = tempFiles.s2_file_data || null;
-            
-            dataSatuan[selectedIdx].p1_file = tempFiles.p1_file || null;
-            dataSatuan[selectedIdx].p1_file_data = tempFiles.p1_file_data || null;
-            
-            dataSatuan[selectedIdx].p2_file = tempFiles.p2_file || null;
-            dataSatuan[selectedIdx].p2_file_data = tempFiles.p2_file_data || null;
-
-            dataSatuan[selectedIdx].rataRata = (avgM + avgK + avgS + avgP) / 4;
-            dataSatuan[selectedIdx].status = true;
-
-            await saveToDatabase();
-            showToast(`Nilai, Identitas, & Berkas Bukti Fisik untuk ${dataSatuan[selectedIdx].nama} berhasil disimpan!`, 'success');
-            showPage('beranda');
-        }
-
-        function updateDashboardMetrics() {
-            let totalSelesai = 0;
-            let sumRataRata = 0;
-            const totalLembaga = dataSatuan.length;
-
-            dataSatuan.forEach(item => {
-                if (item.status) totalSelesai++;
-                sumRataRata += item.rataRata;
-            });
-
-            document.getElementById('dash-total-units').innerText = totalLembaga;
-            document.getElementById('dash-progress').innerText = `${totalSelesai} / ${totalLembaga}`;
-            document.getElementById('dash-avg').innerText = (sumRataRata / totalLembaga).toFixed(1);
-
-            const grafikTitle = document.getElementById('chart-main-title');
-            if (selectedIdx !== -1 && dataSatuan[selectedIdx]) {
-                const sk = dataSatuan[selectedIdx];
-                grafikTitle.innerHTML = `<i class="fa-solid fa-chart-bar" style="color:var(--primary)"></i> Grafik Kompetensi Kinerja: <strong>${sk.nama}</strong>`;
-                
-                // Hitung rata-rata dimensi untuk visualisasi grafik
-                const avgManajerial = ((sk.m1 || 0) + (sk.m2 || 0) + (sk.m3 || 0)) / 3;
-                const avgKewirausahaan = ((sk.k1 || 0) + (sk.k2 || 0)) / 2;
-                const avgSupervisi = ((sk.s1 || 0) + (sk.s2 || 0)) / 2;
-                const avgSosial = ((sk.p1 || 0) + (sk.p2 || 0)) / 2;
-
-                updateSvgBar('g-manajerial', 't-manajerial', avgManajerial);
-                updateSvgBar('g-kewirausahaan', 't-kewirausahaan', avgKewirausahaan);
-                updateSvgBar('g-supervisi', 't-supervisi', avgSupervisi);
-                updateSvgBar('g-sosial', 't-sosial', avgSosial);
+            // Jalankan fungsi asinkron modul Firebase Storage yang diekspos di atas
+            if (typeof window.uploadFileToFirebaseStorage === "function") {
+                window.uploadFileToFirebaseStorage(file, npsn, parameterId);
+            } else {
+                showToast("Sistem Firebase Storage belum siap. Silakan ulangi sesaat lagi.", "error");
             }
-            renderTop3List();
         }
 
-        function updateSvgBar(barId, textId, value) {
-            const bar = document.getElementById(barId);
-            const txt = document.getElementById(textId);
-            const heightPixel = (value / 100) * 150;
-            const targetY = 190 - heightPixel;
-
-            bar.setAttribute('y', targetY);
-            bar.setAttribute('height', heightPixel);
-            txt.setAttribute('y', targetY - 6);
-            txt.innerText = value.toFixed(0);
+        // Mengunduh Berkas Bukti Dukung dari Firebase Storage
+        function downloadEvidence(url) {
+            if (!url) {
+                showToast("Berkas bukti tidak ditemukan atau sudah dihapus.", "error");
+                return;
+            }
+            window.open(url, "_blank");
         }
 
-        function renderTop3List() {
-            const tbody = document.getElementById('top-schools-tbody');
-            tbody.innerHTML = '';
-            const sorted = [...dataSatuan].sort((a, b) => b.rataRata - a.rataRata);
+        // Menghapus tautan berkas bukti dukung
+        async function hapusEvidence(parameterId) {
+            if (!selectedSchoolNpsn) return;
             
-            let count = 0;
-            for(let i = 0; i < 3; i++) {
-                const item = sorted[i];
-                if(item && item.rataRata > 0) {
-                    count++;
-                    let predikat = "Cukup";
-                    if (item.rataRata >= 85) predikat = "Amat Baik";
-                    else if (item.rataRata >= 70) predikat = "Baik";
-
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><strong>${item.nama}</strong></td>
-                        <td><strong style="color:var(--primary)">${item.rataRata.toFixed(1)}</strong></td>
-                        <td><span class="status-badge badge-rank">${predikat}</span></td>
-                    `;
-                    tbody.appendChild(tr);
+            const schoolIndex = window.dataSatuan.findIndex(s => s.npsn === selectedSchoolNpsn);
+            if (schoolIndex !== -1) {
+                window.dataSatuan[schoolIndex][`${parameterId}_file`] = null;
+                window.dataSatuan[schoolIndex][`${parameterId}_file_data`] = null;
+                
+                // Simpan perubahan ke cloud
+                if (typeof window.saveToFirestore === "function") {
+                    await window.saveToFirestore(window.dataSatuan[schoolIndex]);
+                    showToast("Berkas bukti berhasil dihapus.", "success");
+                    renderActiveParameter();
                 }
             }
-            if(count === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted); padding:20px;">Belum ada data nilai masuk.</td></tr>`;
+        }
+
+        // Simpan Hasil Penilaian Komponen ke Dalam Memory & Cloud Firestore
+        async function saveScores() {
+            if (!selectedSchoolNpsn) return;
+
+            const schoolIndex = window.dataSatuan.findIndex(s => s.npsn === selectedSchoolNpsn);
+            if (schoolIndex === -1) return;
+
+            const comp = instrumenPKKS[currentParameterId];
+            
+            // Ambil semua nilai slider input
+            let sumVal = 0;
+            comp.indicators.forEach(ind => {
+                const val = parseInt(document.getElementById(`slide-${ind.id}`).value);
+                window.dataSatuan[schoolIndex][ind.id] = val;
+                sumVal += val;
+            });
+
+            // Hitung rata-rata komponen saat ini
+            const avg = sumVal / comp.indicators.length;
+            window.dataSatuan[schoolIndex][`p${currentParameterId}_avg`] = avg;
+
+            // Hitung total skor kumulatif & predikat akhir sekolah
+            hitungSkorAkhirSekolah(schoolIndex);
+
+            // Simpan perubahan langsung ke Google Firebase Cloud Firestore
+            if (typeof window.saveToFirestore === "function") {
+                await window.saveToFirestore(window.dataSatuan[schoolIndex]);
+                showToast(`Penilaian Komponen ${currentParameterId} berhasil disimpan ke Cloud!`, "success");
+                
+                // Muat ulang UI tab di sebelah kiri
+                updateComponentScoresInLeftBadges(window.dataSatuan[schoolIndex]);
+                pilihSekolahEvaluasi();
+            } else {
+                showToast("Koneksi Cloud terputus, gagal menyimpan ke Firebase.", "error");
             }
         }
 
-        // FUNGSI UNDUH DATA CSV
-        function downloadCSV() {
-            let csvContent = "\uFEFF"; // Byte Order Mark (BOM) untuk Excel agar karakter UTF-8 terbaca rapi
-            csvContent += "No,NPSN,Nama Satuan,Kepala Sekolah,Alamat,Status Pengisian,Rata-rata Skor,Manajerial,Kewirausahaan,Supervisi,Sosial Profesional\r\n";
-            
-            dataSatuan.forEach(item => {
-                const statusStr = item.status ? "Selesai" : "Kosong";
-                
-                const avgM = ((item.m1 + item.m2 + item.m3) / 3).toFixed(1);
-                const avgK = ((item.k1 + item.k2) / 2).toFixed(1);
-                const avgS = ((item.s1 + item.s2) / 2).toFixed(1);
-                const avgP = ((item.p1 + item.p2) / 2).toFixed(1);
+        // Hitung total nilai bobot akhir dan berikan predikat kelulusan PKKS
+        function hitungSkorAkhirSekolah(idx) {
+            const s = window.dataSatuan[idx];
 
-                const row = [
-                    item.id,
-                    `"${item.npsn}"`,
-                    `"${item.nama}"`,
-                    `"${item.kepala}"`,
-                    `"${item.alamat}"`,
-                    statusStr,
-                    item.rataRata.toFixed(1),
-                    avgM,
-                    avgK,
-                    avgS,
-                    avgP
-                ].join(",");
-                csvContent += row + "\r\n";
+            const k1 = s.p1_avg || 0; // Bobot 30%
+            const k2 = s.p2_avg || 0; // Bobot 20%
+            const k3 = s.p3_avg || 0; // Bobot 25%
+            const k4 = s.p4_avg || 0; // Bobot 25%
+
+            // Rumus konversi skor skala 4 ke skala 100
+            const skorKumulatif = ((k1 * 0.3) + (k2 * 0.2) + (k3 * 0.25) + (k4 * 0.25)) * 25;
+            s.skor_akhir = skorKumulatif;
+
+            // Berikan predikat kelulusan
+            if (skorKumulatif >= 91) {
+                s.predikat = "A (Sangat Baik)";
+                s.status = "Selesai Dinilai";
+            } else if (skorKumulatif >= 81) {
+                s.predikat = "B (Baik)";
+                s.status = "Selesai Dinilai";
+            } else if (skorKumulatif >= 71) {
+                s.predikat = "C (Cukup)";
+                s.status = "Selesai Dinilai";
+            } else if (skorKumulatif > 0) {
+                s.predikat = "D (Kurang)";
+                s.status = "Selesai Dinilai";
+            } else {
+                s.predikat = "Belum Dinilai";
+                s.status = "Belum Dinilai";
+            }
+        }
+
+        // Render Halaman Rekapitulasi & Cetak
+        function renderRekapTable() {
+            const tbody = document.getElementById("rekap-table-body");
+            tbody.innerHTML = "";
+
+            window.dataSatuan.forEach(s => {
+                const k1 = s.p1_avg ? (s.p1_avg * 25).toFixed(1) : "0.0";
+                const k2 = s.p2_avg ? (s.p2_avg * 25).toFixed(1) : "0.0";
+                const k3 = s.p3_avg ? (s.p3_avg * 25).toFixed(1) : "0.0";
+                const k4 = s.p4_avg ? (s.p4_avg * 25).toFixed(1) : "0.0";
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td class="fw-bold">${s.npsn}</td>
+                    <td><div style="font-weight: 600;">${s.nama}</div></td>
+                    <td>${k1}</td>
+                    <td>${k2}</td>
+                    <td>${k3}</td>
+                    <td>${k4}</td>
+                    <td class="fw-bold" style="color: var(--primary); font-size: 1rem;">${s.skor_akhir.toFixed(2)}</td>
+                    <td><span class="badge badge-info">${s.predikat}</span></td>
+                `;
+                tbody.appendChild(tr);
             });
+        }
+
+        // Ekspor Rekap Penilaian ke CSV
+        function downloadCSV() {
+            let csv = "NPSN;Nama Lembaga;Jenis;Kecamatan;Komponen 1 (30%);Komponen 2 (20%);Komponen 3 (25%);Komponen 4 (25%);Skor Akhir;Predikat;Status\n";
             
-            // Proses download file
-            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+            window.dataSatuan.forEach(s => {
+                const k1 = s.p1_avg ? (s.p1_avg * 25).toFixed(2) : "0.00";
+                const k2 = s.p2_avg ? (s.p2_avg * 25).toFixed(2) : "0.00";
+                const k3 = s.p3_avg ? (s.p3_avg * 25).toFixed(2) : "0.00";
+                const k4 = s.p4_avg ? (s.p4_avg * 25).toFixed(2) : "0.00";
+                
+                csv += `${s.npsn};${s.nama};${s.jenis};${s.kecamatan};${k1};${k2};${k3};${k4};${s.skor_akhir.toFixed(2)};${s.predikat};${s.status}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             const url = URL.createObjectURL(blob);
             link.setAttribute("href", url);
-            link.setAttribute("download", "Rekap_Laporan_PKKS_Kabupaten_Sumedang_2026.csv");
-            link.style.visibility = "hidden";
+            link.setAttribute("download", `Rekap_PKKS_PNF_Sumedang_2026.csv`);
+            link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            showToast("Data Rekapitulasi CSV berhasil diunduh!", "info");
+            showToast("Sukses mengekspor file CSV!", "success");
         }
 
-        // FUNGSI UNDUH PDF PROFESIONAL & STANDARISASI FORMAL
+        // Buat & Unduh Dokumen Laporan PDF Cetak Resmi (Menggunakan html2pdf)
         function downloadPDF() {
-            const activeSection = document.querySelector('.page-section.active');
-            if (!activeSection) return;
+            document.getElementById("pdf-download-time").innerText = new Date().toLocaleString("id-ID") + " WIB";
+            
+            const pdfTbody = document.getElementById("pdf-table-body");
+            pdfTbody.innerHTML = "";
 
-            // Membangun dokumen cetak tiruan sementara agar styling PDF sempurna & konsisten
-            const pdfContainer = document.createElement('div');
-            pdfContainer.style.padding = '35px';
-            pdfContainer.style.fontFamily = "'Inter', sans-serif";
-            pdfContainer.style.color = '#0f172a';
-            pdfContainer.style.backgroundColor = '#ffffff';
+            let index = 1;
+            window.dataSatuan.forEach(s => {
+                const k1 = s.p1_avg ? (s.p1_avg * 25).toFixed(1) : "0.0";
+                const k2 = s.p2_avg ? (s.p2_avg * 25).toFixed(1) : "0.0";
+                const k3 = s.p3_avg ? (s.p3_avg * 25).toFixed(1) : "0.0";
+                const k4 = s.p4_avg ? (s.p4_avg * 25).toFixed(1) : "0.0";
 
-            const dateNow = new Date().toLocaleDateString('id-ID', {
-                year: 'numeric', month: 'long', day: 'numeric'
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td class="text-center">${index++}</td>
+                    <td>${s.npsn}</td>
+                    <td class="fw-bold">${s.nama}</td>
+                    <td class="text-center">${k1}</td>
+                    <td class="text-center">${k2}</td>
+                    <td class="text-center">${k3}</td>
+                    <td class="text-center">${k4}</td>
+                    <td class="text-center fw-bold">${s.skor_akhir.toFixed(2)}</td>
+                    <td class="text-center">${s.predikat}</td>
+                `;
+                pdfTbody.appendChild(tr);
             });
 
-            // Template Kop Surat Atas Laporan PDF
-            let headerHtml = `
-                <div style="border-bottom: 3px double #0f172a; padding-bottom: 15px; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between;">
-                    <div>
-                        <h1 style="font-size: 18px; font-weight: 700; margin: 0; color: #1e3a8a; letter-spacing: -0.5px;">PENILAIAN KINERJA KEPALA SEKOLAH (PKKS) TAHUN 2026</h1>
-                        <p style="font-size: 11px; color: #475569; margin: 4px 0 0 0; font-weight: 500;">Dinas Pendidikan Kabupaten Sumedang — Satuan Pendidikan PNF SKB/PKBM</p>
-                    </div>
-                    <div style="text-align: right;">
-                        <span style="font-size: 11px; font-weight: 600; color: #64748b; background-color: #f1f5f9; padding: 4px 10px; border-radius: 4px;">TGL CETAK: ${dateNow}</span>
-                    </div>
-                </div>
-            `;
-            pdfContainer.innerHTML += headerHtml;
-
-            const activeId = activeSection.id;
-            
-            // Logika Ekspor PDF 1: Jika di halaman Dashboard (Fokus Analisis Sekolah Terpilih)
-            if (activeId === 'page-beranda') {
-                const sk = dataSatuan[selectedIdx] || { nama: 'Belum Terpilih', npsn: '-', kepala: '-', alamat: '-', rataRata: 0 };
-                
-                const avgManajerial = ((sk.m1 || 0) + (sk.m2 || 0) + (sk.m3 || 0)) / 3;
-                const avgKewirausahaan = ((sk.k1 || 0) + (sk.k2 || 0)) / 2;
-                const avgSupervisi = ((sk.s1 || 0) + (sk.s2 || 0)) / 2;
-                const avgSosial = ((sk.p1 || 0) + (sk.p2 || 0)) / 2;
-
-                const getFileName = (fileObj) => fileObj && fileObj.name ? fileObj.name : "Tidak ada berkas bukti";
-
-                let bodyHtml = `
-                    <div style="margin-bottom: 25px;">
-                        <h3 style="font-size: 13px; font-weight: 700; margin-bottom: 12px; color: #1e293b; border-left: 4px solid #3b82f6; padding-left: 10px; text-transform: uppercase; letter-spacing: 0.5px;">I. Identitas Lembaga & Kepala PKBM</h3>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11px;">
-                            <tr>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: 600; background-color: #f8fafc; width: 25%;">Nama Satuan PKBM</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; width: 25%; font-weight: 700; color: #1e3a8a;">${sk.nama}</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: 600; background-color: #f8fafc; width: 25%;">NPSN Lembaga</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; width: 25%; font-family: monospace; font-size: 12px;">${sk.npsn}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: 600; background-color: #f8fafc;">Kepala Sekolah / PKBM</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: 600;">${sk.kepala}</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: 600; background-color: #f8fafc;">Alamat Operasional</td>
-                                <td style="padding: 10px; border: 1px solid #cbd5e1; font-size: 10px;">${sk.alamat}</td>
-                            </tr>
-                        </table>
-
-                        <h3 style="font-size: 13px; font-weight: 700; margin-bottom: 12px; color: #1e293b; border-left: 4px solid #3b82f6; padding-left: 10px; text-transform: uppercase; letter-spacing: 0.5px;">II. Ringkasan Kinerja Komponen</h3>
-                        <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 25px;">
-                            <thead>
-                                <tr style="background-color: #f1f5f9; text-align: left;">
-                                    <th style="padding: 12px; border: 1px solid #cbd5e1; font-weight: 700; color: #334155; width: 40%;">Dimensi & Indikator Penilaian Utama</th>
-                                    <th style="padding: 12px; border: 1px solid #cbd5e1; font-weight: 700; color: #334155; width: 45%;">Dokumentasi Bukti Fisik Terunggah</th>
-                                    <th style="padding: 12px; border: 1px solid #cbd5e1; font-weight: 700; color: #334155; text-align: center; width: 15%;">Skor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="background-color: #f8fafc; font-weight: 600;">
-                                    <td colspan="2" style="padding: 10px; border: 1px solid #cbd5e1; color:#1e3a8a;">DIMENSI 1: KOMPETENSI MANAJERIAL</td>
-                                    <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color:#1e3a8a;">${avgManajerial.toFixed(1)}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 1.1: Penyusunan RKJM & RKT</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.m1_file)}</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.m1}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 1.2: Tata Kelola Sarana & Media</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.m2_file)}</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.m2}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 1.3: Administrasi WB & Tutor</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.m3_file)}</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.m3}</td>
-                                </tr>
-
-                                <tr style="background-color: #f8fafc; font-weight: 600;">
-                                    <td colspan="2" style="padding: 10px; border: 1px solid #cbd5e1; color:#10b981;">DIMENSI 2: KOMPETENSI KEWIRAUSAHAAN</td>
-                                    <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color:#10b981;">${avgKewirausahaan.toFixed(1)}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 2.1: Kerjasama & MoU DUDI</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.k1_file)}</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.k1}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 2.2: Unit Inkubasi & Edupreneurship</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.k2_file)}</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.k2}</td>
-                                </tr>
-
-                                <tr style="background-color: #f8fafc; font-weight: 600;">
-                                    <td colspan="2" style="padding: 10px; border: 1px solid #cbd5e1; color:#f59e0b;">DIMENSI 3: KOMPETENSI SUPERVISI</td>
-                                    <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color:#f59e0b;">${avgSupervisi.toFixed(1)}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 3.1: Supervisi Akademik Tutor</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.s1_file)}</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.s1}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 3.2: Tindak Lanjut & Pembinaan</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.s2_file)}</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.s2}</td>
-                                </tr>
-
-                                <tr style="background-color: #f8fafc; font-weight: 600;">
-                                    <td colspan="2" style="padding: 10px; border: 1px solid #cbd5e1; color:#8b5cf6;">DIMENSI 4: SOSIAL & PROFESIONAL PNF</td>
-                                    <td style="padding: 10px; border: 1px solid #cbd5e1; text-align: center; color:#8b5cf6;">${avgSosial.toFixed(1)}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 4.1: Penanganan Siswa Putus Sekolah (ATS)</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.p1_file)}</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.p1}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; padding-left: 20px; font-size:10px; color:#475569;">- Indikator 4.2: Kepeloporan & Bakti Sosial</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; font-size:10px; color:#059669; font-style: italic;">${getFileName(sk.p2_file)}</td>
-                                    <td style="padding: 8px 12px; border: 1px solid #cbd5e1; text-align: center; font-size:10px;">${sk.p2}</td>
-                                </tr>
-
-                                <tr style="background-color: #f1f5f9; font-weight: 700; font-size: 13px;">
-                                    <td colspan="2" style="padding: 14px; border: 1px solid #cbd5e1; color: #0f172a;">SKOR AKUMULASI AKHIR (KOMPOSIT)</td>
-                                    <td style="padding: 14px; border: 1px solid #cbd5e1; text-align: center; color: #2563eb; font-size: 15px;">${sk.rataRata.toFixed(1)}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-                pdfContainer.innerHTML += bodyHtml;
-            
-            // Logika Ekspor PDF 2: Jika di halaman Daftar Satuan PKBM (Ekspor 32 PKBM Lengkap)
-            } else if (activeId === 'page-satuan') {
-                let listHtml = `
-                    <h3 style="font-size: 13px; font-weight: 700; margin-bottom: 15px; color: #1e293b; border-left: 4px solid #3b82f6; padding-left: 10px; text-transform: uppercase; letter-spacing: 0.5px;">Rekapitulasi Capaian Nilai Akhir Evaluasi PKKS Sumedang (32 Satuan)</h3>
-                    <table style="width: 100%; border-collapse: collapse; font-size: 9px; margin-bottom: 25px;">
-                        <thead>
-                            <tr style="background-color: #f1f5f9; text-align: left;">
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 5%;">No</th>
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 12%;">NPSN</th>
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 30%;">Nama Lembaga PKBM</th>
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 25%;">Nama Kepala Sekolah</th>
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 15%; text-align: center;">Status</th>
-                                <th style="padding: 7px; border: 1px solid #cbd5e1; font-weight: 700; width: 13%; text-align: center;">Skor Akhir</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-
-                dataSatuan.forEach((item, idx) => {
-                    const statusStr = item.status ? "Telah Dinilai" : "Belum Dinilai";
-                    listHtml += `
-                        <tr style="background-color: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'};">
-                            <td style="padding: 6px; border: 1px solid #cbd5e1;">${item.id}</td>
-                            <td style="padding: 6px; border: 1px solid #cbd5e1; font-family: monospace;">${item.npsn}</td>
-                            <td style="padding: 6px; border: 1px solid #cbd5e1; font-weight: 600;">${item.nama}</td>
-                            <td style="padding: 6px; border: 1px solid #cbd5e1;">${item.kepala}</td>
-                            <td style="padding: 6px; border: 1px solid #cbd5e1; text-align: center;">${statusStr}</td>
-                            <td style="padding: 6px; border: 1px solid #cbd5e1; text-align: center; font-weight: 700; color: #2563eb;">${item.rataRata.toFixed(1)}</td>
-                        </tr>
-                    `;
-                });
-
-                listHtml += `
-                        </tbody>
-                    </table>
-                `;
-                pdfContainer.innerHTML += listHtml;
-            }
-
-            // Lembar Tanda Tangan Basah Formal untuk PDF Resmi
-            let footerHtml = `
-                <div style="margin-top: 40px; display: flex; justify-content: space-between; font-size: 11px; page-break-inside: avoid;">
-                    <div style="width: 45%; text-align: center;">
-                        <p style="margin-bottom: 50px;">Menyetujui & Mengetahui,<br><strong style="text-transform: uppercase;">Pengawas Bina / Penilai</strong></p>
-                        <p style="text-decoration: underline; font-weight: bold;">ADE SUGIANA, S.S</p>
-                        <p style="color: #64748b; font-size: 10px; margin-top: 4px;">NIP. 19800726 200902 1 002</p>
-                    </div>
-                    <div style="width: 45%; text-align: center;">
-                        <p style="margin-bottom: 50px;">Ditetapkan di Sumedang,<br><strong style="text-transform: uppercase;">Kepala PKBM Terkait</strong></p>
-                        <p style="text-decoration: underline; font-weight: bold;">( ${selectedIdx !== -1 && activeId === 'page-beranda' && dataSatuan[selectedIdx] ? dataSatuan[selectedIdx].kepala : '........................................................'} )</p>
-                    </div>
-                </div>
-            `;
-            pdfContainer.innerHTML += footerHtml;
-
-            // Parameterisasi html2pdf.js ekspor berkas PDF
+            // Jalankan Engine Pengekspor PDF Client-Side
+            const element = document.getElementById('print-area');
             const options = {
-                margin:       15,
-                filename:     activeId === 'page-beranda' ? `Laporan_PKKS_${dataSatuan[selectedIdx].nama.replace(/\s+/g, '_')}_2026.pdf` : 'Rekap_Kinerja_32_Satuan_PKBM_Sumedang_2026.pdf',
+                margin:       [10, 10, 10, 10],
+                filename:     'Laporan_Resmi_PKKS_PNF_Sumedang_2026.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
             };
-
-            // Menjalankan perintah ekspor download
-            html2pdf().set(options).from(pdfContainer).save();
-            showToast("Laporan PDF berhasil di-render dan diunduh!", "success");
+            
+            showToast("Sedang me-render dokumen PDF laporan...", "info");
+            html2pdf().set(options).from(element).save().then(() => {
+                showToast("Laporan PDF berhasil diunduh!", "success");
+            });
         }
 
-        // FUNGSI OTORISASI ADMIN MODAL & PASWORD
+        // ADMINISTRATOR SYSTEM CONTROLLER (Lock / Unlock fitur penambahan Lembaga)
+        function toggleAdminLogin() {
+            if (isAdminLoggedIn) {
+                // Logout Admin
+                isAdminLoggedIn = false;
+                document.getElementById("admin-badge-indicator").classList.remove("logged-in");
+                document.getElementById("btn-admin-login").innerHTML = `<i class="fa-solid fa-lock"></i> Login Admin`;
+                document.getElementById("btn-add-school-dashboard").style.display = "none";
+                showToast("Logout administrator sukses.", "info");
+                renderTableSatuan();
+            } else {
+                openAdminModal();
+            }
+        }
+
         function openAdminModal() {
-            const modal = document.getElementById('admin-modal');
-            const pwdInput = document.getElementById('admin-password-input');
-            pwdInput.value = '';
-            modal.classList.add('active');
-            setTimeout(() => pwdInput.focus(), 150);
+            document.getElementById("modal-admin-login").classList.add("active");
+            document.getElementById("admin-password-input").value = "";
+            document.getElementById("admin-password-input").focus();
         }
 
         function closeAdminModal() {
-            const modal = document.getElementById('admin-modal');
-            modal.classList.remove('active');
-            pendingAction = null;
+            document.getElementById("modal-admin-login").classList.remove("active");
         }
 
-        // Lihat/Sembunyikan Password
         function togglePasswordVisibility() {
-            const pwdInput = document.getElementById('admin-password-input');
-            const eyeIcon = document.getElementById('eye-icon');
-            if (pwdInput.type === 'password') {
-                pwdInput.type = 'text';
-                eyeIcon.className = 'fa-solid fa-eye-slash';
+            const inp = document.getElementById("admin-password-input");
+            const eye = document.getElementById("password-eye-icon");
+            if (inp.type === "password") {
+                inp.type = "text";
+                eye.className = "fa-solid fa-eye-slash";
             } else {
-                pwdInput.type = 'password';
-                eyeIcon.className = 'fa-solid fa-eye';
+                inp.type = "password";
+                eye.className = "fa-solid fa-eye";
             }
         }
 
-        function handlePasswordKeydown(event) {
-            if (event.key === 'Enter') {
-                submitAdminPassword();
-            }
+        function handlePasswordKeydown(e) {
+            if (e.key === "Enter") submitAdminPassword();
         }
 
         function submitAdminPassword() {
-            const pwdInput = document.getElementById('admin-password-input');
-            if (pwdInput.value === ADMIN_PASSWORD_HASH) {
-                isAdmin = true;
-                sessionStorage.setItem('pkks_is_admin', 'true');
+            const pass = document.getElementById("admin-password-input").value;
+            // Password bawaan verifikasi dinas pnf
+            if (pass === "adminpnf") {
+                isAdminLoggedIn = true;
+                document.getElementById("admin-badge-indicator").classList.add("logged-in");
+                document.getElementById("btn-admin-login").innerHTML = `<i class="fa-solid fa-lock-open"></i> Logout Admin`;
                 
-                showToast("Verifikasi Berhasil! Sesi Admin Aktif.", "success");
-                updateAdminSidebarUI();
+                if (document.getElementById("nav-dashboard").classList.contains("active")) {
+                    document.getElementById("btn-add-school-dashboard").style.display = "inline-flex";
+                }
+
                 closeAdminModal();
-
-                // Eksekusi aksi yang tertunda
-                if (pendingAction) {
-                    if (pendingAction.type === 'navigate' && pendingAction.target === 'instrumen') {
-                        showPage('instrumen');
-                    } else if (pendingAction.type === 'evaluate') {
-                        selectedIdx = pendingAction.index;
-                        showPage('instrumen');
-                    } else if (pendingAction.type === 'addSchool') {
-                        openAddSchoolModal();
-                    }
-                    pendingAction = null;
-                }
+                showToast("Akses Administrator Terverifikasi!", "success");
+                renderTableSatuan();
             } else {
-                showToast("Password Admin Salah!", "error");
-                pwdInput.focus();
-                pwdInput.select();
+                showToast("Password salah! Silakan coba lagi.", "error");
             }
         }
 
-        function updateAdminSidebarUI() {
-            const statusLbl = document.getElementById('admin-status-lbl');
-            const statusDot = document.getElementById('admin-status-dot');
-            const lockBtn = document.getElementById('btn-admin-lock');
-
-            if (isAdmin) {
-                statusDot.classList.add('active');
-                statusLbl.innerHTML = `<span class="status-dot active"></span><span>Sesi Admin Aktif</span>`;
-                lockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i> Logout Admin`;
-                lockBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-                lockBtn.style.borderColor = 'transparent';
-            } else {
-                statusDot.classList.remove('active');
-                statusLbl.innerHTML = `<span class="status-dot"></span><span>Mode Pengunjung (Read-Only)</span>`;
-                lockBtn.innerHTML = `<i class="fa-solid fa-lock"></i> Login Admin`;
-                lockBtn.style.background = 'rgba(255, 255, 255, 0.08)';
-                lockBtn.style.borderColor = 'rgba(255, 255, 255, 0.15)';
-            }
-        }
-
-        function toggleAdminLogin() {
-            if (isAdmin) {
-                // Logout Admin
-                isAdmin = false;
-                sessionStorage.removeItem('pkks_is_admin');
-                updateAdminSidebarUI();
-                showToast("Sesi Admin Ditutup. Mode Pengunjung Aktif.", "info");
-                // Alihkan ke Beranda jika sedang berada di halaman instrumen
-                const currentActiveSection = document.querySelector('.page-section.active');
-                if (currentActiveSection && currentActiveSection.id === 'page-instrumen') {
-                    showPage('beranda');
-                }
-            } else {
-                // Login Admin
-                pendingAction = null;
-                openAdminModal();
-            }
-        }
-
-        // KONTROL PENAMBAHAN SEKOLAH BARU
+        // Tambah Lembaga Baru (Khusus Admin)
         function checkAndOpenAddSchoolModal() {
-            if (!isAdmin) {
-                pendingAction = { type: 'addSchool' };
-                openAdminModal();
+            if (!isAdminLoggedIn) {
+                showToast("Silakan login sebagai admin terlebih dahulu!", "error");
                 return;
             }
-            openAddSchoolModal();
-        }
-
-        function openAddSchoolModal() {
-            const modal = document.getElementById('add-school-modal');
-            modal.classList.add('active');
-            
-            // Bersihkan form
-            document.getElementById('add-school-name').value = '';
-            document.getElementById('add-school-npsn').value = '';
-            document.getElementById('add-school-kepala').value = '';
-            document.getElementById('add-school-alamat').value = '';
-            
-            setTimeout(() => document.getElementById('add-school-name').focus(), 150);
+            document.getElementById("modal-add-school").classList.add("active");
         }
 
         function closeAddSchoolModal() {
-            const modal = document.getElementById('add-school-modal');
-            modal.classList.remove('active');
+            document.getElementById("modal-add-school").classList.remove("active");
         }
 
-        function submitNewSchool() {
-            const nameInput = document.getElementById('add-school-name');
-            const npsnInput = document.getElementById('add-school-npsn');
-            const kepalaInput = document.getElementById('add-school-kepala');
-            const alamatInput = document.getElementById('add-school-alamat');
+        async function submitNewSchool() {
+            const npsn = document.getElementById("add-school-npsn").value.trim();
+            const nama = document.getElementById("add-school-nama").value.trim();
+            const jenis = document.getElementById("add-school-jenis").value;
+            const kecamatan = document.getElementById("add-school-kecamatan").value.trim();
 
-            const nama = nameInput.value.trim();
-            const npsn = npsnInput.value.trim();
-            const kepala = kepalaInput.value.trim() || "-";
-            const alamat = alamatInput.value.trim() || "-";
-
-            if (!nama) {
-                showToast("Nama Satuan Sekolah tidak boleh kosong!", "error");
-                nameInput.focus();
-                return;
-            }
-            if (!npsn) {
-                showToast("NPSN Sekolah tidak boleh kosong!", "error");
-                npsnInput.focus();
+            if (!npsn || !nama || !kecamatan) {
+                showToast("Harap lengkapi semua isian formulir!", "error");
                 return;
             }
 
-            // Validasi apakah NPSN sudah terdaftar
-            const isNpsnExists = dataSatuan.some(school => school.npsn.toLowerCase() === npsn.toLowerCase());
-            if (isNpsnExists) {
-                showToast("NPSN sudah terdaftar pada sistem!", "error");
-                npsnInput.focus();
+            // Validasi duplikasi NPSN
+            if (window.dataSatuan.some(s => s.npsn === npsn)) {
+                showToast("NPSN tersebut sudah terdaftar dalam sistem!", "error");
                 return;
             }
 
-            // Tambahkan data baru
-            const newId = dataSatuan.length + 1;
             const newSchoolObj = {
-                id: newId,
-                npsn: npsn,
-                nama: nama,
-                kepala: kepala,
-                alamat: alamat,
-                status: false,
-                m1: 0, m2: 0, m3: 0,
-                k1: 0, k2: 0,
-                s1: 0, s2: 0,
-                p1: 0, p2: 0,
-                rataRata: 0,
-                m1_file: null, m1_file_data: null,
-                m2_file: null, m2_file_data: null,
-                m3_file: null, m3_file_data: null,
-                k1_file: null, k1_file_data: null,
-                k2_file: null, k2_file_data: null,
-                s1_file: null, s1_file_data: null,
-                s2_file: null, s2_file_data: null,
+                npsn: npsn, nama: nama, jenis: jenis, kecamatan: kecamatan,
+                p1_1: 0, p1_2: 0, p1_3: 0, p1_avg: 0.0,
+                p2_1: 0, p2_2: 0, p2_avg: 0.0,
+                p3_1: 0, p3_2: 0, p3_3: 0, p3_avg: 0.0,
+                p4_1: 0, p4_2: 0, p4_avg: 0.0,
+                skor_akhir: 0.0, predikat: "Belum Dinilai", status: "Belum Dinilai",
                 p1_file: null, p1_file_data: null,
                 p2_file: null, p2_file_data: null
             };
 
-            dataSatuan.push(newSchoolObj);
-            saveToLocalStorage();
+            window.dataSatuan.push(newSchoolObj);
+            
+            // Simpan objek sekolah baru ke Firebase Firestore
+            if (typeof window.saveToFirestore === "function") {
+                await window.saveToFirestore(newSchoolObj);
+                showToast(`Lembaga ${nama} berhasil disimpan ke Cloud!`, "success");
+            }
+
             updateDashboardMetrics();
             renderTableSatuan();
+            populateSchoolSelectors();
             closeAddSchoolModal();
-            showToast(`Sukses menambahkan ${nama} ke dalam sistem!`, "success");
+
+            // Reset field input
+            document.getElementById("add-school-npsn").value = "";
+            document.getElementById("add-school-nama").value = "";
+            document.getElementById("add-school-kecamatan").value = "";
         }
 
-        // Attach functions to the global window object so inline event handlers work in ES module
-        window.showPage = showPage;
-        window.pilihSekolahEvaluasi = pilihSekolahEvaluasi;
-        window.syncScoreText = syncScoreText;
-        window.handleEvidenceUpload = handleEvidenceUpload;
-        window.downloadEvidence = downloadEvidence;
-        window.saveScores = saveScores;
-        window.downloadCSV = downloadCSV;
-        window.downloadPDF = downloadPDF;
-        window.openAdminModal = openAdminModal;
-        window.closeAdminModal = closeAdminModal;
-        window.togglePasswordVisibility = togglePasswordVisibility;
-        window.handlePasswordKeydown = handlePasswordKeydown;
-        window.submitAdminPassword = submitAdminPassword;
-        window.toggleAdminLogin = toggleAdminLogin;
-        window.checkAndOpenAddSchoolModal = checkAndOpenAddSchoolModal;
-        window.closeAddSchoolModal = closeAddSchoolModal;
-        window.submitNewSchool = submitNewSchool;
+        // Fungsi hapus lembaga (Khusus Admin)
+        async function hapusLembaga(npsn) {
+            if (!isAdminLoggedIn) {
+                showToast("Aksi dibatasi! Anda bukan admin.", "error");
+                return;
+            }
 
-        // Run client setup
-        window.onload = function() {
-            setupCloudDatabase();
-        };
-    </script>
-<script type="module">
-        // Import fungsi Firebase SDK yang dibutuhkan
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDocs, collection } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+            const school = window.dataSatuan.find(s => s.npsn === npsn);
+            if (!school) return;
 
-        // Konfigurasi Firebase dari Langkah 2
-        const firebaseConfig = {
-            apiKey: "AIzaSy...", // GANTI DENGAN MILIK ANDA
-            authDomain: "proyek-anda.firebaseapp.com",
-            projectId: "proyek-anda",
-            storageBucket: "proyek-anda.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:12345:web:abcde"
-        };
-
-        // Inisialisasi Firebase & Firestore
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Menghubungkan fungsi sinkronisasi database aplikasi Anda ke Cloud Firestore
-        async function setupCloudDatabase() {
-            console.log("Firebase Firestore terhubung dengan sukses!");
-            
-            // CONTOH 1: Mengambil Data dari Firestore saat Aplikasi Dimuat
-            try {
-                const querySnapshot = await getDocs(collection(db, "dataSatuan"));
-                let loadedData = [];
-                querySnapshot.forEach((doc) => {
-                    loadedData.push(doc.data());
-                });
-                
-                if (loadedData.length > 0) {
-                    window.dataSatuan = loadedData;
-                    // Panggil fungsi pembaruan UI bawaan Anda
-                    if (typeof updateDashboardMetrics === "function") updateDashboardMetrics();
-                    if (typeof renderTableSatuan === "function") renderTableSatuan();
+            // Meminta konfirmasi (menggunakan custom dialog, bukan alert bawaan)
+            const konfirmasi = confirm(`Apakah Anda yakin ingin menghapus lembaga ${school.nama}? Semua histori nilai di Cloud juga akan ikut terhapus.`);
+            if (konfirmasi) {
+                try {
+                    // Import fungsi Firestore untuk delete document
+                    const { getFirestore, doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+                    const db = getFirestore();
+                    const docRef = doc(db, 'artifacts', 'pkks-pnf-sumedang-2026', 'public', 'data', 'dataSatuan', npsn);
+                    
+                    // Hapus dokumen di Cloud Firestore
+                    await deleteDoc(docRef);
+                    
+                    // Update array lokal
+                    window.dataSatuan = window.dataSatuan.filter(s => s.npsn !== npsn);
+                    
+                    updateDashboardMetrics();
+                    renderTableSatuan();
+                    populateSchoolSelectors();
+                    showToast(`Lembaga ${school.nama} telah berhasil dihapus.`, "success");
+                } catch (e) {
+                    console.error(e);
+                    showToast("Gagal menghapus lembaga dari Cloud Firestore.", "error");
                 }
-            } catch (error) {
-                console.error("Gagal memuat data dari Firestore:", error);
             }
         }
-
-        // CONTOH 2: Fungsi untuk menyimpan/mengunggah data ke Firestore
-        async function saveToFirestore(schoolObj) {
-            try {
-                // Menggunakan NPSN sebagai ID Dokumen unik di Firestore
-                await setDoc(doc(db, "dataSatuan", schoolObj.npsn), schoolObj);
-                console.log(`Sukses sinkronisasi data ${schoolObj.nama} ke Firestore.`);
-            } catch (error) {
-                console.error("Gagal menyimpan ke Firestore:", error);
-            }
-        }
-
-        // Ekspos ke window agar bisa diakses oleh fungsi inline bawaan index.html Anda
-        window.setupCloudDatabase = setupCloudDatabase;
-        window.saveToFirestore = saveToFirestore;
-
-        // Jalankan inisialisasi saat halaman selesai dimuat
-        window.addEventListener('DOMContentLoaded', () => {
-            setupCloudDatabase();
-        });
     </script>
 </body>
 </html>
